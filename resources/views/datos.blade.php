@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
+<<<<<<< HEAD
 
         <title>Pre-Contrato</title>
         <link href="{{ asset('css/datos.css') }}" rel="stylesheet">
@@ -12,6 +13,10 @@
         <title>Agency - Start Bootstrap Theme</title>
         <link href="{{ asset('css/pre-contrato.css') }}" rel="stylesheet">
 
+=======
+        <title>Agency - Start Bootstrap Theme</title>
+        <link href="{{ asset('css/pre-contrato.css') }}" rel="stylesheet">
+>>>>>>> origin/wini
         <!-- Font Awesome icons (free version)-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         
@@ -19,6 +24,7 @@
     <body id="page-top">
         
     <header class="navbar">
+<<<<<<< HEAD
             <div class="logo">
 
             <img src="{{ asset('images/logo1.png') }}" alt="Logo" class="logo-img">
@@ -29,13 +35,22 @@
                     <li><a href="{{ url('/user') }}" onclick="verificarDatos(event)">Planes de Internet</a></li>
                 </ul>
             </nav>
+=======
+        <div class="logo">
+            <img src="{{ asset('images/logonuevo.png') }}" alt="Logo" class="logo-img">
+>>>>>>> origin/wini
         </div>
 
         {{-- <nav>
             <ul class="nav-links">
+<<<<<<< HEAD
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#planes">Planes de Internet</a></li>
 
+=======
+                <li><a href="{{url('/user')}}">Inicio</a></li>
+                <li><a href="{{url('/user')}}">Planes de Internet</a></li>
+>>>>>>> origin/wini
                 <li><a href="#contacto">Contacto</a></li>
                 <li><a href="#soporte">Soporte</a></li>
             </ul>
@@ -152,7 +167,6 @@
         </div>
     </footer>
     
-  
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <!-- * *                               SB Forms JS                               * *-->
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

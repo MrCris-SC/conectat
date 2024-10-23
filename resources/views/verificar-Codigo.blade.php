@@ -5,34 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-<<<<<<< HEAD
-        <title>Conectat-Verificacion  </title>
-        <link href="{{ asset('css/datos.css') }}" rel="stylesheet">
-=======
         <title>Agency - Start Bootstrap Theme</title>
         <link href="{{ asset('css/codigoverificacion.css') }}" rel="stylesheet">
->>>>>>> julian
         <!-- Font Awesome icons (free version)-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         
     </head>
     <body id="page-top">
         
-<<<<<<< HEAD
-    <header class="header-realista">
-        <div class="logo">
-            <img src="{{ asset('images/logo1.png') }}" alt="Logo" class="logo-img">
-        </div>
-        <nav>
-            <ul>
-                <li><a href="{{ url('/user') }}">Inicio</a></li>
-                <li><a href="{{ url('/user') }}">Planes de Internet</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-                <li><a href="#soporte">Soporte</a></li>
-            </ul>
-        </nav>
-    </header>
-=======
         <header class="navbar">
             <div class="logo">
                 <img src="{{ asset('images/logonuevo.png') }}" alt="Logo" class="logo-img">
@@ -46,7 +26,6 @@
                 </ul>
             </nav>
         </header>
->>>>>>> julian
 
        
         <section class="container mt-5">
