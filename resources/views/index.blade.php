@@ -67,6 +67,13 @@
             <span>Gestión de Clientes</span></a>
     </li>
 
+    <!-- Nav Item - Clientes -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url('/indexAdmin') }}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Gestión de Adminisreadores</span></a>
+    </li>
+
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
         <a class="nav-link" href="facturacion.html">

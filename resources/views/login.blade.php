@@ -40,13 +40,20 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Sign In</h1>
                                     </div>
-                                    <form class="user">
+
+                                    <!-- Mostrar errores de inicio de sesión -->
+                                    @if (session('error'))
+                                        <div class="alert alert-danger">{{ session('error') }}</div>
+                                    @endif
+
+                                    <form class="user" method="POST" action="{{ route('admin.login') }}">
+                                        @csrf
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                                 </div>
-                                                <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                                                <input type="email" name="Correo_electronico" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." required>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -54,7 +61,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                                 </div>
-                                                <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                                                <input type="password" name="Contraseña" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -63,22 +70,19 @@
                                                 <label class="custom-control-label" for="customCheck">Remember Me</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">Login</a>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
                                         <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
                                     </form>
-                                    <hr>
+                                    
+                                    <!-- Opciones adicionales como recuperación de contraseña y registro -->
+                                    <!--
                                     <div class="text-center">
                                         <a class="small" href="forgot-password.html">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="register.html">Create an Account!</a>
                                     </div>
+                                    -->
                                 </div>
                             </div>
                         </div>

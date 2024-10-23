@@ -31,6 +31,7 @@ class editarClienteController extends Controller
             'municipio' => 'required|string|max:255',
             'direccion' => 'nullable|string|max:255',
             'referencia_domicilio' => 'required|string|max:255',
+            'fk_paquete' => 'required|exists:nombres_paquetes,id_nombre_paquete',
         ]);
         
         // Actualizar el cliente con los datos validados

@@ -25,6 +25,7 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 <body>
 <div id="wrapper">
@@ -64,6 +65,12 @@
             <span>Gestión de Clientes</span></a>
     </li>
 
+      <!-- Nav Item - Clientes -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url('/indexAdmin') }}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Gestión de Adminisreadores</span></a>
+    </li>
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
         <a class="nav-link" href="facturacion.html">
@@ -110,7 +117,7 @@
 
         </ul>
         <!-- End of Sidebar -->
-
+        <div class="container-fluid">
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -308,58 +315,118 @@
 
                 </nav>
                 <!-- End of Topbar -->
-        <div class="container mt-5">
-            <h2 class="text-center">Lista de Clientes</h2>
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                       <!-- <th>ID</th> -->
-                        <th>Nombre Completo</th>
-                        <th>Correo</th>
-                        <th>Teléfono</th>
-                        <th>Código Postal</th>
-                        <th>Municipio</th>
-                        <th>Dirección</th>
-                        <th>Referencia de Domicilio</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if($clientes->isEmpty())
-                        <tr>
-                            <td colspan="8" class="text-center">No hay clientes registrados.</td>
-                        </tr>
-                    @else
-                    @foreach($clientes as $cliente)
-                    <tr>
-                        <!--<th>{{ $cliente->id_cliente }}</th>-->
-                        <td>{{ $cliente->nombre_completo }}</td>
-                        <td>{{ $cliente->correo }}</td>
-                        <td>{{ $cliente->telefono }}</td>
-                        <td>{{ $cliente->cp }}</td>
-                        <td>{{ $cliente->municipio }}</td>
-                        <td>{{ $cliente->direccion ?? 'N/A' }}</td>
-                        <td>{{ $cliente->referencia_domicilio }}</td>
-                        <td>
-                        <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-warning btn-sm">Actualizar</a>
+                <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Clientes Registrados</h6>
+                        </div>
+                <!-- Apartado que se necesita hacerse responsivo -->
+                <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                    <!-- <th>ID</th> -->
+                                        <th>Nombre Completo</th>
+                                        <th>Correo</th>
+                                        <th>Teléfono</th>
+                                        <th>Código Postal</th>
+                                        <th>Municipio</th>
+                                        <th>Dirección</th>
+                                        <th>Referencia de Domicilio</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if($clientes->isEmpty())
+                                        <tr>
+                                            <td colspan="8" class="text-center">No hay clientes registrados.</td>
+                                        </tr>
+                                    @else
+                                    @foreach($clientes as $cliente)
+                                    <tr>
+                                        <!--<th>{{ $cliente->id_cliente }}</th>-->
+                                        <td>{{ $cliente->nombre_completo }}</td>
+                                        <td>{{ $cliente->correo }}</td>
+                                        <td>{{ $cliente->telefono }}</td>
+                                        <td>{{ $cliente->cp }}</td>
+                                        <td>{{ $cliente->municipio }}</td>
+                                        <td>{{ $cliente->direccion ?? 'N/A' }}</td>
+                                        <td>{{ $cliente->referencia_domicilio }}</td>
+                                        <td>
+                                        <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-warning btn-sm">Actualizar</a>
 
-                                <!-- Aquí se incluye el ID en la URL 
-                            <a href="editarCliente" class="btn btn-warning btn-sm">Actualizar</a>-->
-                        <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">Eliminar</button>
-                        </form>
+                                                <!-- Aquí se incluye el ID en la URL 
+                                            <a href="editarCliente" class="btn btn-warning btn-sm">Actualizar</a>-->
+                                        <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">Eliminar</button>
+                                        </form>
 
-                        </td>
-                    </tr>
-                    @endforeach
+                                        </td>
+                                    </tr>
+                                    @endforeach
 
-                    @endif
-                </tbody>
-            </table>
-        </div>
+                                    @endif
+                                </tbody>
+                            </table>
+                    </div>    
+                </div>
+            </div>
+         </div>
+
+                <div class="container mt-5">
+    <h2 class="text-center">Lista de Clientes</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre Completo</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Código Postal</th>
+                <th>Municipio</th>
+                <th>Dirección</th>
+                <th>Referencia de Domicilio</th>
+                <th>Paquete</th> <!-- Nueva columna para mostrar el paquete -->
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if($clientes->isEmpty())
+                <tr>
+                    <td colspan="9" class="text-center">No hay clientes registrados.</td>
+                </tr>
+            @else
+            @foreach($clientes as $cliente)
+            <tr>
+                <td>{{ $cliente->nombre_completo }}</td>
+                <td>{{ $cliente->correo }}</td>
+                <td>{{ $cliente->telefono }}</td>
+                <td>{{ $cliente->cp }}</td>
+                <td>{{ $cliente->municipio }}</td>
+                <td>{{ $cliente->direccion ?? 'N/A' }}</td>
+                <td>{{ $cliente->referencia_domicilio }}</td>
+                <td>{{ $cliente->fk_paquete ?? 'Sin paquete asignado' }}</td> 
+                <td>
+                <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-warning btn-sm">Actualizar</a>
+
+                    <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+            @endif
+        </tbody>
+    </table>
+</div>
+
+        
+
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">

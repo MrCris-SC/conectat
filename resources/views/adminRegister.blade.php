@@ -2,28 +2,35 @@
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>Agregar Paquete de Internet</title>
-    <link href="{{ asset('css/agregar-paq.css') }}" rel="stylesheet">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.1/js/mdb.min.js"></script>
-    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    
+    <link href="{{ asset('css/packs.css') }}" rel="stylesheet">
+    <title>Registrar Administradores</title>
+
+    <!-- Custom fonts for this template-->
+        <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
-<!-- Falta agregarle el nav cuando se responsivo, el contenido lo realiza-->
 <body>
 <div id="wrapper">
-        <!-- Sidebar -->
-         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
              <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
@@ -53,17 +60,18 @@
 
     <!-- Nav Item - Clientes -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ url('/clienteRegistrados') }}">
+        <a class="nav-link" href="{{url('clienteRegistrados')}}">
             <i class="fas fa-fw fa-users"></i>
             <span>Gestión de Clientes</span></a>
     </li>
 
-         <!-- Nav Item - Clientes -->
-         <li class="nav-item">
+      <!-- Nav Item - Clientes -->
+      <li class="nav-item">
         <a class="nav-link" href="{{ url('/indexAdmin') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>Gestión de Adminisreadores</span></a>
     </li>
+
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
         <a class="nav-link" href="facturacion.html">
@@ -110,7 +118,7 @@
 
         </ul>
         <!-- End of Sidebar -->
-
+        <div class="container-fluid">
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -308,61 +316,46 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    <div class="container">
-                        <h1 class="text-center my-4">Agregar Paquete de Internet</h1>
-                        <div class="row">
-                            <!-- Columna del formulario -->
-                            <div class="col-md-6 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                    <form method="POST" action="{{ route('paquete.update', $paquete->id_nombre_paquete) }}">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="form-group">
-                                            <label for="nombre_paquete">Nombre del Paquete</label>
-                                            <input type="text" name="nombre_paquete" class="form-control" value="{{ $paquete->nombre_paquete }}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="precio">Precio</label>
-                                            <input type="number" name="precio" class="form-control" value="{{ $paquete->precio }}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="caracteristicas_paquete">Características</label>
-                                            <input type="text" name="caracteristicas_paquete" class="form-control" value="{{ $paquete->caracteristicas_paquete }}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="velocidad_paquete">Velocidad</label>
-                                            <input type="text" name="velocidad_paquete" class="form-control" value="{{ $paquete->velocidad_paquete }}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="fk_promocion">Promoción</label>
-                                            <select name="fk_promocion" class="form-control">
-                                                @foreach($promociones as $promocion)
-                                                    <option value="{{ $promocion->id_promocion }}" {{ $paquete->fk_promocion == $promocion->id_promocion ? 'selected' : '' }}>
-                                                        {{ $promocion->promocion }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Actualizar Paquete</button>
-                                        </div>
-                                    </form> 
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                   
-                </div>
-                <!-- /.container-fluid -->
-
+                <div class="container">
+        <h2>Registrar Nuevo Administrador</h2>
+        
+        <!-- Muestra los errores de validación -->
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
-            <!-- End of Main Content -->
+        @endif
 
+        <form action="{{ route('admin.register') }}" method="POST">
+            @csrf
+            <div class="form-group">
+                <label for="Nombre">Nombre</label>
+                <input type="text" name="Nombre" class="form-control" value="{{ old('Nombre') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="Correo_electronico">Correo Electrónico</label>
+                <input type="email" name="Correo_electronico" class="form-control" value="{{ old('Correo_electronico') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="Contraseña">Contraseña</label>
+                <input type="password" name="Contraseña" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="permisos">Permisos</label>
+                <select name="permisos" class="form-control">
+                    <option value="admin">Administrador</option>
+                    <option value="superadmin">Super Administrador</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </form>
+    </div>
+            </div>
+         </div>
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
@@ -372,39 +365,9 @@
                 </div>
             </footer>
             <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
     </div>
-    <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-        
-    </div>
-<!-- Bootstrap core JavaScript-->
+    <!-- Bootstrap core JavaScript-->
     <!-- Vendor Scripts -->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -423,5 +386,4 @@
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
 
 </body>
-
 </html>

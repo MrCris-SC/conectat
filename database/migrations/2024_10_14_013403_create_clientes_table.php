@@ -28,6 +28,7 @@ class CreateClientesTable extends Migration
             $table->string('lote')->nullable();
             $table->string('correo')->unique();
             $table->boolean('verificado')->default(false); // Indica si el precontrato fue verificado
+            $table->foreignId('fk_paquete')->constrained('nombres_paquetes', 'id_nombre_paquete');
             $table->timestamps();
         });
     }

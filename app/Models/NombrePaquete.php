@@ -37,4 +37,9 @@ class NombrePaquete extends Model
     {
         return $this->belongsTo(PromocionPaquete::class, 'fk_promocion', 'id_promocion');
     }
+    public function clientes()
+    {
+        return $this->hasMany(Cliente::class, 'fk_paquete');
+    }
+   
 }

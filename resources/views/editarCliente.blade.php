@@ -23,6 +23,18 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            // Bloquear todos los campos al cargar la página
+            $('input').prop('disabled', true);
+
+            // Habilitar los campos al hacer clic en el botón
+            $('#editButton').click(function() {
+                $('input').prop('disabled', false); // Habilita los campos
+                $(this).hide(); // Oculta el botón después de habilitar los campos
+            });
+        });
+    </script>
 
 </head>
 <body>
@@ -63,6 +75,12 @@
             <span>Gestión de Clientes</span></a>
     </li>
 
+         <!-- Nav Item - Clientes -->
+         <li class="nav-item">
+        <a class="nav-link" href="{{ url('/indexAdmin') }}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Gestión de Adminisreadores</span></a>
+    </li>
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
         <a class="nav-link" href="facturacion.html">
@@ -347,14 +365,24 @@
                 <label for="referencia_domicilio" class="form-label">Referencia de Domicilio</label>
                 <input type="text" class="form-control" name="referencia_domicilio" value="{{ $cliente->referencia_domicilio }}" required>
             </div>
+            <div class="mb-3">
+                <label for="ID_Paquete" class="form-label">ID del Paquete</label>
+                <input type="text" class="form-control" name="ID_Paquete" value="{{ $cliente->fk_paquete }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="Datos_Paquete" class="form-label">Datos del paquete</label>
+           <input type="text" class="form-control" name="Datos_Paquete" value="Paquete: {{ $cliente->nombre_paquete->nombre_paquete }} de $:{{ $cliente->nombre_paquete->precio }} incluye:{{ $cliente->nombre_paquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombre_paquete->velocidad_paquete }}" required> 
 
+            </div>
             <form action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <!-- Campos del formulario -->
-                <button type="submit" class="btn btn-primary">Actualizar Cliente</button>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <br>
+                
             </form>
 
+            <button type="button" id="editButton" class="btn btn-primary">Modificar Campos</button>
             <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
         </form>
             <!-- Footer -->

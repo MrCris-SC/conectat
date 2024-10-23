@@ -16,6 +16,8 @@ return [
     'defaults' => [
         'guard' => env('AUTH_GUARD', 'web'),
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'administradores' => env('AUTH_GUARD_ADMINISTRADORES', 'administradores'),
+        'login' => 'login',
     ],
 
     /*
@@ -39,6 +41,11 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'administradores',
         ],
     ],
 
@@ -65,6 +72,10 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
+        'administradores' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Administrador::class,  // Aquí usamos el modelo Administrador
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
