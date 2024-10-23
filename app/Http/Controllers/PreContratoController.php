@@ -88,14 +88,11 @@ class PreContratoController extends Controller
             $referencia_domicilio = session('datos_cliente')['referencia_domicilio']; // Obtén el correo del cliente
     
             // Envía el correo utilizando el Mailable que creaste
-            Mail::to($correo_usuario)->send(new miPrecontrato($nombre_usuario, $correo_usuario,$nombre_paquete,$municipio,$direccion,$telefono,$referencia_domicilio));
-    
-            
-    
+            Mail::to($correo_usuario)->send(new miPrecontrato($nombre_usuario, $correo_usuario,$nombre_paquete,$municipio,$direccion,$telefono,$referencia_domicilio)); 
             // Limpiar sesión
             session()->forget(['codigo_verificacion', 'datos_cliente']);
     
-            return redirect()->route('precontratoExitoso');
+            return redirect()->route('mostrar.paquetes');
         } else {
             return back()->withErrors(['codigo' => 'El código ingresado es incorrecto.']);
         }

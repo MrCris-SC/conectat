@@ -375,54 +375,6 @@
                 </div>
             </div>
          </div>
-
-                <div class="container mt-5">
-    <h2 class="text-center">Lista de Clientes</h2>
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Nombre Completo</th>
-                <th>Correo</th>
-                <th>Teléfono</th>
-                <th>Código Postal</th>
-                <th>Municipio</th>
-                <th>Dirección</th>
-                <th>Referencia de Domicilio</th>
-                <th>Paquete</th> <!-- Nueva columna para mostrar el paquete -->
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if($clientes->isEmpty())
-                <tr>
-                    <td colspan="9" class="text-center">No hay clientes registrados.</td>
-                </tr>
-            @else
-            @foreach($clientes as $cliente)
-            <tr>
-                <td>{{ $cliente->nombre_completo }}</td>
-                <td>{{ $cliente->correo_electronico }}</td>
-                <td>{{ $cliente->telefono }}</td>
-                <td>{{ $cliente->cp }}</td>
-                <td>{{ $cliente->municipio }}</td>
-                <td>{{ $cliente->direccion ?? 'N/A' }}</td>
-                <td>{{ $cliente->referencia_domicilio }}</td>
-                <td>{{ $cliente->fk_paquete ?? 'Sin paquete asignado' }}</td> 
-                <td>
-                <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-warning btn-sm">Actualizar</a>
-
-                    <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-            @endif
-        </tbody>
-    </table>
 </div>
 
         

@@ -9,34 +9,35 @@ use App\Http\Controllers\MostrarClientesController;
 use App\Http\Controllers\EditarClienteController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminUpdateController;
 
-// Ruta para el formulario de login
-Route::get('/login', function () {
-    return view('login');  // Asegúrate de que esta vista existe
-})->name('login');
+
+
+// Ruta para el formu8lario de login
+Route::get('/login',[AdminsController::class,'login'])->name('login');
 
 // Ruta para procesar el login
 Route::post('/login', [AdminController::class, 'login'])->name('admin.login');
 
-
 // Rutas protegidas
-Route::middleware('auth')->group(function () {
+Route::middleware('admin')->group(function () {
    
+
 });
 
 Route::get('/', [PaquetesController::class, 'index'])->name('paquete.index');
 
 Route::get('/agregar-paquete', [PaqueteController::class, 'create']);
-    Route::post('/agregar-paquete', [PaqueteController::class, 'store']);
-    Route::get('/editar-paquete/{id}', [PaqueteController::class, 'edit'])->name('paquete.edit');
-    Route::put('/editar-paquete/{id}', [PaqueteController::class, 'update'])->name('paquete.update');
-    Route::delete('/paquete/{id}', [PaqueteController::class, 'destroy'])->name('paquete.destroy');
-    
-    // Rutas para manejar clientes
-    Route::get('/clienteRegistrados', [MostrarClientesController::class, 'mostrarClientes'])->name('clientes');
-    Route::delete('/cliente/{id}', [MostrarClientesController::class, 'destroy'])->name('cliente.destroy');
-    Route::get('/clienteRegistrados/{id}', [EditarClienteController::class, 'editarCliente'])->name('cliente.edit');
-    Route::put('/cliente/{id}', [EditarClienteController::class, 'actualizarCliente'])->name('cliente.update');
+Route::post('/agregar-paquete', [PaqueteController::class, 'store']);
+Route::get('/editar-paquete/{id}', [PaqueteController::class, 'edit'])->name('paquete.edit');
+Route::put('/editar-paquete/{id}', [PaqueteController::class, 'update'])->name('paquete.update');
+Route::delete('/paquete/{id}', [PaqueteController::class, 'destroy'])->name('paquete.destroy');
+
+// Rutas para manejar clientes
+Route::get('/clienteRegistrados', [MostrarClientesController::class, 'mostrarClientes'])->name('clientes');
+Route::delete('/cliente/{id}', [MostrarClientesController::class, 'destroy'])->name('cliente.destroy');
+Route::get('/clienteRegistrados/{id}', [EditarClienteController::class, 'editarCliente'])->name('cliente.edit');
+Route::put('/cliente/{id}', [EditarClienteController::class, 'actualizarCliente'])->name('cliente.update');
 
 // Mostrar el formulario de registro
 Route::get('adminRegister', [AdminController::class, 'showRegisterForm'])->name('admin.registerForm');
@@ -47,14 +48,16 @@ Route::get('/indexAdmin', [AdminController::class, 'listAdmins'])->name('admin.l
 Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
 // Ruta para mostrar el formulario de edición de un administrador
-Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
-
-// Ruta para procesar la actualización del administrador
-Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admin.update');
+//oute::get('/admin/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
 
 // Procesar el formulario de registro
 Route::post('/adminRegister', [AdminController::class, 'register'])->name('admin.register');
 
+// Rutas para mostrar el formulario de edición de un administrador
+Route::get('/admin/{id}/edit', [AdminUpdateController::class, 'edit'])->name('admin.edit');
+
+// Ruta para procesar la actualización del administrador
+Route::put('/admin/{id}', [AdminUpdateController::class, 'update'])->name('admin.ActualizarAdmin');
 
 Route::get('/user', [UserController::class, 'showPackages'])->name('mostrar.paquetes');
 Route::get('/datos', function () { return view('datos'); });
