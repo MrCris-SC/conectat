@@ -335,6 +335,7 @@
                                         <th>Dirección</th>
                                         <th>Referencia de Domicilio</th>
                                         <th>Acciones</th>
+                                        <th>Generar PDF</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -354,16 +355,33 @@
                                         <td>{{ $cliente->direccion ?? 'N/A' }}</td>
                                         <td>{{ $cliente->referencia_domicilio }}</td>
                                         <td>
-                                        <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-warning btn-sm">Actualizar</a>
-
-                                                <!-- Aquí se incluye el ID en la URL 
-                                            <a href="editarCliente" class="btn btn-warning btn-sm">Actualizar</a>-->
-                                        <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">Eliminar</button>
-                                        </form>
-
+                                        <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-edit"></i>
+                                                    </span>
+                                                    <span class="text">Administrar</span>
+                                                </a>
+                                       <br>
+                                       <p></p>
+                                                <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paquete?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    
+                                                    <button type="submit" class="btn btn-danger btn-icon-split">
+                                                        <span class="icon text-white-50">
+                                                            <i class="fas fa-trash"></i>
+                                                        </span>
+                                                        <span class="text">Eliminar</span>
+                                                    </button>
+                                                </form>
+                                        </td>
+                                        <td>
+                                        <a href="{{ route('cliente.contrato', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split">
+                                                    <span class="icon text-white-50">
+                                                    <i class="fas fa-edit"></i>
+                                                    </span>
+                                                    <span class="text">Contratos</span>    
+                                        </a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -375,7 +393,7 @@
                 </div>
             </div>
          </div>
-</div>
+        </div>
 
         
 

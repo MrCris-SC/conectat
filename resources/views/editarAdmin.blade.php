@@ -318,7 +318,7 @@
                             <div class="col-md-6 mb-4">
                                 <div class="card">
                                     <div class="card-body">
-                                    <form action="{{ route('admin.ActualizarAdmin', $admin->id_admin) }}" method="POST">
+                                    <form action="{{ route('admin.update', $admin->id_admin) }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <div class="form-group">
