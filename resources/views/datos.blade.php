@@ -53,7 +53,7 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="noExterior" class="form-label">Municipio</label>
-                    <input type="text" class="form-control" id="ciudad" name="ciudad" readonly>
+                    <input type="text" class="form-control" id="municipio" name="municipio" readonly>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="noInterior" class="form-label">Direccion</label>
@@ -134,10 +134,9 @@
             // Obtener los valores de los campos del formulario
             var nombre = document.getElementById('nombre_completo').value;
             var cp = document.getElementById('cp').value;
-            var municipio = document.getElementById('ciudad').value;
+            var municipio = document.getElementById('municipio').value;
             var correo = document.getElementById('correo').value;
             var telefono = document.getElementById('telefono').value;
-   
             var referencia = document.getElementById('referencia_domicilio').value;
         
             // Contador para campos llenos
@@ -299,7 +298,7 @@
     '97925': 'Yaxcabá', '97926': 'Yaxcabá', '97927': 'Yaxcabá', '97929': 'Yaxcabá',
     '97348': 'Yaxkukul',
     '97425': 'Yobaín', '97426': 'Yobaín'
-    // Agrega más códigos postales y ciudades según tus necesidades
+    
         };
 
     function buscarCiudad() {
@@ -307,9 +306,9 @@
 
     // Verifica si el código postal ingresado está en el objeto
     if (codigosPostales[codigoPostal]) {
-        document.getElementById("ciudad").value = codigosPostales[codigoPostal];
+        document.getElementById("municipio").value = codigosPostales[codigoPostal];
     } else {
-        document.getElementById("ciudad").value = "Ciudad no encontrada";
+        document.getElementById("municipio").value = "Municipio no encontrada";
     }
     }
 
