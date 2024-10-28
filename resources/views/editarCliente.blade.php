@@ -23,15 +23,32 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    
     <script>
-        $(document).ready(function() {
-            // Bloquear todos los campos al cargar la página
-            $('input').prop('disabled', true);
+        // Espera que el DOM esté completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Selecciona el botón y los campos del formulario
+            const btnEditar = document.getElementById('btnEditar');
+            const campos = document.querySelectorAll('#formEditarCliente input');
+            const btnGuardar = document.getElementById('btnGuardar');
 
-            // Habilitar los campos al hacer clic en el botón
-            $('#editButton').click(function() {
-                $('input').prop('disabled', false); // Habilita los campos
-                $(this).hide(); // Oculta el botón después de habilitar los campos
+            // Asegura que los campos estén bloqueados (disabled) al cargar la página
+            campos.forEach(campo => {
+                campo.disabled = true;
+            });
+
+            // Asegura que el botón "Guardar Cambios" esté oculto al cargar la página
+            btnGuardar.style.display = 'none';
+
+            // Añade un evento click al botón
+            btnEditar.addEventListener('click', function() {
+                // Recorre cada campo y habilítalo
+                campos.forEach(campo => {
+                    campo.disabled = false;
+                });
+                // Oculta el botón "Editar" y muestra el botón "Guardar Cambios"
+                btnEditar.style.display = 'none';
+                btnGuardar.style.display = 'block';
             });
         });
     </script>
@@ -326,7 +343,7 @@
                 <!-- End of Topbar -->
     <div class="container mt-5">
         <h2>Editar Cliente</h2>
-        <form action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
+        <form id="formEditarCliente" action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -379,11 +396,22 @@
             <form action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
                 @csrf
                 @method('PUT')
+
+                <button type="submit" class="btn btn-primary" id="btnGuardar" style="display: none;">Guardar Cambios</button>
+                <br>
+                
+            </form>
+            <br>
+
+            <button type="button" class="btn btn-primary" id="btnEditar">Modificar campos</button>
+            <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
+
                 <button type="submit"  id="saveButton" class="btn btn-primary">Guardar Cambios</button>
                 <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
             </form>
             <p></p>
             <!--<a href="{{ route('cliente.contrato', $cliente->id_cliente) }}" class="btn btn-secondary" target="_blank">Generar PDF de Contrato</a>-->
+
 
         </form>
             <!-- Footer -->
