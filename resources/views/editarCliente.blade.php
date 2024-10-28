@@ -390,8 +390,7 @@
            <input type="text" class="form-control" name="Datos_Paquete" value="Paquete: {{ $cliente->nombre_paquete->nombre_paquete }} de $:{{ $cliente->nombre_paquete->precio }} incluye:{{ $cliente->nombre_paquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombre_paquete->velocidad_paquete }}" required> 
 
             </div>
-            <button type="button" id="editButton" class="btn btn-primary">Modificar Campos</button>
-            <p></p>
+           
            
             <form action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
                 @csrf
@@ -404,9 +403,7 @@
             <br>
 
             <button type="button" class="btn btn-primary" id="btnEditar">Modificar campos</button>
-            <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
-
-                <button type="submit"  id="saveButton" class="btn btn-primary">Guardar Cambios</button>
+       
                 <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
             </form>
             <p></p>
