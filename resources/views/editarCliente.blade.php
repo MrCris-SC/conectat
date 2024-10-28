@@ -52,7 +52,6 @@
             });
         });
     </script>
-
 </head>
 <body>
 <div id="wrapper">
@@ -92,6 +91,12 @@
             <span>Gestión de Clientes</span></a>
     </li>
 
+         <!-- Nav Item - Clientes -->
+         <li class="nav-item">
+        <a class="nav-link" href="{{ url('/indexAdmin') }}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Gestión de Adminisreadores</span></a>
+    </li>
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
         <a class="nav-link" href="facturacion.html">
@@ -349,7 +354,7 @@
 
             <div class="mb-3">
                 <label for="correo" class="form-label">Correo</label>
-                <input type="email" class="form-control" name="correo" value="{{ $cliente->correo }}" required>
+                <input type="email" class="form-control" name="correo" value="{{ $cliente->correo_electronico }}" required>
             </div>
 
             <div class="mb-3">
@@ -385,9 +390,13 @@
            <input type="text" class="form-control" name="Datos_Paquete" value="Paquete: {{ $cliente->nombre_paquete->nombre_paquete }} de $:{{ $cliente->nombre_paquete->precio }} incluye:{{ $cliente->nombre_paquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombre_paquete->velocidad_paquete }}" required> 
 
             </div>
+            <button type="button" id="editButton" class="btn btn-primary">Modificar Campos</button>
+            <p></p>
+           
             <form action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
                 @csrf
                 @method('PUT')
+
                 <button type="submit" class="btn btn-primary" id="btnGuardar" style="display: none;">Guardar Cambios</button>
                 <br>
                 
@@ -396,6 +405,14 @@
 
             <button type="button" class="btn btn-primary" id="btnEditar">Modificar campos</button>
             <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
+
+                <button type="submit"  id="saveButton" class="btn btn-primary">Guardar Cambios</button>
+                <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
+            </form>
+            <p></p>
+            <!--<a href="{{ route('cliente.contrato', $cliente->id_cliente) }}" class="btn btn-secondary" target="_blank">Generar PDF de Contrato</a>-->
+
+
         </form>
             <!-- Footer -->
             <footer class="sticky-footer bg-white">

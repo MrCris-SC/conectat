@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cliente;
+use PDF;
 
 class editarClienteController extends Controller
 {
@@ -25,7 +26,7 @@ class editarClienteController extends Controller
         // Validar los datos recibidos
         $validatedData = $request->validate([
             'nombre_completo' => 'required|string|max:255',
-            'correo' => 'required|email',
+            'correo_electronico' => 'required|email',
             'telefono' => 'required|string|max:20',
             'cp' => 'required|string',
             'municipio' => 'required|string|max:255',
@@ -39,6 +40,23 @@ class editarClienteController extends Controller
         
         // Redirigir a la vista de clientes registrados con un mensaje de éxito
         return redirect()->route('clientes')->with('success', 'Cliente actualizado correctamente.');
+    }
+
+    public function generarContratoPDF($id)
+    {
+        // Obtener los datos del cliente por su ID
+        $cliente = Cliente::with('nombre_paquete')->find($id);
+
+        // Si el cliente no existe, manejar el error
+        if (!$cliente) {
+            return redirect()->route('clientes')->withErrors('Cliente no encontrado.');
+        }
+
+        // Pasar los datos a la vista del contrato
+        $pdf = PDF::loadView('pdf.contrato', ['cliente' => $cliente]);
+
+        // Descargar el PDF
+        return $pdf->download('contrato_cliente_'.$cliente->id_cliente.'.pdf');
     }
 }
 

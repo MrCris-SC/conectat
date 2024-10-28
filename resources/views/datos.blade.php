@@ -7,10 +7,10 @@
         <meta name="author" content="" />
 
         <title>Pre-Contrato</title>
-        <link href="{{ asset('css/datos.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/userStyles.css') }}" rel="stylesheet">
 
         <title>Agency - Start Bootstrap Theme</title>
-        <link href="{{ asset('css/pre-contrato.css') }}" rel="stylesheet">
+
 
         <!-- Font Awesome icons (free version)-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -18,20 +18,31 @@
     </head>
     <body id="page-top">
         
-    <header class="navbar">
 
-            <img src="{{ asset('images/logo1.png') }}" alt="Logo" class="logo-img">
-        </div>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="{{ url('/user') }}" onclick="verificarDatos(event)">Inicio</a></li>
-                    <li><a href="{{ url('/user') }}" onclick="verificarDatos(event)">Planes de Internet</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}"onclick="verificarDatos(event)" >Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}" onclick="verificarDatos(event)">Planes de Internet</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">Acerda de</a></li>                       
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contactanos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+
 
        
+
+        <!--Contenedor de registro de datos que esta vinculado con el css-precontrato-->
     <section class="container-mt-5">
         <h2 class="text-center">Datos de Pre-contrato</h2>
         <form action="{{ route('enviarCodigo') }}" method="POST">
@@ -64,7 +75,7 @@
             <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="ciudad" class="form-label">Correo</label>
-                <input type="email" class="form-control @error('correo') is-invalid @enderror" id="correo" name="correo" placeholder="Correo" value="{{ old('correo') }}" required>
+                <input type="email" class="form-control @error('correo_electronico') is-invalid @enderror" id="correo_electronico" name="correo_electronico" placeholder="Correo" value="{{ old('correo') }}" required>
                 <!-- Mostrar mensaje de error si el correo ya está registrado -->
                 @error('correo')
                     <div class="invalid-feedback">
@@ -104,6 +115,8 @@
     </section>
     
     <footer>
+
+        <!--Pie de pagina donde se encuentra el footer css-precontrato-->
         <div class="footer-container">
             <p>&copy; 2024 Tu Nombre. Todos los derechos reservados.</p>
             <ul class="footer-links">
@@ -128,6 +141,7 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 
+            <!--Js para verificar los datos si estan llenos y mostrar el mensaje-->
         <script>function verificarDatos(event) {
             event.preventDefault(); // Prevenir la acción por defecto del enlace
         
@@ -135,7 +149,7 @@
             var nombre = document.getElementById('nombre_completo').value;
             var cp = document.getElementById('cp').value;
             var municipio = document.getElementById('municipio').value;
-            var correo = document.getElementById('correo').value;
+            var correo = document.getElementById('correo_electronico').value;
             var telefono = document.getElementById('telefono').value;
             var referencia = document.getElementById('referencia_domicilio').value;
         
@@ -314,6 +328,8 @@
 
         
         </script>
+
+        <!--Mensaje de advertencia-->
         <div id="miModal" class="modal">
             <div class="modal-content">
                 <img id="icono" src="{{ asset('images/falla.png') }}" alt="Icono">

@@ -13,7 +13,7 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="{{ asset('css/packs.css') }}" rel="stylesheet">
-    <title>Lista de Clientes</title>
+    <title>SB Admin 2 - Dashboard</title>
 
     <!-- Custom fonts for this template-->
         <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -25,12 +25,14 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
-<body>
-<div id="wrapper">
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
              <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
@@ -60,17 +62,18 @@
 
     <!-- Nav Item - Clientes -->
     <li class="nav-item">
-        <a class="nav-link" href="{{url('clienteRegistrados')}}">
+        <a class="nav-link" href="clienteRegistrados">
             <i class="fas fa-fw fa-users"></i>
             <span>Gestión de Clientes</span></a>
     </li>
 
-      <!-- Nav Item - Clientes -->
-      <li class="nav-item">
+    <!-- Nav Item - Clientes -->
+    <li class="nav-item">
         <a class="nav-link" href="{{ url('/indexAdmin') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>Gestión de Adminisreadores</span></a>
     </li>
+
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
         <a class="nav-link" href="facturacion.html">
@@ -117,7 +120,7 @@
 
         </ul>
         <!-- End of Sidebar -->
-        <div class="container-fluid">
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -316,54 +319,41 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Clientes Registrados</h6>
-                        </div>
-                <!-- Apartado que se necesita hacerse responsivo -->
-                <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                    <!-- <th>ID</th> -->
-                                        <th>Nombre Completo</th>
-                                        <th>Correo</th>
-                                        <th>Teléfono</th>
-                                        <th>Código Postal</th>
-                                        <th>Municipio</th>
-                                        <th>Dirección</th>
-                                        <th>Referencia de Domicilio</th>
-                                        <th>Acciones</th>
-                                        <th>Generar PDF</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if($clientes->isEmpty())
-                                        <tr>
-                                            <td colspan="8" class="text-center">No hay clientes registrados.</td>
-                                        </tr>
-                                    @else
-                                    @foreach($clientes as $cliente)
-                                    <tr>
-                                        <!--<th>{{ $cliente->id_cliente }}</th>-->
-                                        <td>{{ $cliente->nombre_completo }}</td>
-                                        <td>{{ $cliente->correo_electronico }}</td>
-                                        <td>{{ $cliente->telefono }}</td>
-                                        <td>{{ $cliente->cp }}</td>
-                                        <td>{{ $cliente->municipio }}</td>
-                                        <td>{{ $cliente->direccion ?? 'N/A' }}</td>
-                                        <td>{{ $cliente->referencia_domicilio }}</td>
-                                        <td>
-                                        <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split">
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div>
+                    <h1 class="h3 mb-2 text-gray-800">Administradores Existentes</h1>
+                    <a href="{{ url('/adminRegister') }}" class="btn btn-info btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    <span class="text">Nuevo</span>
+                    </a></div>
+                    
+                    <section class="page-section" id="portfolio">
+                        <div class="container">
+                            <div class="row">
+                                <!-- Aquí recorremos los paquetes y generamos el HTML dinámicamente -->
+                                @foreach($administradores as $admin)
+                                    <div class="col-md-4">
+                                        <div class="card mb-4 py-3 border-left-danger">
+                                            <div class="card-body">
+                                                <h5 class="card-text">id:{{  $admin->id_admin }}</h5>
+                                                <p class="card-text">Nombre: {{ $admin->Nombre  }}</p>
+                                                <p class="card-text">Correo: {{ $admin->Correo_electronico  }}</p>
+                                                <p class="card-text">Contraseña: {{  $admin->Contraseña }}</p>
+                                                <p class="card-text">Rol: {{  $admin->permisos }}</p>
+                                                    
+                                                <a href="{{ route('admin.edit', $admin->id_admin) }}" class="btn btn-info btn-icon-split">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-edit"></i>
                                                     </span>
                                                     <span class="text">Administrar</span>
                                                 </a>
-                                       <br>
-                                       <p></p>
-                                                <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paquete?');">
+                                                <p></p>
+                                                <form action="{{ route('admin.destroy', $admin->id_admin) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paquete?');">
                                                     @csrf
                                                     @method('DELETE')
                                                     
@@ -374,28 +364,21 @@
                                                         <span class="text">Eliminar</span>
                                                     </button>
                                                 </form>
-                                        </td>
-                                        <td>
-                                        <a href="{{ route('cliente.contrato', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split">
-                                                    <span class="icon text-white-50">
-                                                    <i class="fas fa-edit"></i>
-                                                    </span>
-                                                    <span class="text">Contratos</span>    
-                                        </a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
 
-                                    @endif
-                                </tbody>
-                            </table>
-                    </div>    
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                            </div>
+                        </div>                                                 
+                    </section>
+
                 </div>
-            </div>
-         </div>
-        </div>
+                <!-- /.container-fluid -->
 
-        
+            </div>
+            <!-- End of Main Content -->
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
@@ -406,6 +389,36 @@
                 </div>
             </footer>
             <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->
@@ -425,6 +438,7 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
-
+    
 </body>
+
 </html>

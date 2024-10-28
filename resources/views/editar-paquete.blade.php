@@ -19,7 +19,7 @@
     
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 </head>
-
+<!-- Falta agregarle el nav cuando se responsivo, el contenido lo realiza-->
 <body>
 <div id="wrapper">
         <!-- Sidebar -->
@@ -58,6 +58,12 @@
             <span>Gestión de Clientes</span></a>
     </li>
 
+         <!-- Nav Item - Clientes -->
+         <li class="nav-item">
+        <a class="nav-link" href="{{ url('/indexAdmin') }}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Gestión de Adminisreadores</span></a>
+    </li>
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
         <a class="nav-link" href="facturacion.html">

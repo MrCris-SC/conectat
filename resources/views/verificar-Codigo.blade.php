@@ -5,31 +5,45 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Agency - Start Bootstrap Theme</title>
-        <link href="{{ asset('css/codigoverificacion.css') }}" rel="stylesheet">
+
+
+        <title>Conectat-Verificacion  </title>
+        <link href="{{ asset('css/userStyles.css') }}" rel="stylesheet">
+
+       
+
         <!-- Font Awesome icons (free version)-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
        
 
     </head>
+
     <body id="page-top">
         
-        <header class="navbar">
-            <div class="logo">
-                <img src="{{ asset('images/logo1.png') }}" alt="Logo" class="logo-img">
-            </div>
-           
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#planes">Planes de Internet</a></li>
-                </ul>
-            </nav>
-        </header>
 
-        <section class="container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}" >Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}">Planes de Internet</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">Acerda de</a></li>                       
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contactanos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+       
+        <section class="container-code">
+
                 <h2 class="text-center">Verificación de Código</h2>
-            <form action="{{ route('verificarCodigo') }}" method="POST">
+                <form action="{{ route('verificarCodigo') }}" method="POST">
                 @csrf <!-- Protección CSRF en Laravel -->
 
                 <div class="row">
@@ -47,7 +61,7 @@
  <!-- footer********************************************************************************-->
 
         <footer>
-            <div class="footer-container">
+            <div class="footer1">
                 <p>&copy; 2024 Tu Nombre. Todos los derechos reservados.</p>
                 <ul class="footer-links">
                     <li><a href="#">Política de Privacidad</a></li>
@@ -64,6 +78,7 @@
                 </div>
             </div>
         </footer>
+        <!--Aqui llega los componentes que se usa en el css-codigoverificacion.css-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <!-- * *                               SB Forms JS                               * *-->
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

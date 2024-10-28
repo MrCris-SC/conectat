@@ -97,6 +97,24 @@ h2.text-center {
     padding: 10px 20px;
     border-radius: 5px;
 }
+@media (max-width: 768px) {
+    .container-mt-5 {
+        padding: 20px; /* Menor padding en pantallas pequeñas */
+    }
+
+    .form-label {
+        font-size: 16px; /* Tamaño de fuente más pequeño para etiquetas */
+    }
+
+    .form-control {
+        font-size: 14px; /* Tamaño de fuente más pequeño para inputs */
+    }
+
+    .btn-primary {
+        padding: 8px 15px; /* Menor padding en botones */
+        font-size: 14px; /* Tamaño de fuente más pequeño para el botón */
+    }
+}
 
 /* footer ******************************************************/
 footer {
@@ -158,52 +176,7 @@ footer {
   
 
 
-/* Responsividad **************************************************************************************/
-/* Media queries para adaptabilidad */
-@media (max-width: 768px) {
-    body {
-        font-size: 14px; /* Reducimos el tamaño de la fuente en pantallas pequeñas */
-    }
 
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .nav-links {
-        flex-direction: column; /* Cambiamos la dirección a columna para pantallas pequeñas */
-        width: 100%; /* Los enlaces ocupan todo el ancho */
-        gap: 0;
-    }
-
-    .nav-links a {
-        padding: 10px 0;
-        text-align: center;
-        width: 100%;
-    }
-
-    .container {
-        padding: 15px;
-    }
-
-    h2.text-center {
-        font-size: 1.2rem; /* Reducimos el tamaño de fuente en móviles */
-    }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-    .container {
-        max-width: 80%;
-    }
-
-    .form-control {
-        font-size: 1.1rem;
-    }
-
-    .btn-primary {
-        font-size: 1.1rem;
-    }
-}
 
 /*********************************************************************************/
 .modal {

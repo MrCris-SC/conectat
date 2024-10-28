@@ -8,14 +8,12 @@
 
 
         <title>Catalogo-Paquetes</title>
-        <link href="{{ asset('css/datos.css') }}" rel="stylesheet">
-
-        <title>Agency - Start Bootstrap Theme</title>
-        <link href="{{ asset('css/user.css') }}" rel="stylesheet">
-
-
-        <title>Agency - Start Bootstrap Theme</title>
-        <link href="{{ asset('css/user.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/userStyles.css') }}" rel="stylesheet">
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+       
 
         <!-- Font Awesome icons (free version)-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -23,37 +21,29 @@
     </head>
     <body id="page-top">
         
-        <header class="navbar">
-            <div class="logo">
-                <img src="{{asset('images/logo1.png')}}" alt="Logo" class="logo-img">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}" >Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}">Planes de Internet</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">Acerda de</a></li>                       
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contactanos</a></li>
+                    </ul>
+                </div>
             </div>
-           
-            <nav>
-                <ul class="nav-links">
-                <li><a href="user">Inicio</a></li>
-                    <li><a href="user"  >Planes de Internet</a></li>
-
-                    <li><a href="#contacto">Contacto</a></li>
-                    <li><a href="#soporte">Soporte</a></li>
-                </ul>
-            </nav>
-        </header>
-
-
-
-        <section>        
-
-       
-        <section>
-            <div class="diseñopaquetes">        
-
-
+        </nav>
        
         <section>
             <div class="diseñopaquetes">        
 
             <div class="section">
-                <div class="container">
+                <div class="container containerpacks">
                 @foreach ($paquetes as $paquete)
                     <div class="card">
                         @if ($paquete->promocion)
@@ -78,6 +68,9 @@
             </div>
             </div>
         </section>
+
+     
+       
         {{-- ***********************************************************************************footer --}}
         <footer>
             <div class="footer-container">
@@ -100,14 +93,9 @@
           
        
       
-    
-      
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-       
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> 
+        <script src="{{ asset('js/user.js') }}"></script>
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 
 </html>

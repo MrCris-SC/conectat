@@ -2,35 +2,28 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    <title>Agregar Paquete de Internet</title>
+    <link href="{{ asset('css/agregar-paq.css') }}" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.1/js/mdb.min.js"></script>
+    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link href="{{ asset('css/packs.css') }}" rel="stylesheet">
-    <title>Lista de Clientes</title>
-
-    <!-- Custom fonts for this template-->
-        <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
+    
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
-
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
+<!-- Falta agregarle el nav cuando se responsivo, el contenido lo realiza-->
 <body>
 <div id="wrapper">
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <!-- Sidebar -->
+         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
              <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
@@ -60,13 +53,13 @@
 
     <!-- Nav Item - Clientes -->
     <li class="nav-item">
-        <a class="nav-link" href="{{url('clienteRegistrados')}}">
+        <a class="nav-link" href="{{ url('/clienteRegistrados') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>Gestión de Clientes</span></a>
     </li>
 
-      <!-- Nav Item - Clientes -->
-      <li class="nav-item">
+         <!-- Nav Item - Clientes -->
+         <li class="nav-item">
         <a class="nav-link" href="{{ url('/indexAdmin') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>Gestión de Adminisreadores</span></a>
@@ -117,7 +110,7 @@
 
         </ul>
         <!-- End of Sidebar -->
-        <div class="container-fluid">
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -316,86 +309,53 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Clientes Registrados</h6>
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <div class="container">
+                        <h1 class="text-center my-4">Actualizar Administrador</h1>
+                        <div class="row">
+                            <!-- Columna del formulario -->
+                            <div class="col-md-6 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                    <form action="{{ route('admin.update', $admin->id_admin) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="form-group">
+                                            <label for="Nombre">Nombre</label>
+                                            <input type="text" name="Nombre" id="Nombre" class="form-control" value="{{ $admin->Nombre }}" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Correo_electronico">Correo Electrónico</label>
+                                            <input type="email" name="Correo_electronico" id="Correo_electronico" class="form-control" value="{{ $admin->Correo_electronico }}" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="permisos">Permisos</label>
+                                            <input type="text" name="permisos" id="permisos" class="form-control" value="{{ $admin->permisos }}" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Contraseña">Contraseña (Opcional)</label>
+                                            <input type="password" name="Contraseña" id="Contraseña" class="form-control" placeholder="Dejar en blanco si no deseas cambiar la contraseña">
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary">Actualizar Admin</button>
+                                            <a href="{{ route('admin.list') }}" class="btn btn-secondary">Cancelar</a>
+                                        </div>
+                                    </form> 
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                <!-- Apartado que se necesita hacerse responsivo -->
-                <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                    <!-- <th>ID</th> -->
-                                        <th>Nombre Completo</th>
-                                        <th>Correo</th>
-                                        <th>Teléfono</th>
-                                        <th>Código Postal</th>
-                                        <th>Municipio</th>
-                                        <th>Dirección</th>
-                                        <th>Referencia de Domicilio</th>
-                                        <th>Acciones</th>
-                                        <th>Generar PDF</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if($clientes->isEmpty())
-                                        <tr>
-                                            <td colspan="8" class="text-center">No hay clientes registrados.</td>
-                                        </tr>
-                                    @else
-                                    @foreach($clientes as $cliente)
-                                    <tr>
-                                        <!--<th>{{ $cliente->id_cliente }}</th>-->
-                                        <td>{{ $cliente->nombre_completo }}</td>
-                                        <td>{{ $cliente->correo_electronico }}</td>
-                                        <td>{{ $cliente->telefono }}</td>
-                                        <td>{{ $cliente->cp }}</td>
-                                        <td>{{ $cliente->municipio }}</td>
-                                        <td>{{ $cliente->direccion ?? 'N/A' }}</td>
-                                        <td>{{ $cliente->referencia_domicilio }}</td>
-                                        <td>
-                                        <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split">
-                                                    <span class="icon text-white-50">
-                                                        <i class="fas fa-edit"></i>
-                                                    </span>
-                                                    <span class="text">Administrar</span>
-                                                </a>
-                                       <br>
-                                       <p></p>
-                                                <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paquete?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    
-                                                    <button type="submit" class="btn btn-danger btn-icon-split">
-                                                        <span class="icon text-white-50">
-                                                            <i class="fas fa-trash"></i>
-                                                        </span>
-                                                        <span class="text">Eliminar</span>
-                                                    </button>
-                                                </form>
-                                        </td>
-                                        <td>
-                                        <a href="{{ route('cliente.contrato', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split">
-                                                    <span class="icon text-white-50">
-                                                    <i class="fas fa-edit"></i>
-                                                    </span>
-                                                    <span class="text">Contratos</span>    
-                                        </a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-
-                                    @endif
-                                </tbody>
-                            </table>
-                    </div>    
+                    </div>                   
                 </div>
-            </div>
-         </div>
-        </div>
+                <!-- /.container-fluid -->
 
-        
+            </div>
+            <!-- End of Main Content -->
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
@@ -406,9 +366,39 @@
                 </div>
             </footer>
             <!-- End of Footer -->
-    </div>
 
-    <!-- Bootstrap core JavaScript-->
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+<!-- Bootstrap core JavaScript-->
     <!-- Vendor Scripts -->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -427,4 +417,5 @@
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
 
 </body>
+
 </html>

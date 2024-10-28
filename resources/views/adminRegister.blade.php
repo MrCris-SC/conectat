@@ -13,7 +13,7 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="{{ asset('css/packs.css') }}" rel="stylesheet">
-    <title>Lista de Clientes</title>
+    <title>Registrar Administradores</title>
 
     <!-- Custom fonts for this template-->
         <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -71,6 +71,7 @@
             <i class="fas fa-fw fa-users"></i>
             <span>Gestión de Adminisreadores</span></a>
     </li>
+
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
         <a class="nav-link" href="facturacion.html">
@@ -315,88 +316,46 @@
 
                 </nav>
                 <!-- End of Topbar -->
+                <div class="container">
+        <h2>Registrar Nuevo Administrador</h2>
+        
+        <!-- Muestra los errores de validación -->
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-                <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Clientes Registrados</h6>
-                        </div>
-                <!-- Apartado que se necesita hacerse responsivo -->
-                <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                    <!-- <th>ID</th> -->
-                                        <th>Nombre Completo</th>
-                                        <th>Correo</th>
-                                        <th>Teléfono</th>
-                                        <th>Código Postal</th>
-                                        <th>Municipio</th>
-                                        <th>Dirección</th>
-                                        <th>Referencia de Domicilio</th>
-                                        <th>Acciones</th>
-                                        <th>Generar PDF</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if($clientes->isEmpty())
-                                        <tr>
-                                            <td colspan="8" class="text-center">No hay clientes registrados.</td>
-                                        </tr>
-                                    @else
-                                    @foreach($clientes as $cliente)
-                                    <tr>
-                                        <!--<th>{{ $cliente->id_cliente }}</th>-->
-                                        <td>{{ $cliente->nombre_completo }}</td>
-                                        <td>{{ $cliente->correo_electronico }}</td>
-                                        <td>{{ $cliente->telefono }}</td>
-                                        <td>{{ $cliente->cp }}</td>
-                                        <td>{{ $cliente->municipio }}</td>
-                                        <td>{{ $cliente->direccion ?? 'N/A' }}</td>
-                                        <td>{{ $cliente->referencia_domicilio }}</td>
-                                        <td>
-                                        <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split">
-                                                    <span class="icon text-white-50">
-                                                        <i class="fas fa-edit"></i>
-                                                    </span>
-                                                    <span class="text">Administrar</span>
-                                                </a>
-                                       <br>
-                                       <p></p>
-                                                <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paquete?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    
-                                                    <button type="submit" class="btn btn-danger btn-icon-split">
-                                                        <span class="icon text-white-50">
-                                                            <i class="fas fa-trash"></i>
-                                                        </span>
-                                                        <span class="text">Eliminar</span>
-                                                    </button>
-                                                </form>
-                                        </td>
-                                        <td>
-                                        <a href="{{ route('cliente.contrato', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split">
-                                                    <span class="icon text-white-50">
-                                                    <i class="fas fa-edit"></i>
-                                                    </span>
-                                                    <span class="text">Contratos</span>    
-                                        </a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-
-                                    @endif
-                                </tbody>
-                            </table>
-                    </div>    
-                </div>
+        <form action="{{ route('admin.register') }}" method="POST">
+            @csrf
+            <div class="form-group">
+                <label for="Nombre">Nombre</label>
+                <input type="text" name="Nombre" class="form-control" value="{{ old('Nombre') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="Correo_electronico">Correo Electrónico</label>
+                <input type="email" name="Correo_electronico" class="form-control" value="{{ old('Correo_electronico') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="Contraseña">Contraseña</label>
+                <input type="password" name="Contraseña" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="permisos">Permisos</label>
+                <select name="permisos" class="form-control">
+                    <option value="admin">Administrador</option>
+                    <option value="superadmin">Super Administrador</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </form>
+    </div>
             </div>
          </div>
-        </div>
-
-        
-
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">

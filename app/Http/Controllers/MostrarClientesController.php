@@ -40,7 +40,7 @@ class mostrarClientesController extends Controller
             'cp' => 'required|string',
             'municipio' => 'required|string|max:255',
             'direccion' => 'nullable|string|max:255',
-            'correo' => 'required|email',
+            'correo_electronico' => 'required|email',
             'telefono' => 'required|string|max:20',
             'referencia_domicilio' => 'required|string|max:255',
             'fk_paquete' => 'required|exists:nombres_paquetes,id_nombre_paquete', // Validar la clave foránea

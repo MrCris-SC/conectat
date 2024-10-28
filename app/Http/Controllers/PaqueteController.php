@@ -18,18 +18,26 @@ class PaqueteController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nombre_paquete' => 'required|max:50',
-            'precio' => 'required|integer',
-            'caracteristicas_paquete' => 'required|max:150',
-            'velocidad_paquete' => 'required|max:30',
-            'fk_promocion' => 'required|exists:promociones_paquetes,id_promocion'
-        ]);
+{
+    $validated = $request->validate([
+        'nombre_paquete' => 'required|max:50',
+        'precio' => 'required|integer',
+        'caracteristicas_paquete' => 'required|max:150',
+        'velocidad_paquete' => 'required|max:30',
+        'fk_promocion' => 'required|exists:promociones_paquetes,id_promocion'
+    ]);
 
+    try {
+        // Intentar crear el paquete
         NombrePaquete::create($validated);
         return redirect('/agregar-paquete')->with('success', 'Paquete agregado exitosamente');
+    } catch (\Exception $e) {
+        throw $e;
+        // Manejar el error
+        //return redirect('/agregar-paquete')->with('error', 'Hubo un problema. La página está fuera de servicio, intenta más tarde.');
     }
+}
+
 
     public function edit($id)
     {

@@ -67,6 +67,13 @@
             <span>Gestión de Clientes</span></a>
     </li>
 
+    <!-- Nav Item - Clientes -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url('/indexAdmin') }}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Gestión de Adminisreadores</span></a>
+    </li>
+
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
         <a class="nav-link" href="facturacion.html">
@@ -300,10 +307,15 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
+                                    <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Cerrar Sesión
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+
                             </div>
                         </li>
 
@@ -342,14 +354,18 @@
                                                 <p class="card-text">Características: {{ $paquete->caracteristicas_paquete }}</p>
                                                 <p class="card-text">Precio: ${{ $paquete->precio }}</p>
                                                     
-                                                <a href="{{ route('paquete.edit', $paquete->id_nombre_paquete) }}" class="btn btn-info btn-icon-split">
+                                                <a href="{{ route('paquete.edit', $paquete->id_nombre_paquete) }}" 
+                                                    class="btn btn-info btn-icon-split">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-edit"></i>
                                                     </span>
                                                     <span class="text">Editar</span>
                                                 </a>
-                                                <p></p>
-                                                <form action="{{ route('paquete.destroy', $paquete->id_nombre_paquete) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paquete?');">
+                                                {{-- <p></p> --}}
+                                                {{-- <form action="{{ route('paquete.destroy', 
+                                                    $paquete->id_nombre_paquete) }}" 
+                                                    method="POST" onsubmit="return 
+                                                    confirm('¿Estás seguro de que deseas eliminar este paquete?');">
                                                     @csrf
                                                     @method('DELETE')
                                                     
@@ -359,7 +375,37 @@
                                                         </span>
                                                         <span class="text">Eliminar</span>
                                                     </button>
+                                                </form> --}}
+                                                <form id="deleteForm-{{ $paquete->id_nombre_paquete }}" action="{{ route('paquete.destroy', $paquete->id_nombre_paquete) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                
+                                                    <button type="button" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#deleteModal-{{ $paquete->id_nombre_paquete }}">
+                                                        <span class="icon text-white-50">
+                                                            <i class="fas fa-trash"></i>
+                                                        </span>
+                                                        <span class="text">Eliminar</span>
+                                                    </button>
                                                 </form>
+                                                <div class="modal fade" id="deleteModal-{{ $paquete->id_nombre_paquete }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-{{ $paquete->id_nombre_paquete }}" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="deleteModalLabel-{{ $paquete->id_nombre_paquete }}">Confirmar Eliminación</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                ¿Estás seguro de que deseas eliminar el paquete <strong>{{ $paquete->nombre_paquete }}</strong>?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                                <button type="button" class="btn btn-danger" onclick="document.getElementById('deleteForm-{{ $paquete->id_nombre_paquete }}').submit();">Eliminar</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                             </div>
                                         </div>
@@ -420,8 +466,8 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <!-- Vendor Scripts -->
-    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+   <!-- Vendor Scripts -->
+   <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Core plugin JavaScript -->
@@ -436,6 +482,7 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+
     
 </body>
 
