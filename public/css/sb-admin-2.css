@@ -1768,6 +1768,8 @@ pre code {
 
 @media (max-width: 575.98px) {
   .table-responsive-sm {
+    position: fixed;
+    width: 100%; /* La tabla ocupará el ancho total de su contenedor */
     display: block;
     width: 100%;
     overflow-x: auto;
