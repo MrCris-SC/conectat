@@ -11,5 +11,20 @@ class userController extends Controller
         $paquetes = NombrePaquete::with('promocion')->get(); // Carga la relación con promociones
         return view('user', compact('paquetes'));
     }
+     
+    public function promociones()
+    {
+        // Cargar solo los paquetes que tienen promociones (fk_promocion != 0)
+        $paquetes = NombrePaquete::with('promocion')
+            ->whereHas('promocion', function($query) {
+                $query->where('id_promocion', '!=', 0); // Filtrar donde la promoción no sea 0
+            })
+            ->get();
+
+        return view('paquetePromocion', compact('paquetes'));
+
+    }
 
 }
+
+

@@ -12,7 +12,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminUpdateController;
 
 // Ruta para el formu8lario de login
-Route::get('/login',[AdminsController::class,'login'])->name('login');
+Route::get('/login',[AdminController::class,'login'])->name('login');
 
 Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
 Route::post('/login', [AdminController::class, 'login']);
@@ -73,4 +73,5 @@ Route::get('/seleccionar-paquete/{id_nombre_paquete}', [PreContratoController::c
 Route::post('/enviar-correo', [MailController::class, 'enviarCorreo'])->name('enviar.correo');
 
 Route::get('cliente/{id}/contrato', [editarClienteController::class, 'generarContratoPDF'])->name('cliente.contrato');
+Route::get('/paquetePromocion', [UserController::class, 'promociones'])->name('mostrar.paquetes');
 
