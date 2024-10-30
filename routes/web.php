@@ -10,6 +10,10 @@ use App\Http\Controllers\EditarClienteController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminUpdateController;
+use App\Http\Controllers\ContratoController;
+
+Route::post('/cliente/{cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('cliente.contrato');
+
 
 // Ruta para el formu8lario de login
 Route::get('/login',[AdminsController::class,'login'])->name('login');
@@ -72,5 +76,7 @@ Route::post('/precontrato/verificar-Codigo', [PreContratoController::class, 'ver
 Route::get('/seleccionar-paquete/{id_nombre_paquete}', [PreContratoController::class, 'seleccionarPaquete'])->name('seleccionarPaquete');
 Route::post('/enviar-correo', [MailController::class, 'enviarCorreo'])->name('enviar.correo');
 
-Route::get('cliente/{id}/contrato', [editarClienteController::class, 'generarContratoPDF'])->name('cliente.contrato');
+Route::post('/cliente/{cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('insertar.contrato');
+
+Route::get('cliente/{id}/contrato', [editarClienteController::class, 'generarContratoPDF'])->name('cliente.contratopdf');
 

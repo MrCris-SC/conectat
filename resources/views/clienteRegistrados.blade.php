@@ -330,6 +330,7 @@
                                         <thead>
                                             <tr>
                                             <!-- <th>ID</th> -->
+                                                
                                                 <th>Nombre Completo</th>
                                                 <th>Correo</th>
                                                 <th>Teléfono</th>
@@ -350,6 +351,7 @@
                                             @foreach($clientes as $cliente)
                                             <tr>
                                                 <!--<th>{{ $cliente->id_cliente }}</th>-->
+                                                
                                                 <td>{{ $cliente->nombre_completo }}</td>
                                                 <td>{{ $cliente->correo_electronico }}</td>
                                                 <td>{{ $cliente->telefono }}</td>
@@ -365,12 +367,12 @@
                                                             <span class="text">Administrar</span>
                                                         </a>
                                                         <p></p>
-                                                        <a href="{{ route('cliente.contrato', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split btn-fixed-width">
+                                                        <a href="javascript:void(0);" onclick="crearContratoYDescargarPDF({{ $cliente->id_cliente }})" class="btn btn-info btn-icon-split btn-fixed-width">
                                                             <span class="icon text-white-50">
                                                             <i class="fas fa-edit"></i>
                                                             </span>
                                                             <span class="text">Contratos</span>    
-                                                </a>
+                                                         </a>
                                             <br>
                                             <p></p>
                                                         <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paquete?');">
@@ -412,7 +414,29 @@
             <!-- End of Footer -->
     </div>
 
-    
+    <script>
+        function crearContratoYDescargarPDF(clienteId) {
+            // Enviar la solicitud para insertar el contrato en la base de datos
+            fetch(`/cliente/${clienteId}/contrato`, {
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ /* cualquier otro dato adicional si es necesario */ })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirigir a la URL de descarga del PDF después de la inserción
+                    window.location.href = `/cliente/${clienteId}/contrato`;
+                } else {
+                    console.error("Error al insertar el contrato:", response);
+                }
+            })
+            .catch(error => console.error("Error en la solicitud:", error));
+        }
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <!-- Vendor Scripts -->
