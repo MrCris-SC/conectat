@@ -13,7 +13,7 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="{{ asset('css/packs.css') }}" rel="stylesheet">
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Contratos</title>
 
     <!-- Custom fonts for this template-->
         <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -25,14 +25,12 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
-
-<body id="page-top">
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-        <!-- Sidebar -->
-         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<body>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
              <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
@@ -62,23 +60,22 @@
 
     <!-- Nav Item - Clientes -->
     <li class="nav-item">
-        <a class="nav-link" href="clienteRegistrados">
+        <a class="nav-link" href="{{url('clienteRegistrados')}}">
             <i class="fas fa-fw fa-users"></i>
             <span>Gestión de Clientes</span></a>
     </li>
 
-    <!-- Nav Item - Clientes -->
-    <li class="nav-item">
+      <!-- Nav Item - Clientes -->
+      <li class="nav-item">
         <a class="nav-link" href="{{ url('/indexAdmin') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>Gestión de Adminisreadores</span></a>
     </li>
-
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('mostrar.contratos') }}">
+        <a class="nav-link" href="{{ url('/contratosVista') }}">
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
-            <span>Contratos</span></a>
+            <span>Facturación</span></a>
     </li>
 
     <!-- Nav Item - Reportes -->
@@ -120,7 +117,7 @@
 
         </ul>
         <!-- End of Sidebar -->
-
+        <div class="container-fluid">
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -131,11 +128,11 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <form class="form-inline">
+                    
                         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                             <i class="fa fa-bars"></i>
                         </button>
-                    </form>
+                    
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -319,66 +316,63 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+              
 
-                    <!-- Page Heading -->
-                    <div>
-                    <h1 class="h3 mb-2 text-gray-800">Administradores Existentes</h1>
-                    <a href="{{ url('/adminRegister') }}" class="btn btn-info btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                    <span class="text">Nuevo</span>
-                    </a></div>
-                    
-                    <section class="page-section" id="portfolio">
-                        <div class="container">
-                            <div class="row">
-                                <!-- Aquí recorremos los paquetes y generamos el HTML dinámicamente -->
-                                @foreach($administradores as $admin)
-                                    <div class="col-md-4">
-                                        <div class="card mb-4 py-3 border-left-danger">
-                                            <div class="card-body">
-                                                <h5 class="card-text">id:{{  $admin->id_admin }}</h5>
-                                                <p class="card-text">Nombre: {{ $admin->Nombre  }}</p>
-                                                <p class="card-text">Correo: {{ $admin->Correo_electronico  }}</p>
-                                                <p class="card-text">Contraseña: {{  $admin->Contraseña }}</p>
-                                                <p class="card-text">Rol: {{  $admin->permisos }}</p>
-                                                    
-                                                <a href="{{ route('admin.edit', $admin->id_admin) }}" class="btn btn-info btn-icon-split">
-                                                    <span class="icon text-white-50">
-                                                        <i class="fas fa-edit"></i>
-                                                    </span>
-                                                    <span class="text">Administrar</span>
-                                                </a>
-                                                <p></p>
-                                                <form action="{{ route('admin.destroy', $admin->id_admin) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paquete?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    
-                                                    <button type="submit" class="btn btn-danger btn-icon-split">
-                                                        <span class="icon text-white-50">
-                                                            <i class="fas fa-trash"></i>
-                                                        </span>
-                                                        <span class="text">Eliminar</span>
-                                                    </button>
-                                                </form>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Contratos</h6>
+                        </div>
+                         <!-- Apartado que se necesita hacerse responsivo -->
+                        <div class="card-body">
+                                <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                            <!-- <th>ID</th> -->
+                                                
+                                                <th>Folio</th>
+                                                <th>Inicio</th>
+                                                <th>Final</th>
+                                                <th>Estado</th>
+                                                <th>Monto</th>
+                                                <th>Paquete</th>
+                                                <th>Cliente</th>
+                                               
+                                               
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if($contratos->isEmpty())
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No hay clientes registrados.</td>
+                                                </tr>
+                                            @else
+                                            @foreach($contratos as $contrato)
+                                            <tr>
+                                               
+                                                
+                                                <td>{{ $contrato->id_contrato }}</td>
+                                                <td>{{ $contrato->fecha_inicio }}</td>
+                                                <td>{{ $contrato->fecha_fin }}</td>
+                                                <td>{{ $contrato->estado }}</td>
+                                                <td>{{ $contrato->monto }}</td>
+                                                <td>{{ $contrato->fk_paquete }}</td>
+                                                <td>{{ $contrato->fk_cliente }}</td>
+                                            </tr>
+                                            @endforeach
 
-                            </div>
-                        </div>                                                 
-                    </section>
-
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>    
+                        </div>
+                
                 </div>
-                <!-- /.container-fluid -->
-
             </div>
-            <!-- End of Main Content -->
+        </div>
+
+        
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
@@ -389,40 +383,35 @@
                 </div>
             </footer>
             <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
     </div>
-    <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <script>
+        function crearContratoYDescargarPDF(clienteId) {
+            // Enviar la solicitud para insertar el contrato en la base de datos
+            fetch(`/cliente/${clienteId}/contrato`, {
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ /* cualquier otro dato adicional si es necesario */ })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirigir a la URL de descarga del PDF después de la inserción
+                    window.location.href = `/cliente/${clienteId}/contrato`;
+                } else {
+                    console.error("Error al insertar el contrato:", response);
+                }
+            })
+            .catch(error => console.error("Error en la solicitud:", error));
+        }
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <!-- Vendor Scripts -->
+
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
@@ -434,11 +423,16 @@
 
     <!-- Page level plugins -->
     <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+   
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
-    
+    <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>   
 </body>
-
 </html>

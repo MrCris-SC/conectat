@@ -377,7 +377,7 @@
                                             <p></p>
                                                         <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paquete?');">
                                                             @csrf
-                                                            @method('DELETE')
+                                                           @method('DELETE')
                                                             
                                                             <button type="submit" class="btn btn-danger btn-icon-split">
                                                                 <span class="icon text-white-50">
@@ -438,7 +438,7 @@
         }
     </script>
 
-    <!-- Bootstrap core JavaScript-->
+    <!-- Bootstrap core JavaScript--> 
     <!-- Vendor Scripts -->
 
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>

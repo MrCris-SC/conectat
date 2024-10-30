@@ -79,4 +79,4 @@ Route::post('/enviar-correo', [MailController::class, 'enviarCorreo'])->name('en
 Route::post('/cliente/{cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('insertar.contrato');
 
 Route::get('cliente/{id}/contrato', [editarClienteController::class, 'generarContratoPDF'])->name('cliente.contratopdf');
-
+Route::get('/contratos', [ContratoController::class, 'mostrarContratos'])->name('mostrar.contratos');
