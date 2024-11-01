@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Administrador;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\AuthAdminRequest;
+
 
 class AdminController extends Controller
 {
@@ -58,51 +60,50 @@ class AdminController extends Controller
     return redirect()->route('admin.list')->with('success', 'Administrador eliminado correctamente.');
 }
 
-
-public function edit($id)
-{
-    // Encontrar al administrador por su ID
-    $admin = Administrador::findOrFail($id);
-
-    // Retornar la vista de edición con los datos del administrador
-    return view('editarAdmin', ['admin' => $admin]);
-}
-
-public function update(Request $request, $id)
-{
-    // Validar los datos
-    $request->validate([
-        'Nombre' => 'required|string|max:255',
-        'Correo_electronico' => 'required|string|email|max:255|unique:administradores,Correo_electronico,' . $id,
-        'permisos' => 'required|string',
-    ]);
-
-    // Encontrar al administrador y actualizar sus datos
-    $admin = Administrador::findOrFail($id);
-    $admin->Nombre = $request->Nombre;
-    $admin->Correo_electronico = $request->Correo_electronico;
-    $admin->permisos = $request->permisos;
-
-    // Si se envía una nueva contraseña, actualizarla
-    if ($request->Contraseña) {
-        $request->validate([
-            'Contraseña' => 'required|string|min:8',
-        ]);
-        $admin->Contraseña = Hash::make($request->Contraseña);
+    // Método para mostrar el formulario de edición
+    public function edit($id_admin)
+    {
+        $admin = Administrador::findOrFail($id_admin); // Encuentra el administrador por ID
+        return view('editarAdmin', ['admin' => $admin]); // Retorna la vista con el administrador
     }
 
-    // Guardar los cambios
-    $admin->save();
-
-    // Redirigir a la lista de administradores con un mensaje de éxito
-    return redirect()->route('admin.list')->with('success', 'Administrador actualizado correctamente.');
-}
-
-
-    public function login(Request $request)
+    // Método para procesar la actualización del administrador
+    public function ActualizarAdmin(Request $request, $id_admin)
     {
-        
-        $request->validate([
+        $admin = Administrador::findOrFail($id_admin); // Encuentra el administrador por ID
+        // Validar los datos recibidos
+        $validatedData = $request->validate([
+            'Nombre' => 'required|string|max:255',
+            'Correo_electronico' => 'required|string|email|max:255|unique:administradores,Correo_electronico,' . $id_admin . ',id_admin',
+            'permisos' => 'required|string',
+            'Contraseña' => 'nullable|string|min:8', // Contraseña es opcional
+        ]);
+        // Actualizar la contraseña si se proporciona
+        // Actualizar los campos del administrador
+        $admin->Nombre = $validatedData['Nombre'];
+        $admin->Correo_electronico = $validatedData['Correo_electronico'];
+        $admin->permisos = $validatedData['permisos'];
+        if (!empty($validatedData['Contraseña'])) {
+            $admin->Contraseña = Hash::make($validatedData['Contraseña']);
+        }
+
+        $admin->save(); // Guardar los cambios
+        // Actualizar el cliente con los datos validados
+        //$admin->update($validatedData);
+
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('admin.list')->with('success', 'Administrador actualizado correctamente.');
+    }
+
+
+public function login(Request $request)
+    {
+        if(!auth()-> guard('admin')->check()){
+            return view('login');
+         }
+        return redirect()-> route('/');
+
+        /*$request->validate([
             'Correo_electronico' => 'required|email',
             'Contraseña' => 'required',
         ]);
@@ -113,7 +114,7 @@ public function update(Request $request, $id)
         $admin = Administrador::where('Correo_electronico', $credentials['Correo_electronico'])->first();
 
         // Verificar si el administrador existe y si la contraseña es correcta
-         if ($admin && Hash::check($credentials['Contraseña'], $admin->Contraseña)) {
+        if ($admin && Hash::check($credentials['Contraseña'], $admin->Contraseña)) {
             // Autenticar al administrador manualmente
             Auth::guard('admin')->login($admin);
 
@@ -123,5 +124,38 @@ public function update(Request $request, $id)
 
         // Si las credenciales no son correctas
         return redirect()->back()->with('error', 'Las credenciales no son correctas');
+    */
     }
+
+    public function auth(AuthAdminRequest $request){
+        if($request-> validated()){
+
+            $remember = $request->has('remember'); 
+
+            if(auth()->guard('admin')->attempt([
+                'Correo_electronico' => $request->Correo_electronico,
+                'password' => $request->Contraseña,  // Hash::make($request->Contraseña)
+            ],$remember)){
+                $request -> session()->regenerate();
+                return redirect()->route('paquete.index');
+            } else{
+                return redirect()->route('admin.login')->with(
+                    [
+                        'error' => 'No se pudo iniciar sesión. Por favor verifica tus credenciales.'
+                    ]);
+            }
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout(); // Cerrar sesión del administrador
+
+        $request->session()->invalidate(); // Invalidar la sesión
+
+        $request->session()->regenerateToken(); // Regenerar el token de sesión
+
+        return redirect()->route('admin.login'); // Redirigir a la página de login
+    }
+
 }
