@@ -16,7 +16,7 @@ Route::post('/cliente/{cliente}/contrato', [ContratoController::class, 'crearCon
 
 
 // Ruta para el formu8lario de login
-Route::get('/login',[AdminsController::class,'login'])->name('login');
+Route::get('/login',[AdminController::class,'login'])->name('login');
 
 Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
 Route::post('/login', [AdminController::class, 'login']);
@@ -76,7 +76,11 @@ Route::post('/precontrato/verificar-Codigo', [PreContratoController::class, 'ver
 Route::get('/seleccionar-paquete/{id_nombre_paquete}', [PreContratoController::class, 'seleccionarPaquete'])->name('seleccionarPaquete');
 Route::post('/enviar-correo', [MailController::class, 'enviarCorreo'])->name('enviar.correo');
 
+
+Route::get('/paquetePromocion', [UserController::class, 'promociones'])->name('mostrar.paquetes');
+
 Route::post('/cliente/{cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('insertar.contrato');
+
 
 Route::get('cliente/{id}/contrato', [editarClienteController::class, 'generarContratoPDF'])->name('cliente.contratopdf');
 Route::get('/contratos', [ContratoController::class, 'mostrarContratos'])->name('mostrar.contratos');

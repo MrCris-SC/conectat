@@ -493,3 +493,93 @@ section {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
+
+.carousel {
+  margin: 90px auto; /* Espacio alrededor del carrusel */
+  width: 600px; /* Aumenta el ancho del carrusel */
+  height: 400px; /* Altura fija para hacerlo cuadrado */
+  overflow: hidden; /* Oculta contenido que sobresalga */
+  border-radius: 15px; /* Esquinas redondeadas */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para efecto de profundidad */
+}
+
+.carousel-inner {
+  display: flex; /* Asegura que los elementos se alineen correctamente */
+  height: 100%; /* Asegura que ocupe toda la altura del carrusel */
+}
+
+.carousel-item {
+  flex: 0 0 100%; /* Cada imagen ocupa el 100% del carrusel */
+  height: 100%; /* Asegúrate de que la altura sea la misma que la del contenedor */
+  position: relative; /* Para el posicionamiento de la imagen y la descripción */
+  display: flex; /* Permite centrar el contenido dentro */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+}
+
+.card {
+  margin: 20px; /* Espacio entre las tarjetas */
+  width: 90%; /* Aumenta el ancho de las tarjetas */
+  max-width: 600px; /* Ancho máximo para que no crezca demasiado */
+  padding: 50px; /* Aumenta el padding interno */
+  text-align: center; /* Centra el texto dentro de la tarjeta */
+  font-size: 1.5em; /* Aumenta el tamaño del texto para que sea más visible */
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  color: white;
+  padding: 10px;
+  border-radius: 5px; /* Esquinas redondeadas para el texto */
+  z-index: 1; /* Asegura que el texto esté por encima de la imagen */
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo claro */
+  border: none;
+  border-radius: 50%; /* Botones circulares */
+  cursor: pointer;
+  padding: 10px; /* Espaciado interno */
+  z-index: 1; /* Asegura que los botones están por encima de las imágenes */
+  transition: background-color 0.3s ease; /* Transición al pasar el ratón */
+}
+
+.carousel-button:hover {
+  background-color: rgba(255, 255, 255, 1); /* Fondo blanco al hacer hover */
+}
+
+.prev {
+  left: 10px; /* Botón izquierdo */
+}
+
+.next {
+  right: 10px; /* Botón derecho */
+}
+
+/* Mantiene el tamaño del navbar sin modificar */
+#mainNav {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+
+#mainNav .navbar-brand .logo {
+  height: 80px; /* Tamaño original del logo */
+  transform: scale(1.8); 
+  transform-origin: center; /* Centra el escalado */
+}
+
+
+
+
+
+
+ 
+
+
