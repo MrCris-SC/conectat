@@ -54,7 +54,7 @@
                         <div class="includes">
                             <p>Includes:</p>
                             <div class="item">
-                                <img src="images/icon.png" alt="icon">
+                                <img src="images/wifi.png" alt="icon">
                                 <div class="item-title">{{ $paquete->caracteristicas_paquete }}</div>
                             </div>
                             <!-- Aquí puedes agregar más características si existen -->
