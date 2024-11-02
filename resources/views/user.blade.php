@@ -39,38 +39,37 @@
                 </div>
             </div>
         </nav>
-       
+        
+
         <section>
-            <div class="diseñopaquetes">        
-
-            <div class="section">
-                <div class="container containerpacks">
-                @foreach ($paquetes as $paquete)
-                    <div class="card">
-                        @if ($paquete->promocion)
-                            <div class="new-tag">{{$paquete -> nombre_paquete}}</div>
-                        @endif
-                        <div class="megabytes">{{ $paquete->velocidad_paquete }}<span></span></div>
-                        <div class="price">${{ $paquete->precio }}<span>/month</span></div>
-                        <div class="includes">
-                            <p>Includes:</p>
-                            <div class="item">
-                                <img src="images/icon.png" alt="icon">
-                                <div class="item-title">{{ $paquete->caracteristicas_paquete }}</div>
+            <div class="diseñopaquetes">
+                <div class="carousel-container">
+                    <div class="carousel">
+                        @foreach ($paquetes as $paquete)
+                            <div class="card">
+                                @if ($paquete->promocion)
+                                    <div class="new-tag">{{ $paquete->nombre_paquete }}</div>
+                                @endif
+                                <div class="megabytes">{{ $paquete->velocidad_paquete }}<span></span></div>
+                                <div class="price">${{ $paquete->precio }}<span>/month</span></div>
+                                <div class="includes">
+                                    <p>Includes:</p>
+                                    <div class="item">
+                                        <img src="images/icon.png" alt="icon" style="width: 20px; vertical-align: middle;">
+                                        <div class="item-title">{{ $paquete->caracteristicas_paquete }}</div>
+                                    </div>
+                                </div>
+                                <a class="button" href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}">Contratar</a>
                             </div>
-                            <!-- Aquí puedes agregar más características si existen -->
-                        </div>
-                        <a class="button" href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}">Contratar</a>
-
+                        @endforeach
                     </div>
-                @endforeach
-
+        
+                    <!-- Botones de navegación -->
+                    <button class="carousel-button left" onclick="prevSlide()">&#10094;</button>
+                    <button class="carousel-button right" onclick="nextSlide()">&#10095;</button>
                 </div>
             </div>
-            </div>
         </section>
-
-     
        
         {{-- ***********************************************************************************footer --}}
         <footer>
@@ -97,6 +96,48 @@
         <script src="{{ asset('js/user.js') }}"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            let currentIndex = 0;
+            const carousel = document.querySelector('.carousel');
+        
+            // Duplicar las tarjetas para lograr el efecto de loop infinito
+            carousel.innerHTML += carousel.innerHTML;
+        
+            function updateCarousel() {
+                const cardWidth = document.querySelector('.card').offsetWidth;
+                currentIndex++;
+                
+                // Reiniciar el carrusel si llega al final
+                if (currentIndex >= carousel.children.length / 2) {
+                    carousel.style.transition = 'none';
+                    currentIndex = 0;
+                    carousel.style.transform = `translateX(0px)`;
+                    setTimeout(() => {
+                        carousel.style.transition = 'transform 0.5s ease';
+                    }, 20);
+                }
+        
+                carousel.style.transform = `translateX(${-currentIndex * cardWidth}px)`;
+            }
+        
+            function prevSlide() {
+                currentIndex = (currentIndex <= 0) ? carousel.children.length / 2 : currentIndex - 1;
+                updateCarousel();
+            }
+        
+            function nextSlide() {
+                updateCarousel();
+            }
+        
+            // Configurar desplazamiento automático y continuo
+            setInterval(updateCarousel, 2000);
+        
+            // Ajustar el carrusel al redimensionar la ventana
+            window.addEventListener('resize', updateCarousel);
+        </script>
+    
+        
     </body>
 
 </html>
