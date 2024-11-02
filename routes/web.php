@@ -82,5 +82,7 @@ Route::get('/paquetePromocion', [UserController::class, 'promociones'])->name('m
 Route::post('/cliente/{cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('insertar.contrato');
 
 
+
 Route::get('cliente/{id}/contrato', [editarClienteController::class, 'generarContratoPDF'])->name('cliente.contratopdf');
+
 Route::get('/contratos', [ContratoController::class, 'mostrarContratos'])->name('mostrar.contratos');

@@ -304,13 +304,18 @@
                     <!-- Page Heading -->
                     <div>
                     <h1 class="h3 mb-2 text-gray-800">Paquetes existentes</h1>
-                    <a href="{{ url('/agregar-paquete') }}" class="btn btn-info btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                    <span class="text">Nuevo</span>
-                    </a></div>
+                    </div>
+                    <div class="div-new">
+                        <p>Agregar nuevo Paquete</p>
+                        <a href="{{ url('/agregar-paquete') }}" class="btn btn-info btn-icon-split btn-new" >
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                        <span class="text">Nuevo</span>
+                        </a>
+                    </div>
                     
+                    <br>
 
 
                     <!-- DataTales Example -->

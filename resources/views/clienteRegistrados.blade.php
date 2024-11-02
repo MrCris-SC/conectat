@@ -424,12 +424,12 @@
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ /* cualquier otro dato adicional si es necesario */ })
+                body: JSON.stringify({})
             })
             .then(response => {
                 if (response.ok) {
-                    // Redirigir a la URL de descarga del PDF después de la inserción
-                    window.location.href = `/cliente/${clienteId}/contrato`;
+                    // Abrir una nueva ventana para descargar el PDF después de la inserción exitosa
+                    window.open(`/cliente/${clienteId}/contrato`, '_blank');
                 } else {
                     console.error("Error al insertar el contrato:", response);
                 }
@@ -437,6 +437,7 @@
             .catch(error => console.error("Error en la solicitud:", error));
         }
     </script>
+
 
     <!-- Bootstrap core JavaScript--> 
     <!-- Vendor Scripts -->

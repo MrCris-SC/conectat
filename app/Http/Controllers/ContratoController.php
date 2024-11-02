@@ -6,38 +6,52 @@ use Illuminate\Http\Request;
 use App\Models\Contrato;
 use App\Models\Cliente;
 use Carbon\Carbon;
+use App\Models\NombrePaquete;
 
 class ContratoController extends Controller
-{
+{    
+
     public function crearContrato($id_cliente)
     {
-        // Obtener el cliente
+        // Obtén el cliente y verifica que tenga el fk_paquete
         $cliente = Cliente::findOrFail($id_cliente);
-    
-        // Obtener el fk_paquete del cliente
+        
+        if (!$cliente->fk_paquete) {
+            return redirect()->back()->withErrors('El cliente no tiene un paquete asignado.');
+        }
+        
+        // Obtén el fk_paquete desde el cliente
         $fk_paquete = $cliente->fk_paquete;
-    
+
         // Obtener el precio del paquete desde la tabla `nombres_paquetes`
-        $paquete = NombrePaquete::where('id', $fk_paquete)->firstOrFail();
+        $paquete = NombrePaquete::find($fk_paquete);
+
+        if (!$paquete) {
+            return redirect()->back()->withErrors('No se encontró el paquete.');
+        }
+
         $monto = $paquete->precio;
-    
-        // Definir otros valores del contrato
+
+        // Define otros valores necesarios para el contrato
         $fecha_inicio = Carbon::now();
-        $fecha_fin = $fecha_inicio->copy()->addYear(); // Fecha de finalización un año después
+        $fecha_fin = $fecha_inicio->copy()->addYear(); // Fecha de finalización (un año después)
         $estado = 'activo'; // Estado inicial del contrato
-    
-        // Crear y guardar el contrato en la base de datos
-        $contrato = new Contrato();
-        $contrato->fecha_inicio = $fecha_inicio;
-        $contrato->fecha_fin = $fecha_fin;
-        $contrato->estado = $estado;
-        $contrato->monto = $monto; // Monto obtenido de `nombres_paquetes`
-        $contrato->fk_paquete = $fk_paquete;
-        $contrato->fk_cliente = $cliente->id_cliente;
-        $contrato->save();
-    
-        return redirect()->back()->with('success', 'Contrato creado exitosamente.');
+
+        // Inserta el nuevo contrato
+        Contrato::create([
+            'id_contrato' => Contrato::generateUniqueContractId(),
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin' => $fecha_fin,
+            'estado' => $estado,
+            'monto' => $monto,
+            'fk_paquete' => $fk_paquete,
+            'fk_cliente' => $id_cliente,
+        ]);
+
+        return redirect()->back()->with('success', 'Contrato creado con éxito.');
     }
+
+
 
     public function mostrarContratos()
     {
