@@ -53,7 +53,7 @@
                     <div id="paqueteCarousel1" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             @foreach ($paquetes as $index => $paquete)
-                                <div class="carousel-item @if ($index == 0) active @endif">
+                                <div class="carousel-item @if ($index != 0) active @endif">
                                     <div class="card">
                                         @if ($paquete->promocion)
                                             <div class="new-tag">{{ $paquete->nombre_paquete }}</div>
