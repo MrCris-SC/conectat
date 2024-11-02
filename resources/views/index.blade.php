@@ -332,6 +332,9 @@
                                                 <p class="card-text">Velocidad: {{ $paquete->velocidad_paquete }}</p>
                                                 <p class="card-text">Características: {{ $paquete->caracteristicas_paquete }}</p>
                                                 <p class="card-text">Precio: ${{ $paquete->precio }}</p>
+                                                @if($paquete->promocion)
+                                                    <p><strong>Promoción:</strong> {{ $paquete->promocion->promocion }}%</p>
+                                                @endif
                                                     
                                                 <a href="{{ route('paquete.edit', $paquete->id_nombre_paquete) }}" 
                                                     class="btn btn-info btn-icon-split">
