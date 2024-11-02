@@ -14,7 +14,7 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\AcercaNosotrosController;
 use App\Http\Controllers\ContactoController;
 
-Route::post('/cliente/{cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('cliente.contrato');
+Route::post('/cliente/{id_cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('cliente.contrato');
 
 
 // Ruta para el formu8lario de login
@@ -82,8 +82,6 @@ Route::post('/enviar-correo', [MailController::class, 'enviarCorreo'])->name('en
 Route::get('/paquetePromocion', [UserController::class, 'promociones'])->name('mostrar.paquetes');
 
 Route::post('/cliente/{cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('insertar.contrato');
-
-
 
 Route::get('cliente/{id}/contrato', [editarClienteController::class, 'generarContratoPDF'])->name('cliente.contratopdf');
 
