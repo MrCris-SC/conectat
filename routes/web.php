@@ -11,6 +11,8 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminUpdateController;
 use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\AcercaNosotrosController;
+use App\Http\Controllers\ContactoController;
 
 Route::post('/cliente/{cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('cliente.contrato');
 
@@ -86,3 +88,7 @@ Route::post('/cliente/{cliente}/contrato', [ContratoController::class, 'crearCon
 Route::get('cliente/{id}/contrato', [editarClienteController::class, 'generarContratoPDF'])->name('cliente.contratopdf');
 
 Route::get('/contratos', [ContratoController::class, 'mostrarContratos'])->name('mostrar.contratos');
+
+Route::get('/acercaNosotros', [AcercaNosotrosController::class, 'acerca'])->name('acerca');
+Route::get('/contacto', [ContactoController::class, 'contacto'])->name('contacto');
+Route::post('/enviar-mensaje', [ContactoController::class, 'enviarMensaje'])->name('enviar-mensaje');
