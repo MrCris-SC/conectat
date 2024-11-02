@@ -33,8 +33,8 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}" >Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}">Planes de Internet</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url('/paquetePromocion') }}">Promociones</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#about">Acerda de</a></li>                       
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contactanos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/acercaNosotros')}}">Acerca de</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/contacto')}}">Contáctanos</a></li>
                     </ul>
                 </div>
             </div>
@@ -42,7 +42,6 @@
         
 
         <section>
-<<<<<<< HEAD
             <div class="diseñopaquetes">
                 <div class="carousel-container">
                     <div class="carousel">
@@ -61,24 +60,6 @@
                                     </div>
                                 </div>
                                 <a class="button" href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}">Contratar</a>
-=======
-            <div class="diseñopaquetes">        
-
-            <div class="section">
-                <div class="container containerpacks">
-                @foreach ($paquetes as $paquete)
-                    <div class="card">
-                        @if ($paquete->promocion)
-                            <div class="new-tag">{{$paquete -> nombre_paquete}}</div>
-                        @endif
-                        <div class="megabytes">{{ $paquete->velocidad_paquete }}<span></span></div>
-                        <div class="price">${{ $paquete->precio }}<span>/month</span></div>
-                        <div class="includes">
-                            <p>Includes:</p>
-                            <div class="item">
-                                <img src="images/wifi.png" alt="icon">
-                                <div class="item-title">{{ $paquete->caracteristicas_paquete }}</div>
->>>>>>> origin/beto
                             </div>
                         @endforeach
                     </div>
