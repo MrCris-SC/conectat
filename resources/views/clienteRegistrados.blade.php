@@ -360,7 +360,7 @@
                                                 <td>{{ $cliente->direccion ?? 'N/A' }}</td>
                                                 <td>{{ $cliente->referencia_domicilio }}</td>
                                                 <td>
-                                                <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">
+                                                        <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">
                                                             <span class="icon text-white-50">
                                                                 <i class="fas fa-edit"></i>
                                                             </span>

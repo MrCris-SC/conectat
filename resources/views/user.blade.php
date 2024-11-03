@@ -21,6 +21,46 @@
     </head>
     <body id="page-top">
         
+       
+        
+        <header>
+
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                <div class="carousel-item active" style="background-image: url('https://th.bing.com/th/id/OIP.ly8kVsydNS1RFCnQ_ogANAHaDt?rs=1&pid=ImgDetMain')">
+                    <div class="carousel-caption">
+                    <h5>First slide label</h5>
+                    <p>Some representative placeholder content for the first slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('https://source.unsplash.com/wfh8dDlNFOk/1920x1080')">
+                    <div class="carousel-caption">
+                    <h5>Second slide label</h5>
+                    <p>Some representative placeholder content for the second slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('https://source.unsplash.com/lHGeqh3XhRY/1920x1080')">
+                    <div class="carousel-caption">
+                    <h5>Third slide label</h5>
+                    <p>Some representative placeholder content for the third slide.</p>
+                    </div>
+                </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </header>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
 
@@ -39,8 +79,6 @@
                 </div>
             </div>
         </nav>
-        
-
         <section>
             <div class="diseñopaquetes">
                 <div class="carousel-container">
@@ -93,49 +131,8 @@
           
        
       
-        <script src="{{ asset('js/user.js') }}"></script>
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
-        <script>
-            let currentIndex = 0;
-            const carousel = document.querySelector('.carousel');
-        
-            // Duplicar las tarjetas para lograr el efecto de loop infinito
-            carousel.innerHTML += carousel.innerHTML;
-        
-            function updateCarousel() {
-                const cardWidth = document.querySelector('.card').offsetWidth;
-                currentIndex++;
-                
-                // Reiniciar el carrusel si llega al final
-                if (currentIndex >= carousel.children.length / 2) {
-                    carousel.style.transition = 'none';
-                    currentIndex = 0;
-                    carousel.style.transform = `translateX(0px)`;
-                    setTimeout(() => {
-                        carousel.style.transition = 'transform 0.5s ease';
-                    }, 20);
-                }
-        
-                carousel.style.transform = `translateX(${-currentIndex * cardWidth}px)`;
-            }
-        
-            function prevSlide() {
-                currentIndex = (currentIndex <= 0) ? carousel.children.length / 2 : currentIndex - 1;
-                updateCarousel();
-            }
-        
-            function nextSlide() {
-                updateCarousel();
-            }
-        
-            // Configurar desplazamiento automático y continuo
-            setInterval(updateCarousel, 2000);
-        
-            // Ajustar el carrusel al redimensionar la ventana
-            window.addEventListener('resize', updateCarousel);
-        </script>
+        <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     
         
     </body>
