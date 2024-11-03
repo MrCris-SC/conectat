@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cliente;
+use App\Models\NombrePaquete; 
 use PDF;
 
 class editarClienteController extends Controller
@@ -12,9 +13,10 @@ class editarClienteController extends Controller
     {
         // Buscar el cliente por su ID
         $cliente = Cliente::findOrFail($id_cliente);
+        $paquetes = NombrePaquete::all();
     
         // Retornar la vista con los datos del cliente
-        return view('editarCliente', compact('cliente'));
+        return view('editarCliente', compact('cliente','paquetes'));
     }
 
     // Método para actualizar el cliente
@@ -26,8 +28,8 @@ class editarClienteController extends Controller
         // Validar los datos recibidos
         $validatedData = $request->validate([
             'nombre_completo' => 'required|string|max:255',
-            'correo_electronico' => 'required|email',
-            'telefono' => 'required|string|max:20',
+            'correo' => 'required|email',
+            'telefono' => 'required|string|max:10',
             'cp' => 'required|string',
             'municipio' => 'required|string|max:255',
             'direccion' => 'nullable|string|max:255',
