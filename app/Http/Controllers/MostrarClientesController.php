@@ -32,6 +32,7 @@ class mostrarClientesController extends Controller
  // Actualizar el cliente en la base de datos
     public function actualizarCliente(Request $request, $id_cliente)
     {
+        //dd($request->all());
 
         $cliente = Cliente::findOrFail($id_cliente);
         // Validar los datos del formulario
@@ -51,6 +52,7 @@ class mostrarClientesController extends Controller
      // Actualizar el cliente
 
         $cliente->update($validatedData);
+  
 
         return redirect()->route('clienteRegistrado')->with('success', 'Cliente actualizado correctamente.');
     }

@@ -29,7 +29,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Selecciona el botón y los campos del formulario
             const btnEditar = document.getElementById('btnEditar');
-            const campos = document.querySelectorAll('#formEditarCliente input');
+            const campos = document.querySelectorAll('#formEditarCliente input, #formEditarCliente select');
             const btnGuardar = document.getElementById('btnGuardar');
 
             // Asegura que los campos estén bloqueados (disabled) al cargar la página
@@ -384,14 +384,23 @@
                     <label for="referencia_domicilio" class="form-label">Referencia de Domicilio</label>
                     <input type="text" class="form-control" name="referencia_domicilio" value="{{ $cliente->referencia_domicilio }}" required>
                 </div>
+                <!-- Modifique seleccion de ip de paquete y actualizacion de manera automatica los datos del pquete -->
                 <div class="mb-3">
                     <label for="fk_paquete" class="form-label">ID del Paquete</label>
-                    <input type="text" class="form-control" name="fk_paquete" value="{{ $cliente->fk_paquete }}" required>
+                    <select class="form-control"id="fk_paquete" name="fk_paquete" required>
+                        @foreach ($paquetes as $paquete)
+                            <option value="{{ $paquete->id_nombre_paquete }}" 
+                                {{ $cliente->fk_paquete == $paquete->id_nombre_paquete ? 'selected' : '' }}>
+                                {{ $paquete->id_nombre_paquete }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
+                
                 <div class="mb-3">
                     <label for="Datos_Paquete" class="form-label">Datos del paquete</label>
-                <input type="text" class="form-control" name="Datos_Paquete" value="Paquete: {{ $cliente->nombre_paquete->nombre_paquete }} de $:{{ $cliente->nombre_paquete->precio }} incluye:{{ $cliente->nombre_paquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombre_paquete->velocidad_paquete }}" required> 
-
+                    <input type="text" class="form-control" id="Datos_Paquete" name="Datos_Paquete" 
+                        value="Paquete: {{ $cliente->nombre_paquete->nombre_paquete }} de $:{{ $cliente->nombre_paquete->precio }} incluye:{{ $cliente->nombre_paquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombre_paquete->velocidad_paquete }}" required> 
                 </div>
 
                 <button type="submit" class="btn btn-primary" id="btnGuardar" style="display: none;">Guardar Cambios</button>
@@ -441,6 +450,24 @@
         </div>
     </div>
 
+    <!-- Agrega los datos de paquetes en un elemento de script para usarlo en JavaScript -->
+<script>
+    // Convertir los datos de los paquetes a un objeto JSON
+    const paquetes = @json($paquetes);
+
+    document.getElementById('fk_paquete').addEventListener('change', function() {
+        // Obtener el ID de paquete seleccionado
+        const selectedId = this.value;
+        
+        // Buscar el paquete seleccionado en el objeto `paquetes`
+        const paquete = paquetes.find(p => p.id_nombre_paquete == selectedId);
+        
+        // Actualizar el campo "Datos_Paquete" con los detalles del paquete seleccionado
+        if (paquete) {
+            document.getElementById('Datos_Paquete').value = `Paquete: ${paquete.nombre_paquete} de $:${paquete.precio} incluye:${paquete.caracteristicas_paquete} velocidad:${paquete.velocidad_paquete}`;
+        }
+    });
+</script>
     <!-- Bootstrap core JavaScript-->
     <!-- Vendor Scripts -->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
