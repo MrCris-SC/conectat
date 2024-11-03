@@ -27,7 +27,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/paquetePromocion') }}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}">Planes de Internet</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/paquetePromocion') }}">Promociones</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/acercaNosotros')}}">Acerca de</a></li>
@@ -53,7 +53,7 @@
                     <div id="paqueteCarousel1" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             @foreach ($paquetes as $index => $paquete)
-                                <div class="carousel-item @if ($index == 0) active @endif">
+                                <div class="carousel-item @if ($index != 0) active @endif">
                                     <div class="card">
                                         @if ($paquete->promocion)
                                             <div class="new-tag">{{ $paquete->nombre_paquete }}</div>
