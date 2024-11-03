@@ -343,72 +343,63 @@
                 <!-- End of Topbar -->
     <div class="container mt-5">
         <h2>Editar Cliente</h2>
-        <form id="formEditarCliente" action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
+        <form method="POST" id="formEditarCliente" action="{{ route('cliente.update', $cliente->id_cliente) }}" >
             @csrf
             @method('PUT')
 
-            <div class="mb-3">
-                <label for="nombre_completo" class="form-label">Nombre Completo</label>
-                <input type="text" class="form-control" name="nombre_completo" value="{{ $cliente->nombre_completo }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="nombre_completo" class="form-label">Nombre Completo</label>
+                    <input type="text" class="form-control" name="nombre_completo" value="{{ $cliente->nombre_completo }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="correo" class="form-label">Correo</label>
-                <input type="email" class="form-control" name="correo" value="{{ $cliente->correo_electronico }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" class="form-control" name="correo" value="{{ $cliente->correo_electronico }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="text" class="form-control" name="telefono" value="{{ $cliente->telefono }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" name="telefono" maxlength="10" value="{{ $cliente->telefono }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="cp" class="form-label">Código Postal</label>
-                <input type="text" class="form-control" name="cp" value="{{ $cliente->cp }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="cp" class="form-label">Código Postal</label>
+                    <input type="text" class="form-control" name="cp" value="{{ $cliente->cp }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="municipio" class="form-label">Municipio</label>
-                <input type="text" class="form-control" name="municipio" value="{{ $cliente->municipio }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="municipio" class="form-label">Municipio</label>
+                    <input type="text" class="form-control" name="municipio" value="{{ $cliente->municipio }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="direccion" class="form-label">Dirección</label>
-                <input type="text" class="form-control" name="direccion" value="{{ $cliente->direccion }}">
-            </div>
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" name="direccion" value="{{ $cliente->direccion }}">
+                </div>
 
-            <div class="mb-3">
-                <label for="referencia_domicilio" class="form-label">Referencia de Domicilio</label>
-                <input type="text" class="form-control" name="referencia_domicilio" value="{{ $cliente->referencia_domicilio }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="ID_Paquete" class="form-label">ID del Paquete</label>
-                <input type="text" class="form-control" name="ID_Paquete" value="{{ $cliente->fk_paquete }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="Datos_Paquete" class="form-label">Datos del paquete</label>
-           <input type="text" class="form-control" name="Datos_Paquete" value="Paquete: {{ $cliente->nombre_paquete->nombre_paquete }} de $:{{ $cliente->nombre_paquete->precio }} incluye:{{ $cliente->nombre_paquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombre_paquete->velocidad_paquete }}" required> 
+                <div class="mb-3">
+                    <label for="referencia_domicilio" class="form-label">Referencia de Domicilio</label>
+                    <input type="text" class="form-control" name="referencia_domicilio" value="{{ $cliente->referencia_domicilio }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="fk_paquete" class="form-label">ID del Paquete</label>
+                    <input type="text" class="form-control" name="fk_paquete" value="{{ $cliente->fk_paquete }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Datos_Paquete" class="form-label">Datos del paquete</label>
+                <input type="text" class="form-control" name="Datos_Paquete" value="Paquete: {{ $cliente->nombre_paquete->nombre_paquete }} de $:{{ $cliente->nombre_paquete->precio }} incluye:{{ $cliente->nombre_paquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombre_paquete->velocidad_paquete }}" required> 
 
-            </div>
-           
-           
-            <form action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
-                @csrf
-                @method('PUT')
+                </div>
 
                 <button type="submit" class="btn btn-primary" id="btnGuardar" style="display: none;">Guardar Cambios</button>
                 <br>
-                
-            </form>
-            <br>
 
-            <button type="button" class="btn btn-primary" id="btnEditar">Modificar campos</button>
+                <button type="button" class="btn btn-primary" id="btnEditar">Modificar campos</button>
        
                 <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
-            </form>
+            
             <p></p>
             <!--<a href="{{ route('cliente.contrato', $cliente->id_cliente) }}" class="btn btn-secondary" target="_blank">Generar PDF de Contrato</a>-->
-
 
         </form>
             <!-- Footer -->
