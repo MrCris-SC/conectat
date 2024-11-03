@@ -13,17 +13,19 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="{{ asset('css/packs.css') }}" rel="stylesheet">
-    <title>SB Admin 2 - Dashboard</title>
+    <title>SB Admin 2 - Administrador</title>
 
     <!-- Custom fonts for this template-->
         <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
 
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.1/js/mdb.min.js"></script>
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+
 
 </head>
 
@@ -283,6 +285,7 @@
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
+                    
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -309,8 +312,11 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Cerrar Sesion
                                 </a>
+                                <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             </div>
                         </li>
 
@@ -325,12 +331,19 @@
                     <!-- Page Heading -->
                     <div>
                     <h1 class="h3 mb-2 text-gray-800">Administradores Existentes</h1>
-                    <a href="{{ url('/adminRegister') }}" class="btn btn-info btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                    <span class="text">Nuevo</span>
-                    </a></div>
+                    </div>
+
+                    <div class="div-new">
+                        <p>Agregar nuevo administrador</p>
+                        <a href="{{ url('/adminRegister') }}" class="btn btn-info btn-icon-split btn-new" >
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                        <span class="text">Nuevo</span>
+                        </a>
+                    </div>
+                    
+                    <br>
                     
                     <section class="page-section" id="portfolio">
                         <div class="container">
@@ -350,7 +363,7 @@
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-edit"></i>
                                                     </span>
-                                                    <span class="text">Administrar</span>
+                                                    <span class="text">Editar</span>
                                                 </a>
                                                 <p></p>
                                                 <form action="{{ route('admin.destroy', $admin->id_admin) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paquete?');">
@@ -400,27 +413,28 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">¿Listo para irte?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesion</button>
                 </div>
+ 
             </div>
         </div>
+        
     </div>
-
     <!-- Bootstrap core JavaScript-->
     <!-- Vendor Scripts -->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
@@ -438,6 +452,8 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+
+  
     
 </body>
 
