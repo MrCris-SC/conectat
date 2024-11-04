@@ -71,12 +71,12 @@
             <i class="fas fa-fw fa-users"></i>
             <span>Gestión de Adminisreadores</span></a>
     </li>
-    <!-- Nav Item - Facturación -->
+        <!-- Nav Item - Facturación -->
     <li class="nav-item">
-        <a class="nav-link" href="facturacion.html">
+        <a class="nav-link" href="{{ route('mostrar.contratos') }}">
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
-            <span>Facturación</span></a>
-    </li>
+            <span>Contratos</span></a>
+    </li>>
 
     <!-- Nav Item - Reportes -->
     <li class="nav-item">
@@ -304,14 +304,13 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Cerrar Sesión
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cerrar Sesion
+                                </a>
+                                <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             </div>
                         </li>
 
@@ -371,27 +370,59 @@
                                                             <span class="text">Administrar</span>
                                                         </a>
                                                         <p></p>
-                                                        <a href="javascript:void(0);" onclick="crearContratoYDescargarPDF({{ $cliente->id_cliente }})" class="btn btn-info btn-icon-split btn-fixed-width">
+                                                        <a  href="javascript:void(0);" onclick="$('#contratoModal').modal('show');" class="btn btn-info btn-icon-split"  >
                                                             <span class="icon text-white-50">
-                                                            <i class="fas fa-edit"></i>
+                                                                <i class="fas fa-edit"></i>
                                                             </span>
                                                             <span class="text">Contratos</span>    
-                                                         </a>
+                                                        </a>
                                             <br>
                                             <p></p>
-                                                        <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paquete?');">
-                                                            @csrf
-                                                           @method('DELETE')
-                                                            
-                                                            <button type="submit" class="btn btn-danger btn-icon-split">
-                                                                <span class="icon text-white-50">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </span>
-                                                                <span class="text">Eliminar</span>
-                                                            </button>
-                                                        </form>
+                                            {{-- <p></p> --}}
+                                                    {{-- <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}"
+                                                        method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        
+                                                        <button type="submit" class="btn btn-danger btn-icon-split">
+                                                            <span class="icon text-white-50">
+                                                                <i class="fas fa-trash"></i>
+                                                            </span>
+                                                            <span class="text">Eliminar</span>
+                                                        </button>
+                                                    </form> --}}
+                                                    <form id="deleteForm-{{ $cliente->id_cliente }}" action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    
+                                                        <button type="button" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#deleteModal-{{ $cliente->id_cliente  }}">
+                                                            <span class="icon text-white-50">
+                                                                <i class="fas fa-trash"></i>
+                                                            </span>
+                                                            <span class="text">Eliminar</span>
+                                                        </button>
+                                                    </form>
+                                                    
+                                                    <div class="modal fade" id="deleteModal-{{ $cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-{{ $cliente->id_cliente }}" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="deleteModalLabel-{{ $cliente->id_cliente }}">Confirmar Eliminación</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    ¿Estás seguro de que deseas eliminar el cliente <strong>{{ $cliente->nombre_completo }}</strong>?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                                    <button type="button" class="btn btn-danger" onclick="document.getElementById('deleteForm-{{ $cliente->id_cliente}}').submit();">Eliminar</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </td>
-                                               
                                             </tr>
                                             @endforeach
 
@@ -419,7 +450,7 @@
     </div>
 
         <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -433,6 +464,25 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                     <button class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesion</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Contratos -->
+    <div class="modal fade" id="contratoModal" tabindex="-1" role="dialog" aria-labelledby="contratoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contratoModalLabel">¿Desea crear y descargar el contrato?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccione "Confirmar" para generar y descargar el contrato en PDF.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $cliente->id_cliente }})" data-dismiss="modal">Confirmar</button>
                 </div>
             </div>
         </div>
@@ -479,7 +529,6 @@
     <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-   
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -488,5 +537,6 @@
     <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>   
+
 </body>
 </html>
