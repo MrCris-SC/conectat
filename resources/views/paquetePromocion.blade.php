@@ -47,69 +47,76 @@
      </div>
 
 
-            <div class="container my-5">
+        <div class="container my-5">
             <div class="row">
-                <div class="col-md-6">
-                    <div id="paqueteCarousel1" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            @foreach ($paquetes as $index => $paquete)
-                                <div class="carousel-item @if ($index != 0) active @endif">
-                                    <div class="card">
-                                        @if ($paquete->promocion)
-                                            <div class="new-tag">{{ $paquete->nombre_paquete }}</div>
-                                        @endif
-                                        <div class="megabytes">{{ $paquete->velocidad_paquete }}<span></span></div>
-                                        <div class="price">${{ $paquete->precio }}<span>/mes</span></div>
-                                        <div class="includes">
-                                            <p>Incluye:</p>
-                                            <div class="item">
-                                                <img src="images/icon.png" alt="icon">
-                                                <div class="item-title">{{ $paquete->caracteristicas_paquete }}</div>
-                                            </div>
-                                        </div>
-                                        <a class="button" href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}">Contratar</a>
-                                        <span>
-                                            <p></p>
-                                        </span>
-                                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#infoModal{{ $index }}">
-                                            Más información
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="modal fade" id="infoModal{{ $index }}" tabindex="-1" aria-labelledby="infoModalLabel{{ $index }}" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="infoModalLabel{{ $index }}">{{ $paquete->nombre_paquete }}</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p><strong>Velocidad:</strong> {{ $paquete->velocidad_paquete }} Mbps</p>
-                                                <p><strong>Precio:</strong> ${{ $paquete->precio }}/mes</p>
-                                                <p><strong>Características:</strong> {{ $paquete->caracteristicas_paquete }}</p>
-                                                @if($paquete->promocion)
-                                                    <p><strong>Promoción:</strong> {{ $paquete->promocion->promocion }}%</p>
-                                                @endif
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                    <div class="col-md-12">
+                        <div id="paqueteCarousel1" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach ($paquetes->chunk(2) as $index => $paqueteChunk)
+                                    <div class="carousel-item @if ($index != 0) active @endif">
+                                        <div class="row">
+                                            @foreach ($paqueteChunk as $paquete)
+                                                <div class="col-md-6">
+                                                    <div class="card">
+                                                        @if ($paquete->promocion)
+                                                            <div class="new-tag">{{ $paquete->nombre_paquete }}</div>
+                                                        @endif
+                                                        <div class="megabytes">{{ $paquete->velocidad_paquete }}<span> Mbps</span></div>
+                                                        <div class="price">${{ $paquete->precio }}<span>/mes</span></div>
+                                                        <div class="includes">
+                                                            <p>Incluye:</p>
+                                                            <div class="item">
+                                                                <img src="images/icon.png" alt="icon">
+                                                                <div class="item-title">{{ $paquete->caracteristicas_paquete }}</div>
+                                                            </div>
+                                                        </div>
+                                                        <a class="button" href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}">Contratar</a>
+                                                        <p></p>
+                                                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#infoModal{{ $loop->parent->index }}{{ $loop->index }}">
+                                                            Más información
+                                                        </button>
+                                                    </div>
+                                                </div>
 
-                        <button class="carousel-control-prev" type="button" data-bs-target="#paqueteCarousel1" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#paqueteCarousel1" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+                                                <!-- Modal para más información -->
+                                                <div class="modal fade" id="infoModal{{ $loop->parent->index }}{{ $loop->index }}" tabindex="-1" aria-labelledby="infoModalLabel{{ $loop->parent->index }}{{ $loop->index }}" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="infoModalLabel{{ $loop->parent->index }}{{ $loop->index }}">{{ $paquete->nombre_paquete }}</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p><strong>Velocidad:</strong> {{ $paquete->velocidad_paquete }} Mbps</p>
+                                                                <p><strong>Precio:</strong> ${{ $paquete->precio }}/mes</p>
+                                                                <p><strong>Características:</strong> {{ $paquete->caracteristicas_paquete }}</p>
+                                                                @if($paquete->promocion)
+                                                                    <p><strong>Promoción:</strong> {{ $paquete->promocion->promocion }}%</p>
+                                                                @endif
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <!-- Controles del carrusel -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#paqueteCarousel1" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Anterior</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#paqueteCarousel1" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Siguiente</span>
+                            </button>
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
     </section>

@@ -99,9 +99,9 @@
     </li>
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
-        <a class="nav-link" href="facturacion.html">
+        <a class="nav-link" href="{{ route('mostrar.contratos') }}">
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
-            <span>Facturación</span></a>
+            <span>Contratos</span></a>
     </li>
 
     <!-- Nav Item - Reportes -->
@@ -386,12 +386,12 @@
                 </div>
                 <!-- Modifique seleccion de ip de paquete y actualizacion de manera automatica los datos del pquete -->
                 <div class="mb-3">
-                    <label for="fk_paquete" class="form-label">ID del Paquete</label>
+                    <label for="fk_paquete" class="form-label">ID del Paquete y Nombre</label>
                     <select class="form-control"id="fk_paquete" name="fk_paquete" required>
                         @foreach ($paquetes as $paquete)
                             <option value="{{ $paquete->id_nombre_paquete }}" 
                                 {{ $cliente->fk_paquete == $paquete->id_nombre_paquete ? 'selected' : '' }}>
-                                {{ $paquete->id_nombre_paquete }}
+                                {{ $paquete->id_nombre_paquete }}-{{ $paquete->nombre_paquete }}
                             </option>
                         @endforeach
                     </select>
