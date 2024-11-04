@@ -30,7 +30,7 @@ class PaqueteController extends Controller
     try {
         // Intentar crear el paquete
         NombrePaquete::create($validated);
-        return redirect('/agregar-paquete')->with('success', 'Paquete agregado exitosamente');
+        return redirect()->route('paquete.index')->with('success', 'Paquete agregado exitosamente');
     } catch (\Exception $e) {
         throw $e;
         // Manejar el error

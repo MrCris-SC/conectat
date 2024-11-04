@@ -70,11 +70,10 @@
                     <span>Gestión de Adminisreadores</span></a>
             </li>
 
-            <!-- Nav Item - Facturación -->
             <li class="nav-item">
-                <a class="nav-link" href="facturacion.html">
-                    <i class="fas fa-fw fa-file-invoice-dollar"></i>
-                    <span>Facturación</span></a>
+                <a class="nav-link" href="{{ route('mostrar.contratos') }}">
+                     <i class="fas fa-fw fa-file-invoice-dollar"></i>
+                     <span>Contratos</span></a>
             </li>
 
             <!-- Nav Item - Reportes -->

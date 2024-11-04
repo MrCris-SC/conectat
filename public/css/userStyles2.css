@@ -1,10 +1,11 @@
 .body{
   background-color: #333;
+  
 }
 
  
 .container-mt-5 {
-  max-width: 700px;  /* Ajusta el ancho máximo */
+  max-width: 900px;  /* Ajusta el ancho máximo */
   margin: 0 auto;    /* Centra la sección horizontalmente */
   margin-top: 7rem;
   
@@ -496,7 +497,9 @@ to { transform: translateY(0); opacity: 1; }
 /*---------------------------Diceño----------------------------------------------*/
 .carousel {
 margin: 10px auto; /* Espacio alrededor del carrusel */
-width: 580px; /* Aumenta el ancho del carrusel */
+width: 1050px; /* Ancho aumentado */
+max-width: 100%;
+/*width: 580px;  Aumenta el ancho del carrusel */
 height: 430px; /* Altura fija para hacerlo cuadrado */
 overflow: hidden; /* Oculta contenido que sobresalga */
 border-radius: 15px; /* Esquinas redondeadas */
