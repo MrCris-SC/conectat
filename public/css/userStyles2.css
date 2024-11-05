@@ -506,6 +506,7 @@ border-radius: 15px; /* Esquinas redondeadas */
 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para efecto de profundidad */
 }
 
+
 .carousel-inner {
 display: flex; /* Asegura que los elementos se alineen correctamente */
 height: 100%; /* Asegura que ocupe toda la altura del carrusel */
@@ -625,28 +626,231 @@ transform-origin: center; /* Centra el escalado */
   margin-top: 20px; /* Espacio superior para separar del contenido anterior */
 }
 
- /* Carrucel  */
- .carousel-control-prev-icon,
-        .carousel-control-next-icon {
-            background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro para mayor visibilidad */
-            border-radius: 50%; /* Opcional: para hacer las flechas redondeadas */
-        }
+ 
+    .page-section {
+      padding: 6rem 0;
+    }
+    .page-section h2.section-heading, .page-section .section-heading.h2 {
+      font-size: 2.5rem;
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+    .page-section h3.section-subheading, .page-section .section-subheading.h3 {
+      font-size: 1rem;
+      font-weight: 400;
+      font-style: italic;
+      font-family: "Roboto Slab", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      margin-bottom: 4rem;
+    }
+    
+    @media (min-width: 768px) {
+      section {
+        padding: 9rem 0;
+      }
+    }
 
-   
+/* Ajuste del section para que se adapte a todo el contenido */
+.paquete-slider-section {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  display: flexbox;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: auto; /* Asegura que el contenido ocupe todo el espacio */
+  min-height: 500px; /* Hace que ocupe al menos el alto de la ventana */
+  height: auto; /* Se adapta al contenido */
+}
+
+.pricing .card {
+  border: none;
+  border-radius: 1rem;
+  transition: all 0.2s;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.pricing hr {
+  margin: 1.5rem 0;
+}
+
+.pricing .card-title {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  letter-spacing: .1rem;
+  font-weight: bold;
+}
+
+.pricing .card-price {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.pricing .card-price .period {
+  font-size: 0.8rem;
+}
+
+.pricing ul li {
+  margin-bottom: 1rem;
+}
+
+.pricing .text-muted {
+  opacity: 0.7;
+}
+
+.pricing .btn {
+  font-size: 80%;
+  border-radius: 5rem;
+  letter-spacing: .1rem;
+  font-weight: bold;
+  padding: 1rem;
+  opacity: 0.7;
+  transition: all 0.2s;
+}
+
+/* Hover Effects on Card */
+
+@media (min-width: 992px) {
+  .pricing .card:hover {
+    margin-top: -.25rem;
+    margin-bottom: .25rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
+  }
+
+  .pricing .card:hover .btn {
+    opacity: 1;
+  }
+}
+
+/* Ajuste de los cards en el slider */
+.carousel-item {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se reorganicen en varias filas si es necesario */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.carousel-item .card-deck {
+  display: flex;
+  flex-wrap: wrap; /* Reorganización automática */
+  justify-content: center;
+}
+
+.pricing {
+  display: grid;
+  flex-direction: column;
+  align-items: center; /* Centra el contenido horizontalmente */
+  padding: 50px 0;
+}
 
 
+/* segundo carousel en user */
+
+.carousel2 {
+  margin: 10px auto; /* Espacio alrededor del carrusel */
+  width: 1050px; /* Ancho del carrusel */
+  max-width: 100%;
+  height: auto; /* Altura automática para acomodar el contenido */
+  overflow: hidden; /* Oculta contenido que sobresalga */
+  border-radius: 15px; /* Esquinas redondeadas */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para efecto de profundidad */
+}
+
+.carousel-inner {
+  display: flex; /* Asegura que los elementos se alineen correctamente */
+  height: 100%; /* Asegura que ocupe toda la altura del carrusel */
+}
+
+.carousel-item {
+  flex: 0 0 100%; /* Cada slide ocupa el 100% del carrusel */
+  height: auto; /* Permite que la altura se ajuste automáticamente */
+  position: relative; /* Para el posicionamiento de la imagen y la descripción */
+  display: flex; /* Permite centrar el contenido dentro */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: flex-start; /* Alinea el contenido al inicio */
+}
+
+.card {
+  margin: 20px; /* Espacio entre las tarjetas */
+  width: 18rem; /* Ancho de las tarjetas */
+  max-width: 100%; /* Ancho máximo para que no crezca demasiado */
+  padding: 20px; /* Aumenta el padding interno */
+  text-align: center; /* Centra el texto dentro de la tarjeta */
+  font-size: 1em; /* Tamaño de texto */
+}
+.carousel2 {
+  margin: 10px auto; /* Espacio alrededor del carrusel */
+  width: 1050px; /* Ancho del carrusel */
+  max-width: 100%;
+  height: auto; /* Altura automática para acomodar el contenido */
+  overflow: hidden; /* Oculta contenido que sobresalga */
+  border-radius: 15px; /* Esquinas redondeadas */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para efecto de profundidad */
+}
+
+.carousel-inner2 {
+  display: flex; /* Asegura que los elementos se alineen correctamente */
+  height: 100%; /* Asegura que ocupe toda la altura del carrusel */
+}
+
+.carousel-item2 {
+  flex: 0 0 100%; /* Cada slide ocupa el 100% del carrusel */
+  height: auto; /* Permite que la altura se ajuste automáticamente */
+  position: relative; /* Para el posicionamiento de la imagen y la descripción */
+  display: flex; /* Permite centrar el contenido dentro */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: flex-start; /* Alinea el contenido al inicio */
+}
+
+.card {
+  margin: 20px; /* Espacio entre las tarjetas */
+  width: 18rem; /* Ancho de las tarjetas */
+  max-width: 100%; /* Ancho máximo para que no crezca demasiado */
+  padding: 20px; /* Aumenta el padding interno */
+  text-align: center; /* Centra el texto dentro de la tarjeta */
+  font-size: 1em; /* Tamaño de texto */
+}
+
+.carousel2 {
+  margin: 10px auto; /* Espacio alrededor del carrusel */
+  width: 1050px; /* Ancho del carrusel */
+  max-width: 100%;
+  height: auto; /* Altura automática para acomodar el contenido */
+  overflow: hidden; /* Oculta contenido que sobresalga */
+  border-radius: 15px; /* Esquinas redondeadas */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para efecto de profundidad */
+  position: relative; /* Para permitir el posicionamiento de los controles */
+}
+
+.carousel-inner2 {
+  display: flex; /* Asegura que los elementos se alineen correctamente */
+  height: 100%; /* Asegura que ocupe toda la altura del carrusel */
+}
+
+.carousel-item2 {
+  flex: 0 0 100%; /* Cada slide ocupa el 100% del carrusel */
+  height: auto; /* Permite que la altura se ajuste automáticamente */
+  position: relative; /* Para el posicionamiento de la imagen y la descripción */
+  display: flex; /* Permite centrar el contenido dentro */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: flex-start; /* Alinea el contenido al inicio */
+}
+
+.card {
+  margin: 20px; /* Espacio entre las tarjetas */
+  width: 18rem; /* Ancho de las tarjetas */
+  max-width: 100%; /* Ancho máximo para que no crezca demasiado */
+  padding: 20px; /* Aumenta el padding interno */
+  text-align: center; /* Centra el texto dentro de la tarjeta */
+  font-size: 1em; /* Tamaño de texto */
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+.prev1 {
+  left: 10px; /* Botón izquierdo */
+  }
+  
+  .next1 {
+  right: 10px; /* Botón derecho */
+  }
