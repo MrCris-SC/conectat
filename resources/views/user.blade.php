@@ -128,10 +128,10 @@
 
         
         <section class="pricing py-5">
-    <div id="paqueteSlider" class="carousel2 slide" data-bs-ride="carousel2">
-        <div class="carousel-inner2">
+    <div id="paqueteSlider" class="carousel2 slide">
+        <div class="carousel-inner">
             @foreach($paquetes->chunk(3) as $index => $paqueteChunk)
-                <div class="carousel-item2 {{ $index == 0 ? 'active' : '' }}">
+                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                     <div class="d-flex justify-content-center">
                         @foreach($paqueteChunk as $paquete)
                             <div class="card mx-2">
@@ -161,12 +161,12 @@
 
        
         <!-- Controles manuales -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#paqueteSlider" data-bs-slide="prev2">
-            <span class="carousel-control-prev-icon2" aria-hidden="true"></span>
+        <button class="carousel-control-prev" type="button" data-bs-target="#paqueteSlider" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Anterior</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#paqueteSlider" data-bs-slide="next2">
-            <span class="carousel-control-next-icon2" aria-hidden="true"></span>
+        <button class="carousel-control-next" type="button" data-bs-target="#paqueteSlider" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Siguiente</span>
         </button>
     </div>
