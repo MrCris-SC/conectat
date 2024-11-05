@@ -30,7 +30,7 @@
 
             .about-section h1 {
                 font-size: 2.5em;
-                margin-bottom: 30px;
+                margin-bottom: 1px;
                 text-align: center;
                 color: #333;
             }
@@ -41,12 +41,13 @@
                 gap: 20px;
             }
 
-            .mission-vision, .history, .values, .team, .commitment {
+            .mission, .vision ,.history, .values, .team, .commitment {
                 background: #ffffff;
                 padding: 20px;
                 border-radius: 8px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
+            
 
             .about-section h2 {
                 font-size: 1.8em;
@@ -59,6 +60,8 @@
                 line-height: 1.6;
                 color: #666;
                 margin-bottom: 15px;
+                text-align: justify;
+                
             }
 
             .values ul {
@@ -112,12 +115,9 @@
                 <div class="about-section">
                     <h1 class="text-center">Acerca de Nosotros</h1>
                     <div class="content-grid">
-                        <section class="mission-vision">
+                        <section class="mission">
                             <h2>Misión</h2>
                             <p>Proveer servicios de internet de alta calidad, accesibles y confiables, para conectar a las personas y mejorar su experiencia en línea.</p>
-
-                            <h2>Visión</h2>
-                            <p>Convertirnos en la plataforma líder en el mercado de servicios de internet, brindando la mejor experiencia y conectividad.</p>
                         </section>
 
                         <section class="history">
@@ -132,6 +132,11 @@
                                 <li><strong>Atención al Cliente:</strong> Estamos comprometidos en atender a nuestros usuarios de manera rápida y eficaz.</li>
                                 <li><strong>Innovación:</strong> Buscamos mejorar continuamente nuestros servicios y tecnologías.</li>
                             </ul>
+                        </section>
+
+                        <section class="vision">
+                            <h2>Visión</h2>
+                            <p>Convertirnos en la plataforma líder en el mercado de servicios de internet, brindando la mejor experiencia y conectividad.</p>
                         </section>
 
                         <section class="team">

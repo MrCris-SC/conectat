@@ -64,7 +64,7 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="noExterior" class="form-label">Municipio</label>
-                    <input type="text" class="form-control" id="municipio" name="municipio" readonly>
+                    <input type="text" class="form-control" id="municipio" name="municipio" readonly placeholder="Municipio">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="noInterior" class="form-label">Direccion</label>
@@ -92,7 +92,8 @@
                 
                 <div class="col-md-6 mb-3">
                     <label for="alcaldia" class="form-label">Referencia de Domicilio</label>
-                    <input type="text" class="form-control" id="referencia_domicilio" name="referencia_domicilio" placeholder="Referencia de Domicilio" value="{{ old('referencia_domicilio') }}" required>
+                    <textarea type="text" class="form-control" id="referencia_domicilio" name="referencia_domicilio" placeholder="Referencia de Domicilio" value="{{ old('referencia_domicilio') }}" required></textarea>
+                    
                 </div>
                 
 
