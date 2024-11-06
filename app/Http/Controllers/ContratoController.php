@@ -15,7 +15,11 @@ class ContratoController extends Controller
     {
         // Obtén el cliente y verifica que tenga el fk_paquete
         $cliente = Cliente::findOrFail($id_cliente);
-        
+        if ($cliente->es_cliente == 1){
+            return redirect()->back()->withErrors('Este cliente ya tiene un contrato asignado');
+
+
+        }
         if (!$cliente->fk_paquete) {
             return redirect()->back()->withErrors('El cliente no tiene un paquete asignado.');
         }
@@ -47,6 +51,8 @@ class ContratoController extends Controller
             'fk_paquete' => $fk_paquete,
             'fk_cliente' => $id_cliente,
         ]);
+        $cliente->es_cliente = 1;
+        $cliente->save();
 
         return redirect()->back()->with('success', 'Contrato creado con éxito.');
     }
