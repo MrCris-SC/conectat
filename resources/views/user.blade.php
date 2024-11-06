@@ -128,7 +128,7 @@
 
         
         <section class="pricing py-5">
-    <div id="paqueteSlider" class="carousel2 slide">
+    <div id="paqueteSlider" class="carousel slide">
         <div class="carousel-inner">
             @foreach($paquetes->chunk(3) as $index => $paqueteChunk)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
