@@ -745,97 +745,6 @@ transform-origin: center; /* Centra el escalado */
 }
 
 
-/* segundo carousel en user */
-
-.carousel2 {
-  margin: 10px auto; /* Espacio alrededor del carrusel */
-  width: 1050px; /* Ancho del carrusel */
-  max-width: 100%;
-  height: auto; /* Altura automática para acomodar el contenido */
-  overflow: hidden; /* Oculta contenido que sobresalga */
-  border-radius: 15px; /* Esquinas redondeadas */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para efecto de profundidad */
-}
-
-.carousel-inner {
-  display: flex; /* Asegura que los elementos se alineen correctamente */
-  height: 100%; /* Asegura que ocupe toda la altura del carrusel */
-}
-
-.carousel-item {
-  flex: 0 0 100%; /* Cada slide ocupa el 100% del carrusel */
-  height: auto; /* Permite que la altura se ajuste automáticamente */
-  position: relative; /* Para el posicionamiento de la imagen y la descripción */
-  display: flex; /* Permite centrar el contenido dentro */
-  justify-content: center; /* Centra el contenido horizontalmente */
-  align-items: flex-start; /* Alinea el contenido al inicio */
-}
-
-.card {
-  margin: 20px; /* Espacio entre las tarjetas */
-  width: 18rem; /* Ancho de las tarjetas */
-  max-width: 100%; /* Ancho máximo para que no crezca demasiado */
-  padding: 20px; /* Aumenta el padding interno */
-  text-align: center; /* Centra el texto dentro de la tarjeta */
-  font-size: 1em; /* Tamaño de texto */
-}
-.carousel2 {
-  margin: 10px auto; /* Espacio alrededor del carrusel */
-  width: 1050px; /* Ancho del carrusel */
-  max-width: 100%;
-  height: auto; /* Altura automática para acomodar el contenido */
-  overflow: hidden; /* Oculta contenido que sobresalga */
-  border-radius: 15px; /* Esquinas redondeadas */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para efecto de profundidad */
-}
-
-.carousel-inner2 {
-  display: flex; /* Asegura que los elementos se alineen correctamente */
-  height: 100%; /* Asegura que ocupe toda la altura del carrusel */
-}
-
-.carousel-item2 {
-  flex: 0 0 100%; /* Cada slide ocupa el 100% del carrusel */
-  height: auto; /* Permite que la altura se ajuste automáticamente */
-  position: relative; /* Para el posicionamiento de la imagen y la descripción */
-  display: flex; /* Permite centrar el contenido dentro */
-  justify-content: center; /* Centra el contenido horizontalmente */
-  align-items: flex-start; /* Alinea el contenido al inicio */
-}
-
-.card {
-  margin: 20px; /* Espacio entre las tarjetas */
-  width: 18rem; /* Ancho de las tarjetas */
-  max-width: 100%; /* Ancho máximo para que no crezca demasiado */
-  padding: 20px; /* Aumenta el padding interno */
-  text-align: center; /* Centra el texto dentro de la tarjeta */
-  font-size: 1em; /* Tamaño de texto */
-}
-
-.carousel2 {
-  margin: 10px auto; /* Espacio alrededor del carrusel */
-  width: 1050px; /* Ancho del carrusel */
-  max-width: 100%;
-  height: auto; /* Altura automática para acomodar el contenido */
-  overflow: hidden; /* Oculta contenido que sobresalga */
-  border-radius: 15px; /* Esquinas redondeadas */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para efecto de profundidad */
-  position: relative; /* Para permitir el posicionamiento de los controles */
-}
-
-.carousel-inner2 {
-  display: flex; /* Asegura que los elementos se alineen correctamente */
-  height: 100%; /* Asegura que ocupe toda la altura del carrusel */
-}
-
-.carousel-item2 {
-  flex: 0 0 100%; /* Cada slide ocupa el 100% del carrusel */
-  height: auto; /* Permite que la altura se ajuste automáticamente */
-  position: relative; /* Para el posicionamiento de la imagen y la descripción */
-  display: flex; /* Permite centrar el contenido dentro */
-  justify-content: center; /* Centra el contenido horizontalmente */
-  align-items: flex-start; /* Alinea el contenido al inicio */
-}
 
 .card {
   margin: 20px; /* Espacio entre las tarjetas */
@@ -853,4 +762,10 @@ transform-origin: center; /* Centra el escalado */
   
   .next1 {
   right: 10px; /* Botón derecho */
+  }
+
+  #paqueteSlider {
+    max-width: 80%; /* Ajusta el ancho en función del viewport */
+    height: 700px; /* Define un alto específico */
+    margin: auto; /* Centra el carrusel */
   }
