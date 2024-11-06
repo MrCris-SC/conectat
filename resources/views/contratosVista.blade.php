@@ -13,7 +13,7 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="{{ asset('css/packs.css') }}" rel="stylesheet">
-    <title>Lista de Clientes</title>
+    <title>Contratos</title>
 
     <!-- Custom fonts for this template-->
         <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -71,12 +71,12 @@
             <i class="fas fa-fw fa-users"></i>
             <span>Gestión de Adminisreadores</span></a>
     </li>
-        <!-- Nav Item - Facturación -->
-    <li class="nav-item">
+     <!-- Nav Item - Facturación -->
+     <li class="nav-item">
         <a class="nav-link" href="{{ route('mostrar.contratos') }}">
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
             <span>Contratos</span></a>
-    </li>>
+    </li>
 
     <!-- Nav Item - Reportes -->
     <li class="nav-item">
@@ -324,7 +324,7 @@
 
                 <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Clientes Registrados</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Contratos</h6>
                         </div>
                          <!-- Apartado que se necesita hacerse responsivo -->
                         <div class="card-body">
@@ -334,95 +334,34 @@
                                             <tr>
                                             <!-- <th>ID</th> -->
                                                 
-                                                <th>Nombre Completo</th>
-                                                <th>Correo</th>
-                                                <th>Teléfono</th>
-                                                <th>Código Postal</th>
-                                                <th>Municipio</th>
-                                                <th>Dirección</th>
-                                                <th>Referencia de Domicilio</th>
-                                                <th>Acciones</th>
+                                                <th>Folio</th>
+                                                <th>Inicio</th>
+                                                <th>Final</th>
+                                                <th>Estado</th>
+                                                <th>Monto</th>
+                                                <th>Paquete</th>
+                                                <th>Cliente</th>
+                                               
                                                
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if($clientes->isEmpty())
+                                            @if($contratos->isEmpty())
                                                 <tr>
                                                     <td colspan="8" class="text-center">No hay clientes registrados.</td>
                                                 </tr>
                                             @else
-                                            @foreach($clientes as $cliente)
+                                            @foreach($contratos as $contrato)
                                             <tr>
-                                                <!--<th>{{ $cliente->id_cliente }}</th>-->
+                                               
                                                 
-                                                <td>{{ $cliente->nombre_completo }}</td>
-                                                <td>{{ $cliente->correo_electronico }}</td>
-                                                <td>{{ $cliente->telefono }}</td>
-                                                <td>{{ $cliente->cp }}</td>
-                                                <td>{{ $cliente->municipio }}</td>
-                                                <td>{{ $cliente->direccion ?? 'N/A' }}</td>
-                                                <td>{{ $cliente->referencia_domicilio }}</td>
-                                                <td>
-                                                        <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-edit"></i>
-                                                            </span>
-                                                            <span class="text">Administrar</span>
-                                                        </a>
-                                                        <p></p>
-                                                        <a  href="javascript:void(0);" onclick="$('#contratoModal').modal('show');" class="btn btn-info btn-icon-split"  >
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-edit"></i>
-                                                            </span>
-                                                            <span class="text">Contratos</span>    
-                                                        </a>
-                                            <br>
-                                            <p></p>
-                                            {{-- <p></p> --}}
-                                                    {{-- <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}"
-                                                        method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        
-                                                        <button type="submit" class="btn btn-danger btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-trash"></i>
-                                                            </span>
-                                                            <span class="text">Eliminar</span>
-                                                        </button>
-                                                    </form> --}}
-                                                    <form id="deleteForm-{{ $cliente->id_cliente }}" action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    
-                                                        <button type="button" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#deleteModal-{{ $cliente->id_cliente  }}">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-trash"></i>
-                                                            </span>
-                                                            <span class="text">Eliminar</span>
-                                                        </button>
-                                                    </form>
-                                                    
-                                                    <div class="modal fade" id="deleteModal-{{ $cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-{{ $cliente->id_cliente }}" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="deleteModalLabel-{{ $cliente->id_cliente }}">Confirmar Eliminación</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    ¿Estás seguro de que deseas eliminar el cliente <strong>{{ $cliente->nombre_completo }}</strong>?
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                                    <button type="button" class="btn btn-danger" onclick="document.getElementById('deleteForm-{{ $cliente->id_cliente}}').submit();">Eliminar</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                                <td>{{ $contrato->id_contrato }}</td>
+                                                <td>{{ $contrato->fecha_inicio }}</td>
+                                                <td>{{ $contrato->fecha_fin }}</td>
+                                                <td>{{ $contrato->estado }}</td>
+                                                <td>{{ $contrato->monto }}</td>
+                                                <td>{{ $contrato->fk_paquete }}</td>
+                                                <td>{{ $contrato->fk_cliente }}</td>
                                             </tr>
                                             @endforeach
 
@@ -449,7 +388,7 @@
             <!-- End of Footer -->
     </div>
 
-        <!-- Logout Modal-->
+            <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -468,26 +407,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal para Contratos -->
-    <div class="modal fade" id="contratoModal" tabindex="-1" role="dialog" aria-labelledby="contratoModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="contratoModalLabel">¿Desea crear y descargar el contrato?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Seleccione "Confirmar" para generar y descargar el contrato en PDF.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $cliente->id_cliente }})" data-dismiss="modal">Confirmar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
         function crearContratoYDescargarPDF(clienteId) {
             // Enviar la solicitud para insertar el contrato en la base de datos
@@ -498,12 +417,12 @@
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({})
+                body: JSON.stringify({ /* cualquier otro dato adicional si es necesario */ })
             })
             .then(response => {
                 if (response.ok) {
-                    // Abrir una nueva ventana para descargar el PDF después de la inserción exitosa
-                    window.open(`/cliente/${clienteId}/contrato`, '_blank');
+                    // Redirigir a la URL de descarga del PDF después de la inserción
+                    window.location.href = `/cliente/${clienteId}/contrato`;
                 } else {
                     console.error("Error al insertar el contrato:", response);
                 }
@@ -512,8 +431,7 @@
         }
     </script>
 
-
-    <!-- Bootstrap core JavaScript--> 
+    <!-- Bootstrap core JavaScript-->
     <!-- Vendor Scripts -->
 
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
@@ -529,6 +447,7 @@
     <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+   
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -537,6 +456,5 @@
     <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>   
-
 </body>
 </html>

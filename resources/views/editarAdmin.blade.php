@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Agregar Paquete de Internet</title>
+    <title>Editar Administrador</title>
     <link href="{{ asset('css/agregar-paq.css') }}" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -66,9 +66,9 @@
     </li>
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
-        <a class="nav-link" href="facturacion.html">
+        <a class="nav-link" href="{{ route('mostrar.contratos') }}">
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
-            <span>Facturación</span></a>
+            <span>Contratos</span></a>
     </li>
 
     <!-- Nav Item - Reportes -->
@@ -299,8 +299,11 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Cerrar Sesion
                                 </a>
+                                <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             </div>
                         </li>
 
@@ -313,7 +316,8 @@
                 <div class="container-fluid">
                     <div class="container">
                         <h1 class="text-center my-4">Actualizar Administrador</h1>
-                        <div class="row">
+                        <div class="row" style="align-items: center; display: flex;
+                            justify-content: center; margin: 0 auto;">
                             <!-- Columna del formulario -->
                             <div class="col-md-6 mb-4">
                                 <div class="card">
@@ -384,16 +388,17 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">¿Listo para irte?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesion</a>
                 </div>
+ 
             </div>
         </div>
         

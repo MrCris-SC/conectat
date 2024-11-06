@@ -1768,6 +1768,8 @@ pre code {
 
 @media (max-width: 575.98px) {
   .table-responsive-sm {
+    position: fixed;
+    width: 100%; /* La tabla ocupará el ancho total de su contenedor */
     display: block;
     width: 100%;
     overflow-x: auto;
@@ -2306,8 +2308,13 @@ textarea.form-control {
     margin-bottom: 0;
   }
 }
+/* Clase específica para ancho fijo */
+.btn-fixed-width {
+  width: 100px; /* Cambia este valor al ancho que prefieras */
+  max-width: 100%; /* Asegura que no exceda el contenedor */
+}
 
-.btn {
+.btn {  
   display: inline-block;
   font-weight: 400;
   color: #858796;
@@ -2470,6 +2477,7 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #36b9cc;
   border-color: #36b9cc;
+
 }
 
 .btn-info:hover {
@@ -10761,6 +10769,7 @@ a:focus {
   display: inline-flex;
   align-items: stretch;
   justify-content: center;
+  width: 150px; /* Define el ancho deseado */
 }
 
 .btn-icon-split .icon {

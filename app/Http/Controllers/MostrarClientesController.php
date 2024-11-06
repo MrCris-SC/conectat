@@ -32,6 +32,7 @@ class mostrarClientesController extends Controller
  // Actualizar el cliente en la base de datos
     public function actualizarCliente(Request $request, $id_cliente)
     {
+        //dd($request->all());
 
         $cliente = Cliente::findOrFail($id_cliente);
         // Validar los datos del formulario
@@ -40,8 +41,8 @@ class mostrarClientesController extends Controller
             'cp' => 'required|string',
             'municipio' => 'required|string|max:255',
             'direccion' => 'nullable|string|max:255',
-            'correo_electronico' => 'required|email',
-            'telefono' => 'required|string|max:20',
+            'correo' => 'required|email',
+            'telefono' => 'required|string|max:10',
             'referencia_domicilio' => 'required|string|max:255',
             'fk_paquete' => 'required|exists:nombres_paquetes,id_nombre_paquete', // Validar la clave foránea
             
@@ -51,6 +52,7 @@ class mostrarClientesController extends Controller
      // Actualizar el cliente
 
         $cliente->update($validatedData);
+  
 
         return redirect()->route('clienteRegistrado')->with('success', 'Cliente actualizado correctamente.');
     }

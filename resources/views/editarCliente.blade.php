@@ -29,7 +29,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Selecciona el botón y los campos del formulario
             const btnEditar = document.getElementById('btnEditar');
-            const campos = document.querySelectorAll('#formEditarCliente input');
+            const campos = document.querySelectorAll('#formEditarCliente input, #formEditarCliente select');
             const btnGuardar = document.getElementById('btnGuardar');
 
             // Asegura que los campos estén bloqueados (disabled) al cargar la página
@@ -99,9 +99,9 @@
     </li>
     <!-- Nav Item - Facturación -->
     <li class="nav-item">
-        <a class="nav-link" href="facturacion.html">
+        <a class="nav-link" href="{{ route('mostrar.contratos') }}">
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
-            <span>Facturación</span></a>
+            <span>Contratos</span></a>
     </li>
 
     <!-- Nav Item - Reportes -->
@@ -332,8 +332,11 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Cerrar Sesion
                                 </a>
+                                <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             </div>
                         </li>
 
@@ -343,75 +346,71 @@
                 <!-- End of Topbar -->
     <div class="container mt-5">
         <h2>Editar Cliente</h2>
-        <form id="formEditarCliente" action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
+        <form method="POST" id="formEditarCliente" action="{{ route('cliente.update', $cliente->id_cliente) }}" >
             @csrf
             @method('PUT')
 
-            <div class="mb-3">
-                <label for="nombre_completo" class="form-label">Nombre Completo</label>
-                <input type="text" class="form-control" name="nombre_completo" value="{{ $cliente->nombre_completo }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="nombre_completo" class="form-label">Nombre Completo</label>
+                    <input type="text" class="form-control" name="nombre_completo" value="{{ $cliente->nombre_completo }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="correo" class="form-label">Correo</label>
-                <input type="email" class="form-control" name="correo" value="{{ $cliente->correo_electronico }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" class="form-control" name="correo" value="{{ $cliente->correo_electronico }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="text" class="form-control" name="telefono" value="{{ $cliente->telefono }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" name="telefono" maxlength="10" value="{{ $cliente->telefono }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="cp" class="form-label">Código Postal</label>
-                <input type="text" class="form-control" name="cp" value="{{ $cliente->cp }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="cp" class="form-label">Código Postal</label>
+                    <input type="text" class="form-control" name="cp" value="{{ $cliente->cp }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="municipio" class="form-label">Municipio</label>
-                <input type="text" class="form-control" name="municipio" value="{{ $cliente->municipio }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="municipio" class="form-label">Municipio</label>
+                    <input type="text" class="form-control" name="municipio" value="{{ $cliente->municipio }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="direccion" class="form-label">Dirección</label>
-                <input type="text" class="form-control" name="direccion" value="{{ $cliente->direccion }}">
-            </div>
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" name="direccion" value="{{ $cliente->direccion }}">
+                </div>
 
-            <div class="mb-3">
-                <label for="referencia_domicilio" class="form-label">Referencia de Domicilio</label>
-                <input type="text" class="form-control" name="referencia_domicilio" value="{{ $cliente->referencia_domicilio }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="ID_Paquete" class="form-label">ID del Paquete</label>
-                <input type="text" class="form-control" name="ID_Paquete" value="{{ $cliente->fk_paquete }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="Datos_Paquete" class="form-label">Datos del paquete</label>
-           <input type="text" class="form-control" name="Datos_Paquete" value="Paquete: {{ $cliente->nombre_paquete->nombre_paquete }} de $:{{ $cliente->nombre_paquete->precio }} incluye:{{ $cliente->nombre_paquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombre_paquete->velocidad_paquete }}" required> 
-
-            </div>
-            <button type="button" id="editButton" class="btn btn-primary">Modificar Campos</button>
-            <p></p>
-           
-            <form action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
-                @csrf
-                @method('PUT')
+                <div class="mb-3">
+                    <label for="referencia_domicilio" class="form-label">Referencia de Domicilio</label>
+                    <input type="text" class="form-control" name="referencia_domicilio" value="{{ $cliente->referencia_domicilio }}" required>
+                </div>
+                <!-- Modifique seleccion de ip de paquete y actualizacion de manera automatica los datos del pquete -->
+                <div class="mb-3">
+                    <label for="fk_paquete" class="form-label">ID del Paquete y Nombre</label>
+                    <select class="form-control"id="fk_paquete" name="fk_paquete" required>
+                        @foreach ($paquetes as $paquete)
+                            <option value="{{ $paquete->id_nombre_paquete }}" 
+                                {{ $cliente->fk_paquete == $paquete->id_nombre_paquete ? 'selected' : '' }}>
+                                {{ $paquete->id_nombre_paquete }}-{{ $paquete->nombre_paquete }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="Datos_Paquete" class="form-label">Datos del paquete</label>
+                    <input type="text" class="form-control" id="Datos_Paquete" name="Datos_Paquete" 
+                        value="Paquete: {{ $cliente->nombre_paquete->nombre_paquete }} de $:{{ $cliente->nombre_paquete->precio }} incluye:{{ $cliente->nombre_paquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombre_paquete->velocidad_paquete }}" required> 
+                </div>
 
                 <button type="submit" class="btn btn-primary" id="btnGuardar" style="display: none;">Guardar Cambios</button>
                 <br>
-                
-            </form>
-            <br>
 
-            <button type="button" class="btn btn-primary" id="btnEditar">Modificar campos</button>
-            <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
-
-                <button type="submit"  id="saveButton" class="btn btn-primary">Guardar Cambios</button>
+                <button type="button" class="btn btn-primary" id="btnEditar">Modificar campos</button>
+       
                 <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
-            </form>
+            
             <p></p>
-            <!--<a href="{{ route('cliente.contrato', $cliente->id_cliente) }}" class="btn btn-secondary" target="_blank">Generar PDF de Contrato</a>-->
-
 
         </form>
             <!-- Footer -->
@@ -430,27 +429,44 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      <!-- Logout Modal-->
+      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">¿Listo para irte?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesion</button>
                 </div>
             </div>
         </div>
-        
     </div>
 
+    <!-- Agrega los datos de paquetes en un elemento de script para usarlo en JavaScript -->
+<script>
+    // Convertir los datos de los paquetes a un objeto JSON
+    const paquetes = @json($paquetes);
+
+    document.getElementById('fk_paquete').addEventListener('change', function() {
+        // Obtener el ID de paquete seleccionado
+        const selectedId = this.value;
+        
+        // Buscar el paquete seleccionado en el objeto `paquetes`
+        const paquete = paquetes.find(p => p.id_nombre_paquete == selectedId);
+        
+        // Actualizar el campo "Datos_Paquete" con los detalles del paquete seleccionado
+        if (paquete) {
+            document.getElementById('Datos_Paquete').value = `Paquete: ${paquete.nombre_paquete} de $:${paquete.precio} incluye:${paquete.caracteristicas_paquete} velocidad:${paquete.velocidad_paquete}`;
+        }
+    });
+</script>
     <!-- Bootstrap core JavaScript-->
     <!-- Vendor Scripts -->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
