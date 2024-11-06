@@ -76,7 +76,7 @@
         <a class="nav-link" href="{{ route('mostrar.contratos') }}">
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
             <span>Contratos</span></a>
-    </li>>
+    </li>
 
     <!-- Nav Item - Reportes -->
     <li class="nav-item">
