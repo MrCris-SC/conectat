@@ -88,44 +88,19 @@ class AdminController extends Controller
         }
 
         $admin->save(); // Guardar los cambios
-        // Actualizar el cliente con los datos validados
-        //$admin->update($validatedData);
 
         // Redirigir con un mensaje de éxito
         return redirect()->route('admin.list')->with('success', 'Administrador actualizado correctamente.');
     }
 
 
-public function login(Request $request)
-    {
-        if(!auth()-> guard('admin')->check()){
-            return view('login');
-         }
-        return redirect()-> route('/');
-
-        /*$request->validate([
-            'Correo_electronico' => 'required|email',
-            'Contraseña' => 'required',
-        ]);
-
-        $credentials = $request->only('Correo_electronico', 'Contraseña');
-
-        // Buscar al administrador por correo electrónico
-        $admin = Administrador::where('Correo_electronico', $credentials['Correo_electronico'])->first();
-
-        // Verificar si el administrador existe y si la contraseña es correcta
-        if ($admin && Hash::check($credentials['Contraseña'], $admin->Contraseña)) {
-            // Autenticar al administrador manualmente
-            Auth::guard('admin')->login($admin);
-
-            // Redirigir al dashboard o página deseada
-            return redirect()->intended('/');
+    public function login(Request $request)
+        {
+            if(!auth()-> guard('admin')->check()){
+                return view('login');
+            }
+            return redirect()-> route('/');
         }
-
-        // Si las credenciales no son correctas
-        return redirect()->back()->with('error', 'Las credenciales no son correctas');
-    */
-    }
 
     public function auth(AuthAdminRequest $request){
         if($request-> validated()){
@@ -137,7 +112,13 @@ public function login(Request $request)
                 'password' => $request->Contraseña,  // Hash::make($request->Contraseña)
             ],$remember)){
                 $request -> session()->regenerate();
+                
+                // Obtén el nombre del usuario autenticado y guárdalo en la sesión
+                $nombreAdmin = auth()->guard('admin')->user()->Nombre;
+                session(['nombreAdmin' => $nombreAdmin]);
+
                 return redirect()->route('paquete.index');
+
             } else{
                 return redirect()->route('admin.login')->with(
                     [

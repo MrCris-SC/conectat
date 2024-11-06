@@ -8,6 +8,7 @@ use App\Models\Cliente;
 use App\Mail\VerificacionCodigo;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB; // Agrega esta línea
+use App\Models\Message;
 
 
 class mostrarClientesController extends Controller
@@ -16,11 +17,12 @@ class mostrarClientesController extends Controller
     {
         // Obtener todos los clientes de la base de datos
         $clientes = Cliente::with('nombre_paquete')->get();
+        $mensajes = Message::latest()->take(5)->get(); // Obtiene los 5 mensajes más recientes
         
        
        // dd($clientes); // Verifica que los IDs están presentes
         // Pasar los clientes a la vista
-        return view('clienteRegistrados', compact('clientes'));
+        return view('clienteRegistrados', compact('clientes','mensajes'));
     }
  // Mostrar el formulario de edición
     public function editarCliente($id_cliente)
