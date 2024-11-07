@@ -481,7 +481,7 @@
                 <div class="modal-body">Seleccione "Confirmar" para generar y descargar el contrato en PDF.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $cliente->id_cliente }})">Confirmar</button>
+                    <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $cliente->id_cliente }})" data-dismiss="modal">Confirmar</button>
                 </div>
             </div>
         </div>
@@ -502,7 +502,7 @@
     })
     .then(response => {
         if (response.ok) {
-            // Abrir una nueva ventana para descargar el PDF después de la inserción exitosa
+            // Descarga el PDF después de crear el contrato
             window.open(`/cliente/${clienteId}/contrato`, '_blank');
             $('#contratoModal').modal('hide');
         } else {
@@ -539,24 +539,6 @@
     <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>   
-
-        <!-- Script del Modal -->
-        <script>
-        // Asegúrate de que jQuery y Bootstrap estén cargados antes de este script
-        $('#mensajeModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Botón que activó el modal
-            var nombre = button.data('nombre'); // Extrae la información de los atributos data-*
-            var fecha = button.data('fecha');
-            var mensaje = button.data('mensaje');
-            var correo = button.data('correo'); // Extrae el correo
-
-            // Actualiza el contenido del modal
-            var modal = $(this);
-            modal.find('#modalNombre').text(nombre);
-            modal.find('#modalCorreo').text(correo); // Asigna el correo
-            modal.find('#modalMensaje').text(mensaje);
-        });
-    </script
 
 </body>
 </html>

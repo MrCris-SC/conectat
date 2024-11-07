@@ -53,6 +53,7 @@ class ContratoController extends Controller
         ]);
         $cliente->es_cliente = 1;
         $cliente->save();
+        return response()->json(['message' => 'Contrato creado con éxito'], 200);
 
         return redirect()->back()->with('success', 'Contrato creado con éxito.');
     }
