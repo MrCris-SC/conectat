@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail; // Agregar esta línea
 use App\Mail\MensajeContacto;
+use App\Models\Message;
 
 class ContactoController extends Controller
 {
@@ -26,7 +27,14 @@ class ContactoController extends Controller
         // Enviar el correo electrónico
         Mail::to('winecahuich@gmail.com')->send(new MensajeContacto($validated));
 
-        // Redirigir con un mensaje de éxito
-        return redirect()->back()->with('success', '¡Tu mensaje ha sido enviado con éxito!');
+         // Guardar el mensaje en la base de datos
+        Message::create([
+            'nombre' => $validated['nombre'],
+            'correo_mensaje' => $validated['correo'],
+            'mensaje' => $validated['mensaje'],
+        ]);
+        
+         // Redirigir con un mensaje de éxito
+         return redirect()->back()->with('success', '¡Tu mensaje ha sido enviado con éxito!');
     }
 }
