@@ -7,15 +7,16 @@ use App\Models\NombrePaquete;
 class userController extends Controller
 {
     public function showPackages()
-{
-    $paquetes = NombrePaquete::with('promocion')
-        ->whereHas('promocion', function($query) {
-            $query->where('id_promocion', '==', 0); // Filtrar donde id_promocion no sea 0
-        })
-        ->get(); // Carga la relación con promociones
-
-    return view('user', compact('paquetes'));
-}
+    {
+        $paquetes = NombrePaquete::with('promocion')
+            ->whereHas('promocion', function($query) {
+                $query->where('id_promocion', '!=', 0); // Filtra donde id_promocion no sea 0
+            })
+            ->get();
+    
+        return view('user', compact('paquetes'));
+    }
+    
 
      
     public function promociones()
