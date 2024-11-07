@@ -10,7 +10,7 @@ class userController extends Controller
 {
     $paquetes = NombrePaquete::with('promocion')
         ->whereHas('promocion', function($query) {
-            $query->where('id_promocion', '!=', 0); // Filtrar donde id_promocion no sea 0
+            $query->where('id_promocion', '==', 0); // Filtrar donde id_promocion no sea 0
         })
         ->get(); // Carga la relación con promociones
 
