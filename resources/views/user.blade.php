@@ -138,7 +138,7 @@
                             <div class="card mx-2">
                                 <img src="{{ $paquete->imagen }}" class="card-img-top" alt="{{ $paquete->nombre }}">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ $paquete->nombre_paquete }}</h5>
+                                    <h5 class="card-title">{{ $paquete->nombres_paquetes }}</h5>
                                     <p class="card-text">{{ $paquete->descripcion }}</p>
                                     <p>Precio: ${{ $paquete->precio }}</p>
                                     <ul class="fa-ul">
