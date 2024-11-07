@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <meta name="author" content="">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -482,7 +484,7 @@
                 <div class="modal-body">Seleccione "Confirmar" para generar y descargar el contrato en PDF.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $cliente->id_cliente }})" data-dismiss="modal">Confirmar</button>
+                    <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $cliente->id_cliente }})">Confirmar</button>
                 </div>
             </div>
         </div>
@@ -490,26 +492,29 @@
 
     <script>
         function crearContratoYDescargarPDF(clienteId) {
-            // Enviar la solicitud para insertar el contrato en la base de datos
-            fetch(`/cliente/${clienteId}/contrato`, {
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({})
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Abrir una nueva ventana para descargar el PDF después de la inserción exitosa
-                    window.open(`/cliente/${clienteId}/contrato`, '_blank');
-                } else {
-                    console.error("Error al insertar el contrato:", response);
-                }
-            })
-            .catch(error => console.error("Error en la solicitud:", error));
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch(`/cliente/${clienteId}/contrato`, {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => {
+        if (response.ok) {
+            // Abrir una nueva ventana para descargar el PDF después de la inserción exitosa
+            window.open(`/cliente/${clienteId}/contrato`, '_blank');
+            $('#contratoModal').modal('hide');
+        } else {
+            console.error("Error al insertar el contrato:", response);
         }
+    })
+    .catch(error => console.error("Error en la solicitud:", error));
+}
+
     </script>
 
 
