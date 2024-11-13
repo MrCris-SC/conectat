@@ -50,7 +50,7 @@
             <div class="carousel-inner">
                 <!-- Slide 1 -->
                 <div class="carousel-item active">
-                    <img src="https://via.placeholder.com/1600x600" class="d-block w-100" alt="Internet Rápido">
+                    <img src="{{ asset ('images/hader.jpg') }}" class="d-block w-100" alt="Internet Rápido">
                     <div class="carousel-caption d-md-block">
                         <h3>Conectat - Internet a Velocidad Máxima</h3>
                         <p>Disfruta de conexión estable y rápida para todas tus necesidades.</p>
@@ -60,7 +60,7 @@
 
                 <!-- Slide 2 -->
                 <div class="carousel-item">
-                    <img src="https://via.placeholder.com/1600x600" class="d-block w-100" alt="Cobertura Nacional">
+                    <img src="{{ asset ('images/header2.jpg') }}" class="d-block w-100" alt="Cobertura Nacional">
                     <div class="carousel-caption d-md-block">
                         <h3>Conectat - Cobertura en Todo el País</h3>
                         <p>Siempre conectados, sin importar dónde te encuentres.</p>
