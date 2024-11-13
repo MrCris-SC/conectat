@@ -9,7 +9,7 @@ use App\Models\Precontrato;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\miPrecontrato;
-use App\Mail\verificacionCodigo;
+use App\Mail\VerificacionCodigo;
 use Illuminate\Support\Str;
 
 
