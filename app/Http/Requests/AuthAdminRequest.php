@@ -22,18 +22,18 @@ class AuthAdminRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'Correo_electronico' => 'required|email|max:255',
-            'Contraseña' =>'required|min:8|max:255',
+            'correo_electronico' => 'required|email|max:255',
+            'password' =>'required|min:8|max:255',
         ];
     }
 
     public function messages(): array{
         return [
-            'Correo_electronico.required' => 'El correo electrónico es obligatorio.',
-            'Correo_electronico.email' => 'El correo electrónico no es válido.',
-            'Contraseña.required' => 'La contraseña es obligatoria.',
-            'Contraseña.min' => 'La contraseña debe tener al menos 8 caracteres.',
-            'Contraseña.max' => 'La contraseña no puede tener más de 255 caracteres.',
+            'correo_electronico.required' => 'El correo electrónico es obligatorio.',
+            'correo_electronico.email' => 'El correo electrónico no es válido.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.max' => 'La contraseña no puede tener más de 255 caracteres.',
         ];
     }
 }

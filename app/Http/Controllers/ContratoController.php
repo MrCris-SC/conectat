@@ -44,10 +44,12 @@ class ContratoController extends Controller
         // Inserta el nuevo contrato
         Contrato::create([
             'id_contrato' => Contrato::generateUniqueContractId(),
-            'fecha_inicio' => $fecha_inicio,
-            'fecha_fin' => $fecha_fin,
+            'fecha_inicio_contrato' => $fecha_inicio,
+            'fecha_fin_contrato' => $fecha_fin,
+            'total_meses_contrato' => 12,
             'estado' => $estado,
-            'monto' => $monto,
+            'monto_total_contrato' => 500,
+            'monto_total_mensualidad' => $monto,
             'fk_paquete' => $fk_paquete,
             'fk_cliente' => $id_cliente,
         ]);

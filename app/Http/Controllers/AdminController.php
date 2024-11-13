@@ -108,8 +108,8 @@ class AdminController extends Controller
             $remember = $request->has('remember'); 
 
             if(auth()->guard('admin')->attempt([
-                'Correo_electronico' => $request->Correo_electronico,
-                'password' => $request->Contraseña,  // Hash::make($request->Contraseña)
+                'Correo_electronico' => $request->correo_electronico,
+                'password' => $request->password,  // Hash::make($request->Contraseña)
             ],$remember)){
                 $request -> session()->regenerate();
                 

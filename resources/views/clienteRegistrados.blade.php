@@ -481,7 +481,10 @@
                 <div class="modal-body">Seleccione "Confirmar" para generar y descargar el contrato en PDF.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $cliente->id_cliente }})" data-dismiss="modal">Confirmar</button>
+                    
+                    @isset($cliente)
+                        <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $cliente->id_cliente }})" data-dismiss="modal">Confirmar</button>
+                    @endisset
                 </div>
             </div>
         </div>

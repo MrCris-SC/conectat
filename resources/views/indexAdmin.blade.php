@@ -355,9 +355,9 @@
                                         <div class="card mb-4 py-3 border-left-danger">
                                             <div class="card-body">
                                                 <h5 class="card-text">id:{{  $admin->id_admin }}</h5>
-                                                <p class="card-text">Nombre: {{ $admin->Nombre  }}</p>
-                                                <p class="card-text">Correo: {{ $admin->Correo_electronico  }}</p>
-                                                <p class="card-text">Contraseña: {{  $admin->Contraseña }}</p>
+                                                <p class="card-text">Nombre: {{ $admin->nombre  }}</p>
+                                                <p class="card-text">Correo: {{ $admin->correo_electronico  }}</p>
+                                                <p class="card-text">Contraseña: {{  $admin->password }}</p>
                                                 <p class="card-text">Rol: {{  $admin->permisos }}</p>
                                                     
                                                 <a href="{{ route('admin.edit', $admin->id_admin) }}" class="btn btn-info btn-icon-split">
