@@ -92,10 +92,11 @@
 
         <!-- Services-->
         <section id="paquetes_section" class="paquete-slider-section">
-        <div class="text-center">
+            <div class="text-center">
                     <h2 class="section-heading text-uppercase">Services</h2>
                     <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
-                </div>
+            </div>
+            
             <div class="container">
                 
                 <div class="row text-center">
@@ -128,18 +129,18 @@
         </section>
 
         
+        
         <section class="pricing py-5">
-    <div id="paqueteSlider" class="carousel slide">
-        <div class="carousel-inner">
-            @foreach($paquetes->chunk(3) as $index => $paqueteChunk)
-                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                    <div class="d-flex justify-content-center">
+            <div id="paqueteSlider" class="carousel2 slide">
+                <div class="carousel-inner">
+                    @foreach($paquetes->chunk(3) as $index => $paqueteChunk)
+                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                        <div class="d-flex justify-content-center">
                         @foreach($paqueteChunk as $paquete)
-                            <div class="card mx-2">
-                                <img src="{{ $paquete->imagen }}" class="card-img-top" alt="{{ $paquete->nombre }}">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $paquete->nombres_paquetes }}</h5>
-                                    <p class="card-text">{{ $paquete->descripcion }}</p>
+                            <div class="card2 mx-2">
+                                <div class="card2-body">
+                                    <h5 class="card2-title">{{ $paquete->nombres_paquetes }}</h5>
+                                    <p class="card2-text">{{ $paquete->descripcion }}</p>
                                     <p>Precio: ${{ $paquete->precio }}</p>
                                     <ul class="fa-ul">
                                         <li><span class="fa-li"><i class="fas fa-check"></i></span>Single User</li>
@@ -155,23 +156,24 @@
                                 </div>
                             </div>
                         @endforeach
+                        </div>
                     </div>
+                    @endforeach
                 </div>
-            @endforeach
-        </div>
 
        
-        <!-- Controles manuales -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#paqueteSlider" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#paqueteSlider" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
-        </button>
-    </div>
-</section>
+                      <!-- Controles manuales -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#paqueteSlider" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                
+                <button class="carousel-control-next" type="button" data-bs-target="#paqueteSlider" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </section>
 
 
 
