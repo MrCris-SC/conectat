@@ -16,7 +16,7 @@ class mostrarClientesController extends Controller
     public function mostrarClientes()
     {
         // Obtener todos los clientes de la base de datos
-        $clientes = Cliente::with('nombre_paquete')->get();
+        $clientes = Cliente::all();
         $mensajes = Message::latest()->take(5)->get(); // Obtiene los 5 mensajes más recientes
         
        
