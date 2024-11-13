@@ -151,7 +151,7 @@
                                         <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Free Subdomain</li>
                                         <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Monthly Status Reports</li>
                                     </ul>
-                                    <a href="#" class="btn btn-primary">Contrátanos</a>
+                                    <a href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}" class="btn btn-primary">Contrátanos</a>
                                 </div>
                             </div>
                         @endforeach
