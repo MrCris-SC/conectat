@@ -331,7 +331,7 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                            <!-- <th>ID</th> -->
+                                                 <th>ID</th>
                                                 
                                                 <th>Nombre Completo</th>
                                                 <th>Correo</th>
@@ -352,7 +352,7 @@
                                             @else
                                             @foreach($clientes as $cliente)
                                             <tr>
-                                                <!--<th>{{ $cliente->id_cliente }}</th>-->
+                                                <th>{{ $cliente->id_cliente }}</th>
                                                 
                                                 <td>{{ $cliente->nombre_completo }}</td>
                                                 <td>{{ $cliente->correo_electronico }}</td>
@@ -369,12 +369,34 @@
                                                             <span class="text">Administrar</span>
                                                         </a>
                                                         <p></p>
-                                                        <a  href="javascript:void(0);" onclick="$('#contratoModal').modal('show');" class="btn btn-info btn-icon-split"  >
+                                                        <a  href="javascript:void(0);" onclick="abrirContratoModal({{ $cliente->id_cliente }},'{{ $cliente->nombre_completo }}' );" class="btn btn-info btn-icon-split"  >
                                                             <span class="icon text-white-50">
                                                                 <i class="fas fa-edit"></i>
                                                             </span>
                                                             <span class="text">Contratos</span>    
                                                         </a>
+                                                        
+                                                    <!-- Modal para Contratos -->
+                                                        <div class="modal fade" id="contratoModal" tabindex="-1" role="dialog" aria-labelledby="contratoModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="contratoModalLabel">¿Desea crear y descargar el contrato?</h5>
+                                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">×</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <!-- Aquí actualizamos el mensaje con el ID del cliente seleccionado -->
+                                                                    <div class="modal-body" id="contratoModalBody">Seleccione "Confirmar" para generar y descargar el contrato en PDF.</div>
+                                                                    <div class="modal-footer">
+                                                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                                                                        <button class="btn btn-primary" onclick="crearContratoYDescargarPDF(clienteIdSeleccionado)" data-dismiss="modal">Confirmar</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                            
                                             <br>
                                             <p></p>
                                             {{-- <p></p> --}}
@@ -491,29 +513,42 @@
     </div>
 
     <script>
-        function crearContratoYDescargarPDF(clienteId) {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        let clienteIdSeleccionado = null;
+        let nombre_cliente = null;
+        function abrirContratoModal(idCliente,nombre) {
+                clienteIdSeleccionado = idCliente;
+                nombre_cliente = nombre;
+                // Actualiza el contenido del mensaje del modal con el ID del cliente
+                document.getElementById('contratoModalBody').textContent = 
+                    `Seleccione "Confirmar" para generar y descargar el contrato en PDF para el cliente seleccionado: ${nombre_cliente} con el ID ${clienteIdSeleccionado}.`;
+                
+                // Muestra el modal
+                $('#contratoModal').modal('show');
+            }
 
-    fetch(`/cliente/${clienteId}/contrato`, {
-        method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})
-    })
-    .then(response => {
-        if (response.ok) {
-            // Descarga el PDF después de crear el contrato
-            window.open(`/cliente/${clienteId}/contrato`, '_blank');
-            $('#contratoModal').modal('hide');
-        } else {
-            console.error("Error al insertar el contrato:", response);
+        function crearContratoYDescargarPDF(clienteId) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            fetch(`/cliente/${clienteId}/contrato`, {
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Descarga el PDF después de crear el contrato
+                    window.open(`/cliente/${clienteId}/contrato`, '_blank');
+                    $('#contratoModal').modal('hide');
+                } else {
+                    console.error("Error al insertar el contrato:", response);
+                }
+            })
+            .catch(error => console.error("Error en la solicitud:", error));
         }
-    })
-    .catch(error => console.error("Error en la solicitud:", error));
-}
 
     </script>
 
