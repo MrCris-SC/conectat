@@ -41,5 +41,9 @@ class NombrePaquete extends Model
     {
         return $this->hasMany(Cliente::class, 'fk_paquete');
     }
+    public function precontratos()
+    {
+        return $this->hasMany(Precontrato::class, 'fk_paquete');
+    }
    
 }
