@@ -328,128 +328,48 @@
                          <!-- Apartado que se necesita hacerse responsivo -->
                         <div class="card-body">
                                 <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID Cliente</th>
+                                            <th>Nombre Completo</th>
+                                            <th>Correo</th>
+                                            <th>Teléfono</th>
+                                            <th>Código Postal</th>
+                                            <th>Municipio</th>
+                                            <th>Dirección</th>
+                                            <th>Referencia de Domicilio</th>
+                                            <th>Paquete</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($clientes as $precontrato)
                                             <tr>
-                                                 <th>ID</th>
-                                                
-                                                <th>Nombre Completo</th>
-                                                <th>Correo</th>
-                                                <th>Teléfono</th>
-                                                <th>Código Postal</th>
-                                                <th>Municipio</th>
-                                                <th>Dirección</th>
-                                                <th>Referencia de Domicilio</th>
-                                                <th>Acciones</th>
-                                               
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if($clientes->isEmpty())
-                                                <tr>
-                                                    <td colspan="8" class="text-center">No hay clientes registrados.</td>
-                                                </tr>
-                                            @else
-                                            @foreach($clientes as $cliente)
-                                            <tr>
-                                                <th>{{ $cliente->id_cliente }}</th>
-                                                
-                                                <td>{{ $cliente->nombre_completo }}</td>
-                                                <td>{{ $cliente->correo_electronico }}</td>
-                                                <td>{{ $cliente->telefono }}</td>
-                                                <td>{{ $cliente->cp }}</td>
-                                                <td>{{ $cliente->municipio }}</td>
-                                                <td>{{ $cliente->direccion ?? 'N/A' }}</td>
-                                                <td>{{ $cliente->referencia_domicilio }}</td>
+                                                <td>{{ $precontrato->cliente->id_cliente }}</td>
+                                                <td>{{ $precontrato->cliente->nombre_completo }}</td>
+                                                <td>{{ $precontrato->cliente->correo_electronico }}</td>
+                                                <td>{{ $precontrato->cliente->telefono }}</td>
+                                                <td>{{ $precontrato->direccion->codigo_postal ?? 'N/A' }}</td>
+                                                <td>{{ $precontrato->direccion->localidad ?? 'N/A' }}</td>
+                                                <td>{{ $precontrato->direccion->calle ?? 'N/A' }}</td>
+                                                <td>{{ $precontrato->direccion->referencia_domicilio ?? 'N/A' }}</td>
+                                                <td>{{ $precontrato->paquete->nombre_paquete ?? 'N/A' }}</td>
                                                 <td>
-                                                        <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-edit"></i>
-                                                            </span>
-                                                            <span class="text">Administrar</span>
-                                                        </a>
-                                                        <p></p>
-                                                        <a  href="javascript:void(0);" onclick="abrirContratoModal({{ $cliente->id_cliente }},'{{ $cliente->nombre_completo }}' );" class="btn btn-info btn-icon-split"  >
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-edit"></i>
-                                                            </span>
-                                                            <span class="text">Contratos</span>    
-                                                        </a>
-                                                        
-                                                    <!-- Modal para Contratos -->
-                                                        <div class="modal fade" id="contratoModal" tabindex="-1" role="dialog" aria-labelledby="contratoModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="contratoModalLabel">¿Desea crear y descargar el contrato?</h5>
-                                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">×</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <!-- Aquí actualizamos el mensaje con el ID del cliente seleccionado -->
-                                                                    <div class="modal-body" id="contratoModalBody">Seleccione "Confirmar" para generar y descargar el contrato en PDF.</div>
-                                                                    <div class="modal-footer">
-                                                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                                                                        <button class="btn btn-primary" onclick="crearContratoYDescargarPDF(clienteIdSeleccionado)" data-dismiss="modal">Confirmar</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                            
-                                            <br>
-                                            <p></p>
-                                            {{-- <p></p> --}}
-                                                    {{-- <form action="{{ route('cliente.destroy', $cliente->id_cliente) }}"
-                                                        method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        
-                                                        <button type="submit" class="btn btn-danger btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-trash"></i>
-                                                            </span>
-                                                            <span class="text">Eliminar</span>
-                                                        </button>
-                                                    </form> --}}
-                                                    <form id="deleteForm-{{ $cliente->id_cliente }}" action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    
-                                                        <button type="button" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#deleteModal-{{ $cliente->id_cliente  }}">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-trash"></i>
-                                                            </span>
-                                                            <span class="text">Eliminar</span>
-                                                        </button>
-                                                    </form>
-                                                    
-                                                    <div class="modal fade" id="deleteModal-{{ $cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-{{ $cliente->id_cliente }}" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="deleteModalLabel-{{ $cliente->id_cliente }}">Confirmar Eliminación</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    ¿Estás seguro de que deseas eliminar el cliente <strong>{{ $cliente->nombre_completo }}</strong>?
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                                    <button type="button" class="btn btn-danger" onclick="document.getElementById('deleteForm-{{ $cliente->id_cliente}}').submit();">Eliminar</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <!-- Acciones como editar o eliminar -->
+                                                    <a href="{{ route('cliente.edit', $precontrato->cliente->id_cliente) }}" class="btn btn-info btn-icon-split">Administrar</a>
+                                                    <!-- Aquí iría el resto de tus botones de acción -->
                                                 </td>
                                             </tr>
-                                            @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="10" class="text-center">No hay clientes registrados.</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
 
-                                            @endif
-                                        </tbody>
-                                    </table>
+
                                 </div>    
                         </div>
                 

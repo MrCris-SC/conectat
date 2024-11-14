@@ -24,21 +24,22 @@ class Precontrato extends Model
         'fk_paquete'
     ];
 
-    // Relación con el modelo Cliente
+   // En el modelo Precontrato.php
+
     public function cliente()
     {
-        return $this->belongsTo(Cliente::class, 'fk_cliente');
+        return $this->belongsTo(Cliente::class, 'fk_cliente', 'id_cliente');
     }
 
-    // Relación con el modelo Domicilio (Dirección)
     public function direccion()
     {
-        return $this->belongsTo(Domicilio::class, 'fk_direccion');
+        return $this->belongsTo(Domicilio::class, 'fk_direccion', 'id_direccion');
     }
 
-    // Relación con el modelo Paquete
     public function paquete()
     {
-        return $this->belongsTo(NombrePaquete::class, 'fk_paquete');
+        return $this->belongsTo(NombrePaquete::class, 'fk_paquete', 'id_nombre_paquete');
     }
+
+
 }
