@@ -355,7 +355,7 @@
                                                 <td>{{ $precontrato->direccion->localidad ?? 'N/A' }}</td>
                                                 <td>{{ $precontrato->direccion->calle ?? 'N/A' }}</td>
                                                 <td>{{ $precontrato->direccion->referencia_domicilio ?? 'N/A' }}</td>
-                                                <td>{{ $precontrato->paquete->nombre_paquete ?? 'N/A' }}</td>
+                                                <td>{{ $precontrato->paquete->nombre_paquete ?? 'N/A'}}</td>
                                                 <td>
                                                     <!-- Botón de Administrar -->
                                                     <a href="{{ route('cliente.edit', $precontrato->cliente->id_cliente) }}" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">
@@ -365,25 +365,25 @@
                                                         <span class="text">Administrar</span>
                                                     </a>
                                                     <!-- Modal para Contratos -->
-                                                    <div class="modal fade" id="contratoModal" tabindex="-1" role="dialog" aria-labelledby="contratoModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="contratoModalLabel">¿Desea crear y descargar el contrato?</h5>
-                                                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">×</span>
-                                                                    </button>
-                                                                </div>
-                                                                <!-- Actualizamos el mensaje con el nombre del cliente seleccionado -->
-                                                                <div class="modal-body" id="contratoModalBody">Seleccione "Confirmar" para generar y descargar el contrato en PDF para <span id="nombreClienteModal"></span>.</div>
-                                                                <div class="modal-footer">
-                                                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                                                                    <button class="btn btn-primary" onclick="crearContratoYDescargarPDF()" data-dismiss="modal">Confirmar</button>
+                                                        <div class="modal fade" id="contratoModal-{{ $precontrato->cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="contratoModalLabel-{{ $precontrato->cliente->id_cliente }}" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="contratoModalLabel-{{ $precontrato->cliente->id_cliente }}">¿Desea crear y descargar el contrato?</h5>
+                                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">×</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <span id="nombreClienteModal-{{ $precontrato->cliente->id_cliente }}"></span>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                                                                        <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $precontrato->cliente->id_cliente }})" data-dismiss="modal">Confirmar</button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-
                                                     <p></p>
 
                                                     <!-- Botón de Contratos -->
@@ -393,6 +393,7 @@
                                                         </span>
                                                         <span class="text">Contratos</span>
                                                     </a>
+                                                    <p></p>
 
                                                     <form id="deleteForm-{{ $precontrato->cliente->id_cliente }}" action="{{ route('cliente.destroy',  $precontrato->cliente->id_cliente) }}" method="POST">
                                                         @csrf
@@ -478,23 +479,22 @@
         </div>
     </div>
 
-    <!-- Modal para Contratos -->
-    <div class="modal fade" id="contratoModal" tabindex="-1" role="dialog" aria-labelledby="contratoModalLabel" aria-hidden="true">
+ <!-- Modal para Contratos -->
+    <div class="modal fade" id="contratoModal-{{ $precontrato->cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="contratoModalLabel-{{ $precontrato->cliente->id_cliente }}" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="contratoModalLabel">¿Desea crear y descargar el contrato?</h5>
+                    <h5 class="modal-title" id="contratoModalLabel-{{ $precontrato->cliente->id_cliente }}">¿Desea crear y descargar el contrato?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Seleccione "Confirmar" para generar y descargar el contrato en PDF.</div>
+                <div class="modal-body">
+                    Seleccione "Confirmar" para generar y descargar el contrato en PDF para <span id="nombreClienteModal-{{ $precontrato->cliente->id_cliente }}"></span>.
+                </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    
-                    @isset($cliente)
-                        <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $cliente->id_cliente }})" data-dismiss="modal">Confirmar</button>
-                    @endisset
+                    <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $precontrato->cliente->id_cliente }})" data-dismiss="modal">Confirmar</button>
                 </div>
             </div>
         </div>
@@ -503,20 +503,25 @@
     <script>
         let clienteIdSeleccionado = null;
         let nombre_cliente = null;
-        function abrirContratoModal(idCliente,nombre) {
-                clienteIdSeleccionado = idCliente;
-                nombre_cliente = nombre;
-                // Actualiza el contenido del mensaje del modal con el ID del cliente
-                document.getElementById('contratoModalBody').textContent = 
-                    `Seleccione "Confirmar" para generar y descargar el contrato en PDF para el cliente seleccionado: ${nombre_cliente} con el ID ${clienteIdSeleccionado}.`;
-                
-                // Muestra el modal
-                $('#contratoModal').modal('show');
-            }
 
+        // Función para abrir el modal y mostrar el nombre del cliente
+        function abrirContratoModal(idCliente, nombre) {
+            clienteIdSeleccionado = idCliente;
+            nombre_cliente = nombre;
+
+            // Actualiza el contenido del mensaje del modal con el ID del cliente
+            document.getElementById(`nombreClienteModal-${idCliente}`).textContent = 
+                `Seleccione "Confirmar" para generar y descargar el contrato en PDF para el cliente seleccionado: ${nombre_cliente} con el ID ${clienteIdSeleccionado}.`;
+
+            // Muestra el modal correspondiente al cliente
+            $(`#contratoModal-${idCliente}`).modal('show');
+        }
+
+        // Función para crear y descargar el contrato en PDF
         function crearContratoYDescargarPDF(clienteId) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+            // Realiza la solicitud POST para generar el contrato
             fetch(`/cliente/${clienteId}/contrato`, {
                 method: "POST",
                 headers: {
@@ -524,21 +529,22 @@
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({})
+                body: JSON.stringify({}) // Cuerpo vacío, puedes agregar parámetros si es necesario
             })
             .then(response => {
                 if (response.ok) {
-                    // Descarga el PDF después de crear el contrato
+                    // Si la respuesta es exitosa, abre el PDF en una nueva ventana
                     window.open(`/cliente/${clienteId}/contrato`, '_blank');
-                    $('#contratoModal').modal('hide');
+                    // Oculta el modal correspondiente
+                    $(`#contratoModal-${clienteId}`).modal('hide');
                 } else {
                     console.error("Error al insertar el contrato:", response);
                 }
             })
             .catch(error => console.error("Error en la solicitud:", error));
         }
-
     </script>
+
 
 
     <!-- Bootstrap core JavaScript--> 

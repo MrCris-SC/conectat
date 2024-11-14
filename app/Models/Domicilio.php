@@ -20,9 +20,15 @@ class Domicilio extends Model
         'colonia',
         'calle',
         'referencia_domicilio',
+        'fk_cliente',
     ];
     public function precontratos()
     {
         return $this->hasMany(Precontrato::class, 'fk_direccion');
+    }
+
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class, 'fk_cliente');
     }
 }

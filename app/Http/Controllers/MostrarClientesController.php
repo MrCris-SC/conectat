@@ -17,7 +17,7 @@ class mostrarClientesController extends Controller
 {
     public function mostrarClientes()
     {
-        // Consulta a través de Precontrato para obtener clientes junto con direcciones y paquetes relacionados
+        // Consulta a través de Precontrato para obtener clientes, direcciones y paquetes relacionados
         $clientes = Precontrato::with(['cliente', 'direccion', 'paquete'])->get();
         $mensajes = Message::latest()->take(5)->get();
 

@@ -84,6 +84,7 @@ public function verificarCodigo(Request $request)
             'nombre_completo' => $clienteData['nombre_completo'],
             'correo_electronico' => $clienteData['correo_electronico'],
             'telefono' => $clienteData['telefono'],
+            'fk_paquete' => $clienteData['fk_paquete'],
         ]);
         $houseData = session('datos_domicilio');
         // Crear una nueva dirección
@@ -94,6 +95,7 @@ public function verificarCodigo(Request $request)
             'localidad' => $houseData['municipio'],
             'entidad_federativa' => $houseData['entidad'],
             'referencia_domicilio' => $houseData['referencia_domicilio'],
+            'fk_cliente' => $cliente->id_cliente, 
         ]);
         
         // Crear un precontrato relacionado con el cliente y la dirección

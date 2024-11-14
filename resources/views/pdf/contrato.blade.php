@@ -322,7 +322,7 @@
             <h1>SERVICIO CONECT@T</h1>
         </div>  
             
-        <table class="main-table">
+       <table class="main-table">
             <tr>
                 <td>
                     <div class="header2-cell">INFORMACIÓN DEL CLIENTE</div>
@@ -331,61 +331,92 @@
                             <td><strong>Nombre:</strong></td>
                             <td>{{ $cliente->nombre_completo }}</td>
                         </tr>
-                            
+
                         <tr>
                             <td><strong>Correo Electrónico:</strong></td>
                             <td>{{ $cliente->correo_electronico }}</td>
                         </tr>
-                            
+
                         <tr>
                             <td><strong>Teléfono:</strong></td>
                             <td>{{ $cliente->telefono }}</td>
                         </tr>
-                            
+
                         <tr>
                             <td><strong>Dirección:</strong></td>
-                            <td>{{ $cliente->direccion }}</td>
+                            <td>
+                                @if($cliente->domicilio)
+                                    {{ $cliente->domicilio->calle }}, {{ $cliente->domicilio->colonia }}, {{ $cliente->domicilio->municipio }}, {{ $cliente->domicilio->entidad_federativa }}
+                                @else
+                                    No asignada
+                                @endif
+                            </td>
                         </tr>
-                            
+
                         <tr>
                             <td><strong>Código Postal:</strong></td>
-                            <td>{{ $cliente->cp }}</td>
+                            <td>{{ $cliente->domicilio ? $cliente->domicilio->codigo_postal : 'No asignado' }}</td>
                         </tr>
-                           
+
                         <tr>
                             <td><strong>Municipio:</strong></td>
-                            <td>{{ $cliente->municipio }}</td>
+                            <td>{{ $cliente->domicilio ? $cliente->domicilio->municipio : 'No asignado' }}</td>
                         </tr>
                     </table>
                 </td>
-                    
+
                 <td>
                     <div class="header2-cell">DETALLES DEL SERVICIO CONTRATADO</div>
                     <table class="section-table">
                         <tr>
                             <td><strong>Paquete Elegido:</strong></td>
-                            <td>{{ $cliente->nombre_paquete->nombre_paquete }}</td>
+                            <td>
+                                @if($cliente->nombre_paquete)
+                                    {{ $cliente->nombre_paquete->nombre_paquete }}
+                                @else
+                                    No asignado
+                                @endif
+                            </td>
                         </tr>
-                            
+
                         <tr>
                             <td><strong>Características del Paquete:</strong></td>
-                            <td>{{ $cliente->nombre_paquete->caracteristicas_paquete }}</td>
+                            <td>
+                                @if($cliente->nombre_paquete)
+                                    {{ $cliente->nombre_paquete->caracteristicas_paquete }}
+                                @else
+                                    No asignado
+                                @endif
+                            </td>
                         </tr>
-                        
+
                         <tr>
                             <td><strong>Precio Mensual:</strong></td>
-                            <td>${{ $cliente->nombre_paquete->precio }}</td>
+                            <td>
+                                @if($cliente->nombre_paquete)
+                                    ${{ $cliente->nombre_paquete->precio }}
+                                @else
+                                    No asignado
+                                @endif
+                            </td>
                         </tr>
-                        
+
                         <tr>
                             <td><strong>Velocidad de Conexión:</strong></td>
-                            <td>{{ $cliente->nombre_paquete->velocidad_paquete }} Mbps</td>
+                            <td>
+                                @if($cliente->nombre_paquete)
+                                    {{ $cliente->nombre_paquete->velocidad_paquete }} Mbps
+                                @else
+                                    No asignado
+                                @endif
+                            </td>
                         </tr>
                     </table>
                 </td>
             </tr>
-        
         </table>
+
+
             
         <p>Le&#205;das las CONDICIONES DEL SERVICIO de Conet@T Negocio, que forman parte integral del Contrato Marco de Prestaci&#243;n de Servicios, se suscribe este documento en duplicado. Un original permanecerá en poder de CONET@T y el otro en poder del CONSUMIDOR. Ambas partes firman este contrato en la Ciudad de _________________, a los _____ d&#237;as del mes de _________________ de ________.</p>
            

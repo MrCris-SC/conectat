@@ -358,7 +358,7 @@
 
                 <div class="mb-3">
                     <label for="correo" class="form-label">Correo</label>
-                    <input type="email" class="form-control" name="correo" value="{{ $cliente->correo_electronico }}" required>
+                    <input type="email" class="form-control" name="correo_electronico" value="{{ $cliente->correo_electronico }}" required>
                 </div>
 
                 <div class="mb-3">
@@ -367,24 +367,35 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="cp" class="form-label">Código Postal</label>
-                    <input type="text" class="form-control" name="cp" value="{{ $cliente->cp }}" required>
+                    <label for="codigo_postal" class="form-label">Código Postal</label>
+                    <input type="text" class="form-control" name="codigo_postal" value="{{ $cliente->domicilio->codigo_postal ?? '' }}" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="municipio" class="form-label">Municipio</label>
-                    <input type="text" class="form-control" name="municipio" value="{{ $cliente->municipio }}" required>
+                    <label for="localidad" class="form-label">Localidad</label>
+                    <input type="text" class="form-control" name="localidad" value="{{ $cliente->domicilio->localidad ?? '' }}" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="direccion" class="form-label">Dirección</label>
-                    <input type="text" class="form-control" name="direccion" value="{{ $cliente->direccion }}">
+                    <label for="entidad_federativa" class="form-label">Entidad Federativa</label>
+                    <input type="text" class="form-control" name="entidad_federativa" value="{{ $cliente->domicilio->entidad_federativa ?? '' }}" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="referencia_domicilio" class="form-label">Referencia de Domicilio</label>
-                    <input type="text" class="form-control" name="referencia_domicilio" value="{{ $cliente->referencia_domicilio }}" required>
+                    <label for="colonia" class="form-label">Colonia</label>
+                    <input type="text" class="form-control" name="colonia" value="{{ $cliente->domicilio->colonia ?? '' }}" required>
                 </div>
+
+            <div class="mb-3">
+                <label for="calle" class="form-label">Calle</label>
+                <input type="text" class="form-control" name="calle" value="{{ $cliente->domicilio->calle ?? '' }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="referencia_domicilio" class="form-label">Referencia de Domicilio</label>
+                <input type="text" class="form-control" name="referencia_domicilio" value="{{ $cliente->domicilio->referencia_domicilio ?? '' }}" required>
+            </div>
+
                 <!-- Modifique seleccion de ip de paquete y actualizacion de manera automatica los datos del pquete -->
                 <div class="mb-3">
                     <label for="fk_paquete" class="form-label">ID del Paquete y Nombre</label>
