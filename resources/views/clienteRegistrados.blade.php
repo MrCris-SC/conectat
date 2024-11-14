@@ -501,42 +501,27 @@
     </div>
 
     <script>
-        let clienteIdSeleccionado = null;
-        let nombre_cliente = null;
-        function abrirContratoModal(idCliente,nombre) {
-                clienteIdSeleccionado = idCliente;
-                nombre_cliente = nombre;
-                // Actualiza el contenido del mensaje del modal con el ID del cliente
-                document.getElementById('contratoModalBody').textContent = 
-                    `Seleccione "Confirmar" para generar y descargar el contrato en PDF para el cliente seleccionado: ${nombre_cliente} con el ID ${clienteIdSeleccionado}.`;
-                
-                // Muestra el modal
-                $('#contratoModal').modal('show');
-            }
+        let clienteIdSeleccionado;
+        let nombreClienteSeleccionado;
 
-        function crearContratoYDescargarPDF(clienteId) {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        function abrirContratoModal(idCliente, nombreCompleto) {
+            clienteIdSeleccionado = idCliente;
+            nombreClienteSeleccionado = nombreCompleto;
 
-            fetch(`/cliente/${clienteId}/contrato`, {
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({})
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Descarga el PDF después de crear el contrato
-                    window.open(`/cliente/${clienteId}/contrato`, '_blank');
-                    $('#contratoModal').modal('hide');
-                } else {
-                    console.error("Error al insertar el contrato:", response);
-                }
-            })
-            .catch(error => console.error("Error en la solicitud:", error));
+            // Actualizar el contenido del modal con el nombre del cliente
+            document.getElementById("nombreClienteModal").textContent = nombreCompleto;
+
+            // Mostrar el modal
+            $('#contratoModal').modal('show');
         }
+
+        function crearContratoYDescargarPDF() {
+            if (!clienteIdSeleccionado) return;
+
+            // Redireccionar a una ruta Laravel para generar el PDF del contrato
+            window.location.href = `/generar-contrato/${clienteIdSeleccionado}`;
+        }
+
 
     </script>
 
