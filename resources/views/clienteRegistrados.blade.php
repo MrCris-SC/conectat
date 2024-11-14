@@ -328,6 +328,7 @@
                          <!-- Apartado que se necesita hacerse responsivo -->
                         <div class="card-body">
                                 <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
+
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
@@ -356,10 +357,76 @@
                                                 <td>{{ $precontrato->direccion->referencia_domicilio ?? 'N/A' }}</td>
                                                 <td>{{ $precontrato->paquete->nombre_paquete ?? 'N/A' }}</td>
                                                 <td>
-                                                    <!-- Acciones como editar o eliminar -->
-                                                    <a href="{{ route('cliente.edit', $precontrato->cliente->id_cliente) }}" class="btn btn-info btn-icon-split">Administrar</a>
-                                                    <!-- Aquí iría el resto de tus botones de acción -->
+                                                    <!-- Botón de Administrar -->
+                                                    <a href="{{ route('cliente.edit', $precontrato->cliente->id_cliente) }}" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">
+                                                        <span class="icon text-white-50">
+                                                            <i class="fas fa-edit"></i>
+                                                        </span>
+                                                        <span class="text">Administrar</span>
+                                                    </a>
+                                                    <!-- Modal para Contratos -->
+                                                    <div class="modal fade" id="contratoModal" tabindex="-1" role="dialog" aria-labelledby="contratoModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="contratoModalLabel">¿Desea crear y descargar el contrato?</h5>
+                                                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">×</span>
+                                                                    </button>
+                                                                </div>
+                                                                <!-- Actualizamos el mensaje con el nombre del cliente seleccionado -->
+                                                                <div class="modal-body" id="contratoModalBody">Seleccione "Confirmar" para generar y descargar el contrato en PDF para <span id="nombreClienteModal"></span>.</div>
+                                                                <div class="modal-footer">
+                                                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                                                                    <button class="btn btn-primary" onclick="crearContratoYDescargarPDF()" data-dismiss="modal">Confirmar</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <p></p>
+
+                                                    <!-- Botón de Contratos -->
+                                                    <a href="javascript:void(0);" onclick="abrirContratoModal({{ $precontrato->cliente->id_cliente }}, '{{ $precontrato->cliente->nombre_completo }}');" class="btn btn-info btn-icon-split">
+                                                        <span class="icon text-white-50">
+                                                            <i class="fas fa-file-contract"></i>
+                                                        </span>
+                                                        <span class="text">Contratos</span>
+                                                    </a>
+
+                                                    <form id="deleteForm-{{ $precontrato->cliente->id_cliente }}" action="{{ route('cliente.destroy',  $precontrato->cliente->id_cliente) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    
+                                                        <button type="button" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#deleteModal-{{ $precontrato->cliente->id_cliente }}">
+                                                            <span class="icon text-white-50">
+                                                                <i class="fas fa-trash"></i>
+                                                            </span>
+                                                            <span class="text">Eliminar</span>
+                                                        </button>
+                                                    </form>
+                                                    
+                                                    <div class="modal fade" id="deleteModal-{{  $precontrato->cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-{{  $precontrato->cliente->id_cliente }}" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="deleteModalLabel-{{  $precontrato->cliente->id_cliente }}">Confirmar Eliminación</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    ¿Estás seguro de que deseas eliminar el cliente <strong>{{  $precontrato->cliente->id_cliente }}</strong>?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                                    <button type="button" class="btn btn-danger" onclick="document.getElementById('deleteForm-{{  $precontrato->cliente->id_cliente}}').submit();">Eliminar</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </td>
+                                            </tr>
                                             </tr>
                                         @empty
                                             <tr>
@@ -370,6 +437,7 @@
                                 </table>
 
 
+                                
                                 </div>    
                         </div>
                 
