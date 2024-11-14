@@ -9,7 +9,7 @@ class Cliente extends Model
     protected $table = 'clientes';
     protected $primaryKey = 'id_cliente'; // Define la clave primaria correctamente
     protected $fillable = [
-        'nombre_completo', 'correo_electronico', 'telefono',
+        'nombre_completo', 'correo_electronico', 'telefono','fk_paquete'
         // Incluir todos los campos del formulario
     ];
     
@@ -18,11 +18,19 @@ class Cliente extends Model
         return $this->hasMany(Precontrato::class, 'cliente_id'); // Define la relación entre cliente y precontrato
     }
     
+
+    public function nombre_paquete()
+    {
+        return $this->belongsTo(NombrePaquete::class, 'fk_paquete');
+
     
 
-    public function direccion()
-    {
-        return $this->hasOneThrough(Domicilio::class, Precontrato::class, 'cliente_id', 'id', 'id_cliente', 'direccion_id');
+
     }
+    public function domicilio()
+    {
+        return $this->hasOne(Domicilio::class, 'fk_cliente', 'id_cliente');
+    }
+
 }
 
