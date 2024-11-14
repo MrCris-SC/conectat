@@ -14,7 +14,12 @@ class Cliente extends Model
     ];
     public function precontratos()
     {
-        return $this->hasMany(Precontrato::class, 'fk_cliente');
+        return $this->hasMany(Precontrato::class, 'cliente_id'); // Define la relación entre cliente y precontrato
+    }
+    
+    public function direccion()
+    {
+        return $this->hasOneThrough(Direccion::class, Precontrato::class, 'cliente_id', 'id', 'id_cliente', 'direccion_id');
     }
 }
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Cliente;
+use App\Models\Precontrato;
+use App\Models\Domicilio;
 use App\Mail\VerificacionCodigo;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB; // Agrega esta línea
@@ -15,14 +17,11 @@ class mostrarClientesController extends Controller
 {
     public function mostrarClientes()
     {
-        // Obtener todos los clientes de la base de datos
-        $clientes = Cliente::all();
-        $mensajes = Message::latest()->take(5)->get(); // Obtiene los 5 mensajes más recientes
-        
-       
-       // dd($clientes); // Verifica que los IDs están presentes
-        // Pasar los clientes a la vista
-        return view('clienteRegistrados', compact('clientes','mensajes'));
+        // Consulta a través de Precontrato para obtener clientes junto con direcciones y paquetes relacionados
+        $clientes = Precontrato::with(['cliente', 'direccion', 'paquete'])->get();
+        $mensajes = Message::latest()->take(5)->get();
+
+        return view('clienteRegistrados', compact('clientes', 'mensajes'));
     }
  // Mostrar el formulario de edición
     public function editarCliente($id_cliente)
