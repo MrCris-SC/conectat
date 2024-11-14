@@ -41,5 +41,10 @@ class Precontrato extends Model
         return $this->belongsTo(NombrePaquete::class, 'fk_paquete', 'id_nombre_paquete');
     }
 
+    public function nombre_paquete()
+    {
+        return $this->belongsTo(NombrePaquete::class, 'fk_paquete');
+    }
+
 
 }
