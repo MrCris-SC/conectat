@@ -92,10 +92,11 @@
 
         <!-- Services-->
         <section id="paquetes_section" class="paquete-slider-section">
-        <div class="text-center">
+            <div class="text-center">
                     <h2 class="section-heading text-uppercase">Services</h2>
                     <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
-                </div>
+            </div>
+            
             <div class="container">
                 
                 <div class="row text-center">
@@ -128,6 +129,7 @@
         </section>
 
         
+        
         <section class="pricing py-5">
     <div id="paqueteSlider" class="carousel slide">
         <div class="carousel-inner">
@@ -154,24 +156,24 @@
                                     <a href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}" class="btn btn-primary">Contrátanos</a>
                                 </div>
                             </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
+                    @endforeach
                 </div>
-            @endforeach
-        </div>
-
-       
-        <!-- Controles manuales -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#paqueteSlider" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#paqueteSlider" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
-        </button>
-    </div>
-</section>
+            
+                <!-- Controles manuales -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#paqueteSlider" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+            
+                <button class="carousel-control-next" type="button" data-bs-target="#paqueteSlider" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>            
+        </section>
 
 
 
