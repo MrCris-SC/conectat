@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cliente;
 use App\Models\NombrePaquete;
-use App\Models\Domicilio; 
+use App\Models\Domicilio;
+use App\Models\Precontrato;  
 use PDF;
 
 class editarClienteController extends Controller
@@ -14,7 +15,7 @@ class editarClienteController extends Controller
     {
         // Buscar el cliente por su ID
         //$cliente = Cliente::findOrFail($id_cliente);
-        $cliente = Cliente::with('domicilio')->findOrFail($id_cliente);
+        $cliente = Cliente::with('domicilio','nombrepaquete')->findOrFail($id_cliente);
         $paquetes = NombrePaquete::all();
        // $direccion = Direccion::where('fk_cliente', $id_cliente)->first();
     
@@ -64,6 +65,13 @@ class editarClienteController extends Controller
             $cliente->domicilio->save();
         }
 
+        // Actualizar el campo fk_paquete en la tabla precontratos
+        $precontrato = Precontrato::where('fk_cliente', $id_cliente)->first();
+        if ($precontrato) {
+            $precontrato->fk_paquete = $validatedData['fk_paquete'];
+             // Verifica aquí si fk_paquete tiene el valor correcto antes de guardar
+            $precontrato->save();
+        }
         // Actualizar el cliente con los datos validados
         //$cliente->update($validatedData);
         
@@ -71,25 +79,6 @@ class editarClienteController extends Controller
         return redirect()->route('clientes')->with('success', 'Cliente actualizado correctamente.');
     }
 
-    public function generarContratoPDF($id_cliente)
-    {
-        // Obtener los datos del cliente por su ID
-        $cliente = Cliente::with('nombre_paquete')->find($id);
-        //$cliente = Cliente::with(['domicilio', 'nombrePaquete'])->findOrFail($id_cliente);
-        //$paquete = $cliente->nombrePaquete;
-        //$cliente = Cliente::find($id_cliente);
-        //dd($cliente->nombre_paquete);
 
-        // Si el cliente no existe, manejar el error
-        if (!$cliente) {
-            return redirect()->route('clientes')->withErrors('Cliente no encontrado.');
-        }
-
-        // Pasar los datos a la vista del contrato
-        $pdf = PDF::loadView('pdf.contrato', ['cliente' => $cliente]);
-
-        // Descargar el PDF
-        return $pdf->download('contrato_cliente_'.$cliente->id_cliente.'.pdf');
-    }
 }
 

@@ -58,8 +58,6 @@ class ContratoController extends Controller
             'monto_total_mensualidad' => $monto,
             'fk_paquete' => $paquete->id_nombre_paquete,
             'fk_cliente' => $cliente->id_cliente,
-            //'fk_paquete' => $fk_paquete,
-            //'fk_cliente' => $id_cliente,
         ]);
        
 
@@ -72,6 +70,26 @@ class ContratoController extends Controller
     }
 
 
+    public function generarContratoPDF($id_cliente)
+    {
+        // Obtener los datos del cliente por su ID
+        $cliente = Cliente::with('nombre_paquete')->find($id);
+        //$cliente = Cliente::with(['domicilio', 'nombrePaquete'])->findOrFail($id_cliente);
+        //$paquete = $cliente->nombrePaquete;
+        //$cliente = Cliente::find($id_cliente);
+        //dd($cliente->nombre_paquete);
+
+        // Si el cliente no existe, manejar el error
+        if (!$cliente) {
+            return redirect()->route('clientes')->withErrors('Cliente no encontrado.');
+        }
+
+        // Pasar los datos a la vista del contrato
+        $pdf = PDF::loadView('pdf.contrato', ['cliente' => $cliente]);
+
+        // Descargar el PDF
+        return $pdf->download('contrato_cliente_'.$cliente->id_cliente.'.pdf');
+    }
 
     public function mostrarContratos()
     {

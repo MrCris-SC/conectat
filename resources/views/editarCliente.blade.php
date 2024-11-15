@@ -368,7 +368,7 @@
 
                 <div class="mb-3">
                     <label for="codigo_postal" class="form-label">Código Postal</label>
-                    <input type="text" class="form-control" name="codigo_postal" value="{{ $cliente->domicilio->codigo_postal ?? '' }}" required>
+                    <input type="text" class="form-control" name="codigo_postal" maxlength="5" value="{{ $cliente->domicilio->codigo_postal ?? '' }}"  required>
                 </div>
 
                 <div class="mb-3">
@@ -412,7 +412,7 @@
                 <div class="mb-3">
                     <label for="Datos_Paquete" class="form-label">Datos del paquete</label>
                     <input type="text" class="form-control" id="Datos_Paquete" name="Datos_Paquete" 
-                        value="Paquete: {{ $cliente->nombre_paquete->nombre_paquete }} de $:{{ $cliente->nombre_paquete->precio }} incluye:{{ $cliente->nombre_paquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombre_paquete->velocidad_paquete }}" required> 
+                        value="Paquete: {{ $cliente->nombrepaquete->nombre_paquete }} de $:{{ $cliente->nombrepaquete->precio }} incluye:{{ $cliente->nombrepaquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombrepaquete->velocidad_paquete }}" required> 
                 </div>
 
                 <button type="submit" class="btn btn-primary" id="btnGuardar" style="display: none;">Guardar Cambios</button>
