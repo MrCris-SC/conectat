@@ -332,7 +332,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>ID Cliente</th>
+                                            <th>ID</th>
                                             <th>Nombre Completo</th>
                                             <th>Correo</th>
                                             <th>Teléfono</th>
@@ -345,18 +345,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($clientes as $precontrato)
-                                            <tr>
-                                                <td>{{ $precontrato->cliente->id_cliente }}</td>
-                                                <td>{{ $precontrato->cliente->nombre_completo }}</td>
-                                                <td>{{ $precontrato->cliente->correo_electronico }}</td>
-                                                <td>{{ $precontrato->cliente->telefono }}</td>
-                                                <td>{{ $precontrato->direccion->codigo_postal ?? 'N/A' }}</td>
-                                                <td>{{ $precontrato->direccion->localidad ?? 'N/A' }}</td>
-                                                <td>{{ $precontrato->direccion->calle ?? 'N/A' }}</td>
-                                                <td>{{ $precontrato->direccion->referencia_domicilio ?? 'N/A' }}</td>
-                                                <td>{{ $precontrato->paquete->nombre_paquete ?? 'N/A'}}</td>
-                                                <td>
+                                    @forelse($clientes as $precontrato)
+                                        <tr>
+                                            <td>{{ $precontrato->cliente->id_cliente ?? 'N/A' }}</td>
+                                            <td>{{ $precontrato->cliente->nombre_completo ?? 'N/A' }}</td>
+                                            <td>{{ $precontrato->cliente->correo_electronico ?? 'N/A' }}</td>
+                                            <td>{{ $precontrato->cliente->telefono ?? 'N/A' }}</td>
+                                            <td>{{ $precontrato->direccion->codigo_postal ?? 'N/A' }}</td>
+                                            <td>{{ $precontrato->direccion->localidad ?? 'N/A' }}</td>
+                                            <td>{{ $precontrato->direccion->calle ?? 'N/A' }}</td>
+                                            <td>{{ $precontrato->direccion->referencia_domicilio ?? 'N/A' }}</td>
+                                            <td>{{ $precontrato->paquete->nombre_paquete ?? 'N/A' }}</td>
+                                            <td>
                                                     <!-- Botón de Administrar -->
                                                     <a href="{{ route('cliente.edit', $precontrato->cliente->id_cliente) }}" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">
                                                         <span class="icon text-white-50">
@@ -386,13 +386,13 @@
                                                         </div>
                                                     <p></p>
 
-                                                    <!-- Botón de Contratos -->
+                                                    <!-- Botón de Contratos 
                                                     <a href="javascript:void(0);" onclick="abrirContratoModal({{ $precontrato->cliente->id_cliente }}, '{{ $precontrato->cliente->nombre_completo }}');" class="btn btn-info btn-icon-split">
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-file-contract"></i>
                                                         </span>
                                                         <span class="text">Contratos</span>
-                                                    </a>
+                                                    </a>-->
                                                     <p></p>
 
                                                     <form id="deleteForm-{{ $precontrato->cliente->id_cliente }}" action="{{ route('cliente.destroy',  $precontrato->cliente->id_cliente) }}" method="POST">

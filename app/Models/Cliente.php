@@ -14,12 +14,12 @@ class Cliente extends Model
     ];
     public function precontratos()
     {
-        return $this->hasMany(Precontrato::class, 'cliente_id'); // Define la relación entre cliente y precontrato
+        return $this->hasMany(Precontrato::class, 'fk_cliente', 'id_cliente');
     }
     
-    public function nombre_paquete()
+    public function nombrepaquete()
     {
-        return $this->belongsTo(NombrePaquete::class, 'fk_paquete');
+        return $this->belongsTo(NombrePaquete::class, 'fk_paquete', 'id_nombre_paquete');
     }
     public function domicilio()
     {
