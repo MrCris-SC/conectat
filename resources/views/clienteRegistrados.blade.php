@@ -501,6 +501,7 @@
     </div>
 
     <script>
+
         let clienteIdSeleccionado = null;
         let nombre_cliente = null;
 
@@ -543,6 +544,8 @@
             })
             .catch(error => console.error("Error en la solicitud:", error));
         }
+
+       
     </script>
 
 

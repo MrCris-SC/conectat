@@ -12,6 +12,7 @@ class Cliente extends Model
         'nombre_completo', 'correo_electronico', 'telefono','fk_paquete'
         // Incluir todos los campos del formulario
     ];
+    
     public function precontratos()
     {
         return $this->hasMany(Precontrato::class, 'fk_cliente', 'id_cliente');
