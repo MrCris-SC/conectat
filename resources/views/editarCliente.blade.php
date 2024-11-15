@@ -368,7 +368,7 @@
 
                 <div class="mb-3">
                     <label for="codigo_postal" class="form-label">Código Postal</label>
-                    <input type="text" class="form-control" name="codigo_postal" value="{{ $cliente->domicilio->codigo_postal ?? '' }}" required>
+                    <input type="text" class="form-control" name="codigo_postal" maxlength="5" value="{{ $cliente->domicilio->codigo_postal ?? '' }}"  required>
                 </div>
 
                 <div class="mb-3">
