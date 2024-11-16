@@ -531,7 +531,7 @@ font-size: 1.5em; /* Aumenta el tamaño del texto para que sea más visible */
 }
 
 .carousel-caption {
-position: absolute;
+position: relative;
 bottom: 10px;
 left: 20px;
 background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */

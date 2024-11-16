@@ -321,13 +321,13 @@
               
 
 
-                <div class="card shadow mb-4">
+                <div class="card shadow mb-4" > 
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Clientes Registrados</h6>
                         </div>
                          <!-- Apartado que se necesita hacerse responsivo -->
                         <div class="card-body">
-                                <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
+                                <div class="table-responsive" >
 
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
