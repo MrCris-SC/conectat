@@ -898,11 +898,14 @@ transform-origin: center; /* Centra el escalado */
 
 /* En pantallas pequeñas, asegurar que cada tarjeta ocupe todo el ancho */
 @media (max-width: 768px) {
-  .carousel-item {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
+  .card {
+    max-width: 90%; /* Asegura que las tarjetas ocupen la mayoría del ancho en pantallas pequeñas */
+    margin: 0 auto; /* Centra la tarjeta */
+}
+
+.d-flex {
+    flex-wrap: nowrap; /* Evita que las tarjetas se distribuyan en línea */
+}
   .carousel-item .col-md-6,
   .carousel-item .col-lg-4 {
     flex: 0 0 100%;
