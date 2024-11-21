@@ -53,7 +53,6 @@
                     <img src="{{ asset ('images/hader.jpg') }}" class="d-block w-100" alt="Internet Rápido">
                     <img src="{{ asset('images/movil1.jpg') }}" class="d-block d-sm-none w-100" alt="Cobertura Nacional">
                     <div class="carousel-caption d-md-block">
-                       
                         <a href="#contratanos" class="btn btn-primary">Contrátanos</a>
                     </div>
                 </div>
@@ -66,12 +65,17 @@
                     <img src="{{ asset('images/movil2.jpg') }}" class="d-block d-sm-none w-100" alt="Cobertura Nacional">
                    
                     <div class="carousel-caption d-md-block">
-                       
-                       <a href="#covertura" class="btn btn-primary">Contrátanos</a>
-                   </div>
+                        <a href="#cobertura" class="btn btn-primary">Ver Cobertura</a>
+                    </div>
                 </div>
 
-                
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <img src="https://via.placeholder.com/1600x600" class="d-block w-100" alt="Soporte 24/7">
+                    <div class="carousel-caption d-md-block">
+                        <a href="#soporte" class="btn btn-primary">Contáctanos</a>
+                    </div>
+                </div>
             </div>
 
             <!-- Controles -->
@@ -125,50 +129,48 @@
 
         
         
+                   
         <section class="pricing py-5">
-            <div id="paqueteSlider" class="carousel slide" >
-            <div class="carousel-inner">
-            @foreach($paquetes->chunk(3) as $index => $paqueteChunk)
-                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                    <div class="d-flex justify-content-center">
-                        @foreach($paqueteChunk as $paquete)
-                            <div class="card mx-2">
-                                <img src="{{ $paquete->imagen }}" class="card-img-top" alt="{{ $paquete->nombre }}">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $paquete->nombre_paquete }}</h5>
-                                    <p class="card-text">{{ $paquete->descripcion }}</p>
-                                    <p>Precio: ${{ $paquete->precio }}</p>
-                                    <ul class="fa-ul">
-                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Single User</li>
-                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>5GB Storage</li>
-                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Unlimited Public Projects</li>
-                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Community Access</li>
-                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Unlimited Private Projects</li>
-                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Dedicated Phone Support</li>
-                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Free Subdomain</li>
-                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Monthly Status Reports</li>
-                                    </ul>
-                                    <a href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}" class="btn btn-primary">Contrátanos</a>
-                                </div>
+            <div id="paqueteSlider" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach($paquetes->chunk(1) as $index => $paqueteChunk)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <div class="d-flex justify-content-center flex-wrap">
+                                @foreach($paqueteChunk as $paquete)
+                                    <div class="card2 mx-2 shadow-lg" style="width: 18rem; border-radius: 15px; overflow: hidden;">                                        <div class="card2-body p-4 text-center">
+                                            <h5 class="card2-title text-primary fw-bold">{{ $paquete->nombre_paquete }}</h5>
+                                            <p class="card2-text text-muted mb-3">{{ $paquete->descripcion }}</p>
+                                            <p class="fw-bold fs-4 text-success">Precio: ${{ $paquete->precio }}</p>
+                                            <ul class="fa-ul text-start">
+                                                <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Usuario único</li>
+                                                <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>5GB de almacenamiento</li>
+                                                <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Proyectos públicos ilimitados</li>
+                                                <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Acceso a la comunidad</li>
+                                                <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Proyectos privados ilimitados</li>
+                                                <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Soporte telefónico dedicado</li>
+                                            </ul>
+                                            <a href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}" class="btn btn-primary rounded-pill px-4 mt-3 shadow">Contrátanos</a>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                            @endforeach
                         </div>
-                    </div>
                     @endforeach
                 </div>
-            
+        
                 <!-- Controles manuales -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#paqueteSlider" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Anterior</span>
                 </button>
-            
+        
                 <button class="carousel-control-next" type="button" data-bs-target="#paqueteSlider" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Siguiente</span>
                 </button>
-            </div>            
+            </div>
         </section>
+        
 
 
 
