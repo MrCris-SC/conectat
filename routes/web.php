@@ -90,3 +90,5 @@ Route::get('/contratos', [ContratoController::class, 'mostrarContratos'])->name(
 Route::get('/acercaNosotros', [AcercaNosotrosController::class, 'acerca'])->name('acerca');
 Route::get('/contacto', [ContactoController::class, 'contacto'])->name('contacto');
 Route::post('/enviar-mensaje', [ContactoController::class, 'enviarMensaje'])->name('enviar-mensaje');
+Route::post('/direccion', [DireccionController::class, 'store'])->name('direccion.store');
+

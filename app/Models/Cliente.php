@@ -22,9 +22,10 @@ class Cliente extends Model
     {
         return $this->belongsTo(NombrePaquete::class, 'fk_paquete', 'id_nombre_paquete');
     }
-    public function domicilio()
+
+    public function direcciones()
     {
-        return $this->hasOne(Domicilio::class, 'fk_cliente', 'id_cliente');
+    return $this->hasMany(Direccion::class, 'fk_cliente', 'id_cliente');
     }
 
 }
