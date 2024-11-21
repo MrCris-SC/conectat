@@ -50,8 +50,8 @@
             <div class="carousel-inner">
                 <!-- Slide 1 -->
                 <div class="carousel-item active">
-                    <img src="{{ asset ('images/hader.jpg') }}" class="d-block w-100" alt="Internet Rápido">
-                    <img src="{{ asset('images/movil1.jpg') }}" class="d-block d-sm-none w-100" alt="Cobertura Nacional">
+                    <img src="{{ asset ('images/hader.jpg') }}" class="d-none d-sm-block w-100"  alt="Internet Rápido">
+                    <img src="{{ asset('images/movil1.png') }}" class="d-block d-sm-none w-100" alt="Cobertura Nacional">
                     <div class="carousel-caption d-md-block">
                         <a href="#contratanos" class="btn btn-primary">Contrátanos</a>
                     </div>
@@ -62,20 +62,14 @@
                     <!-- Imagen para dispositivos grandes -->
                     <img src="{{ asset('images/header2.jpg') }}" class="d-none d-sm-block w-100" alt="Cobertura Nacional">
                     <!-- Imagen para dispositivos pequeños -->
-                    <img src="{{ asset('images/movil2.jpg') }}" class="d-block d-sm-none w-100" alt="Cobertura Nacional">
+                    <img src="{{ asset('images/movil2.png') }}" class="d-block d-sm-none w-100" alt="Cobertura Nacional">
                    
                     <div class="carousel-caption d-md-block">
                         <a href="#cobertura" class="btn btn-primary">Ver Cobertura</a>
                     </div>
                 </div>
 
-                <!-- Slide 3 -->
-                <div class="carousel-item">
-                    <img src="https://via.placeholder.com/1600x600" class="d-block w-100" alt="Soporte 24/7">
-                    <div class="carousel-caption d-md-block">
-                        <a href="#soporte" class="btn btn-primary">Contáctanos</a>
-                    </div>
-                </div>
+               
             </div>
 
             <!-- Controles -->
