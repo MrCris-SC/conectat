@@ -365,35 +365,7 @@
                     <input type="text" class="form-control" name="telefono" maxlength="10" value="{{ $cliente->telefono }}" required>
                 </div>
 
-                <div class="mb-3">
-                    <label for="codigo_postal" class="form-label">Código Postal</label>
-                    <input type="text" class="form-control" name="codigo_postal" maxlength="5" value="{{ $cliente->domicilio->codigo_postal ?? '' }}"  required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="localidad" class="form-label">Localidad</label>
-                    <input type="text" class="form-control" name="localidad" value="{{ $cliente->domicilio->localidad ?? '' }}" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="entidad_federativa" class="form-label">Entidad Federativa</label>
-                    <input type="text" class="form-control" name="entidad_federativa" value="{{ $cliente->domicilio->entidad_federativa ?? '' }}" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="colonia" class="form-label">Colonia</label>
-                    <input type="text" class="form-control" name="colonia" value="{{ $cliente->domicilio->colonia ?? '' }}" required>
-                </div>
-
-            <div class="mb-3">
-                <label for="calle" class="form-label">Calle</label>
-                <input type="text" class="form-control" name="calle" value="{{ $cliente->domicilio->calle ?? '' }}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="referencia_domicilio" class="form-label">Referencia de Domicilio</label>
-                <input type="text" class="form-control" name="referencia_domicilio" value="{{ $cliente->domicilio->referencia_domicilio ?? '' }}" required>
-            </div>
+               
 
                 <!-- Modifique seleccion de ip de paquete y actualizacion de manera automatica los datos del pquete -->
                 <div class="mb-3">
