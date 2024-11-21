@@ -494,7 +494,7 @@ to { transform: translateY(0); opacity: 1; }
 0%, 100% { transform: translateY(0); }
 50% { transform: translateY(-10px); }
 }
-/*---------------------------Diceño----------------------------------------------*/
+/*---------------------------Diceño del primer slider----------------------------------------------*/
 .carousel {
 margin: 10px auto; /* Espacio alrededor del carrusel */
 width: 1050px; /* Ancho aumentado */
@@ -556,6 +556,19 @@ transition: background-color 0.3s ease; /* Transición al pasar el ratón */
 
 .carousel-button:hover {
 background-color: rgba(255, 255, 255, 1); /* Fondo blanco al hacer hover */
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 576px) {
+  .carousel-caption {
+      font-size: 0.9em; /* Reduce el tamaño del texto */
+      padding: 5px; /* Menor padding en el texto */
+  }
+
+  .btn {
+      padding: 8px 12px; /* Botones más pequeños */
+      font-size: 0.8em; /* Ajusta el tamaño de fuente */
+  }
 }
 
 /* --------------------------------------------- */
@@ -775,7 +788,7 @@ transform-origin: center; /* Centra el escalado */
 }
 
 #paqueteSlider {
-  max-width: 90%;
+  max-width: 100%;
   margin: auto;
 }
 

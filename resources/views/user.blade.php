@@ -51,32 +51,27 @@
                 <!-- Slide 1 -->
                 <div class="carousel-item active">
                     <img src="{{ asset ('images/hader.jpg') }}" class="d-block w-100" alt="Internet Rápido">
+                    <img src="{{ asset('images/movil1.jpg') }}" class="d-block d-sm-none w-100" alt="Cobertura Nacional">
                     <div class="carousel-caption d-md-block">
-                        <h3>Conectat - Internet a Velocidad Máxima</h3>
-                        <p>Disfruta de conexión estable y rápida para todas tus necesidades.</p>
+                       
                         <a href="#contratanos" class="btn btn-primary">Contrátanos</a>
                     </div>
                 </div>
 
                 <!-- Slide 2 -->
                 <div class="carousel-item">
-                    <img src="{{ asset ('images/header2.jpg') }}" class="d-block w-100" alt="Cobertura Nacional">
+                    <!-- Imagen para dispositivos grandes -->
+                    <img src="{{ asset('images/header2.jpg') }}" class="d-none d-sm-block w-100" alt="Cobertura Nacional">
+                    <!-- Imagen para dispositivos pequeños -->
+                    <img src="{{ asset('images/movil2.jpg') }}" class="d-block d-sm-none w-100" alt="Cobertura Nacional">
+                   
                     <div class="carousel-caption d-md-block">
-                        <h3>Conectat - Cobertura en Todo el País</h3>
-                        <p>Siempre conectados, sin importar dónde te encuentres.</p>
-                        <a href="#cobertura" class="btn btn-primary">Ver Cobertura</a>
-                    </div>
+                       
+                       <a href="#covertura" class="btn btn-primary">Contrátanos</a>
+                   </div>
                 </div>
 
-                <!-- Slide 3 -->
-                <div class="carousel-item">
-                    <img src="https://via.placeholder.com/1600x600" class="d-block w-100" alt="Soporte 24/7">
-                    <div class="carousel-caption d-md-block">
-                        <h3>Soporte 24/7</h3>
-                        <p>En Conectat, estamos aquí para ayudarte en todo momento.</p>
-                        <a href="#soporte" class="btn btn-primary">Contáctanos</a>
-                    </div>
-                </div>
+                
             </div>
 
             <!-- Controles -->
