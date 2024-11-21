@@ -31,8 +31,7 @@
             const btnEditar = document.getElementById('btnEditar');
             const campos = document.querySelectorAll('#formEditarCliente input, #formEditarCliente select');
             const btnGuardar = document.getElementById('btnGuardar');
-
-            // Asegura que los campos estén bloqueados (disabled) al cargar la página
+            
             campos.forEach(campo => {
                 campo.disabled = true;
             });
@@ -417,43 +416,51 @@
     <span class="text">Editar Dirección</span>
 </button>
 
-<!-- Modal -->
 <div class="modal fade" id="editAddressModal-{{ $cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="editAddressModalLabel-{{ $cliente->id_cliente }}" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <!-- Header del modal -->
             <div class="modal-header">
-                <h5 class="modal-title" id="editAddressModalLabel-{{ $cliente->id_cliente }}">Editar Dirección</h5>
+                <h5 class="modal-title" id="editAddressModalLabel-{{ $cliente->id_cliente }}">Agregar Dirección</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <!-- Cuerpo del modal -->
             <div class="modal-body">
-                <form id="editAddressForm-{{ $cliente->id_cliente }}" action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
+                <form id="addAddressForm-{{ $cliente->id_cliente }}" action="{{ route('direccion.store') }}" method="POST">
                     @csrf
-                    @method('PUT')
+                    <input type="hidden" name="fk_cliente" value="{{ $cliente->id_cliente }}">
+                    
                     <!-- Campos de dirección -->
                     <div class="form-group">
                         <label for="calle-{{ $cliente->id_cliente }}">Calle</label>
-                        <input type="text" class="form-control" id="calle-{{ $cliente->id_cliente }}" name="calle" value="{{ $cliente->calle }}" readonly>
+                        <input type="text" class="form-control" id="calle-{{ $cliente->id_cliente }}" name="calle">
                     </div>
                     <div class="form-group">
-                        <label for="ciudad-{{ $cliente->id_cliente }}">Ciudad</label>
-                        <input type="text" class="form-control" id="ciudad-{{ $cliente->id_cliente }}" name="ciudad" value="{{ $cliente->ciudad }}" readonly>
+                        <label for="colonia-{{ $cliente->id_cliente }}">Colonia</label>
+                        <input type="text" class="form-control" id="colonia-{{ $cliente->id_cliente }}" name="colonia">
+                    </div>
+                    <div class="form-group">
+                        <label for="localidad-{{ $cliente->id_cliente }}">Localidad</label>
+                        <input type="text" class="form-control" id="localidad-{{ $cliente->id_cliente }}" name="localidad">
+                    </div>
+                    <div class="form-group">
+                        <label for="estado-{{ $cliente->id_cliente }}">Entidad Federativa</label>
+                        <input type="text" class="form-control" id="estado-{{ $cliente->id_cliente }}" name="estado">
                     </div>
                     <div class="form-group">
                         <label for="codigo_postal-{{ $cliente->id_cliente }}">Código Postal</label>
-                        <input type="text" class="form-control" id="codigo_postal-{{ $cliente->id_cliente }}" name="codigo_postal" value="{{ $cliente->codigo_postal }}" readonly>
+                        <input type="text" class="form-control" id="codigo_postal-{{ $cliente->id_cliente }}" name="codigo_postal">
                     </div>
-                    <!-- Botón oculto de guardar -->
-                    <button type="submit" id="saveButton-{{ $cliente->id_cliente }}" class="btn btn-success d-none">Guardar</button>
+                    <div class="form-group">
+                        <label for="referencias-{{ $cliente->id_cliente }}">Referencias</label>
+                        <input type="text" class="form-control" id="referencias-{{ $cliente->id_cliente }}" name="referencias">
+                    </div>
+
+                    <!-- Botón Guardar -->
+                    <button type="submit" id="saveButton-{{ $cliente->id_cliente }}" class="btn btn-success">Guardar</button>
                 </form>
-            </div>
-            <!-- Footer del modal -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="editButton-{{ $cliente->id_cliente }}">Editar</button>
             </div>
         </div>
     </div>
@@ -515,15 +522,6 @@
         }
     });
     
-    document.getElementById('editButton-{{ $cliente->id_cliente }}').addEventListener('click', function () {
-        const fields = ['calle-{{ $cliente->id_cliente }}', 'ciudad-{{ $cliente->id_cliente }}', 'codigo_postal-{{ $cliente->id_cliente }}'];
-        fields.forEach(fieldId => {
-            document.getElementById(fieldId).removeAttribute('readonly');
-        });
-        document.getElementById('saveButton-{{ $cliente->id_cliente }}').classList.remove('d-none');
-    });
-</script>
-</script>
     <!-- Bootstrap core JavaScript-->
     <!-- Vendor Scripts -->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
