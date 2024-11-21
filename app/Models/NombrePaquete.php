@@ -39,7 +39,13 @@ class NombrePaquete extends Model
     }
     public function clientes()
     {
-        return $this->hasMany(Cliente::class, 'fk_paquete');
+        return $this->hasMany(Cliente::class, 'fk_paquete','id_nombre_paquete');
     }
-   
+    public function precontratos()
+    {
+        return $this->hasMany(Precontrato::class, 'fk_paquete', 'id_nombre_paquete');
+    }
+    
+
+    
 }

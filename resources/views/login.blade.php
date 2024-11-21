@@ -85,7 +85,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                             </div>
-                                            <input type="email" name="Correo_electronico" class="form-control form-control-user @error('Correo_electronico') is-invalid @enderror" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." required>
+                                            <input type="email" name="correo_electronico" class="form-control form-control-user @error('correo_electronico') is-invalid @enderror" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." required>
                                             @error('email')
                                                 <span class="invalid-feeback">
                                                     <strong>{{ $message }}</strong>
@@ -98,8 +98,8 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                             </div>
-                                            <input type="password" name="Contraseña" class="form-control form-control-user @error('Contraseña') is-invalid @enderror" id="exampleInputPassword" placeholder="Password" required>
-                                            @error('contraseña')
+                                            <input type="password" name="password" class="form-control form-control-user @error('password') is-invalid @enderror" id="exampleInputPassword" placeholder="Password" required>
+                                            @error('password')
                                                 <span class="invalid-feeback">
                                                     <strong>{{ $message }}</strong>
                                                 </span>

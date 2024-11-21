@@ -15,10 +15,12 @@ class Contrato extends Model
 
     protected $fillable = [
         'id_contrato',
-        'fecha_inicio',
-        'fecha_fin',
+        'fecha_inicio_contrato',
+        'fecha_fin_contrato',
+        'total_meses_contrato',
         'estado',
-        'monto',
+        'monto_total_contrato',
+        'monto_total_mensualidad',
         'fk_paquete',
         'fk_cliente',
     ];

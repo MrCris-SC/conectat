@@ -14,20 +14,19 @@ class Administrador extends Authenticatable
     public $timestamps = false; // Si no usas timestamps
 
     protected $fillable = [
-        'Nombre',
-        'Correo_electronico',
-        'Contraseña',
+        'nombre',
+        'correo_electronico',
+        'password',
         'permisos',
-        'fk_usuario',
     ];
 
     public function getAuthIdentifierName()
     {
-        return 'Correo_electronico'; // Columna para el nombre de usuario
+        return 'correo_electronico'; // Columna para el nombre de usuario en minúsculas
     }
 
     public function getAuthPassword()
     {
-        return $this->Contraseña; // Columna de contraseña
+        return $this->password; // Columna de contraseña en minúsculas
     }
 }
