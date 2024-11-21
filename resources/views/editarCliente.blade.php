@@ -479,7 +479,28 @@
 </div>
             <p></p>
 
-        </form>
+
+
+        <section class="direcciones">
+            <h3>Direcciones Asociadas</h3>
+            @if ($cliente->direcciones->isEmpty())
+                <p>No hay direcciones registradas para este cliente.</p>
+            @else
+                <ul class="list-group">
+                    @foreach ($cliente->direcciones as $direccion)
+                        <li class="list-group-item">
+                            <strong>Calle:</strong> {{ $direccion->calle }}<br>
+                            <strong>Colonia:</strong> {{ $direccion->colonia }}<br>
+                            <strong>Localidad:</strong> {{ $direccion->localidad }}<br>
+                            <strong>Estado:</strong> {{ $direccion->entidad_federativa }}<br>
+                            <strong>Código Postal:</strong> {{ $direccion->codigo_postal }}<br>
+                            <strong>Referencias:</strong> {{ $direccion->referencia_domicilio }}
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </section>
+
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">

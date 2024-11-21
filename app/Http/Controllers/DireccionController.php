@@ -36,4 +36,12 @@ class DireccionController extends Controller
         // Redireccionar con un mensaje de éxito
         return redirect()->back()->with('success', 'La dirección se agregó correctamente.');
     }
+    
+    public function mostrarDirecciones($clienteId)
+    {
+        // Obtener las direcciones asociadas a un cliente específico
+        $direcciones = Direccion::where('fk_cliente', $clienteId)->get();
+
+        return view('cliente.direcciones', compact('direcciones'));
+    }
 }
