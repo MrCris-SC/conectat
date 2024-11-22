@@ -8,6 +8,7 @@ use App\Models\NombrePaquete;
 use App\Models\Domicilio;
 use App\Models\Precontrato;  
 use PDF;
+use App\Http\Controllers\ContratoController;
 
 class editarClienteController extends Controller
 {

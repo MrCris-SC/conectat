@@ -354,15 +354,14 @@
                                             @else
                                             @foreach($contratos as $contrato)
                                             <tr>
-                                               
-                                                
                                                 <td>{{ $contrato->id_contrato }}</td>
-                                                <td>{{ $contrato->fecha_inicio }}</td>
-                                                <td>{{ $contrato->fecha_fin }}</td>
-                                                <td>{{ $contrato->estado }}</td>
-                                                <td>{{ $contrato->monto }}</td>
-                                                <td>{{ $contrato->fk_paquete }}</td>
-                                                <td>{{ $contrato->fk_cliente }}</td>
+                                                <td>{{ $contrato->fecha_inicio_contrato ?? 'Sin asignar' }}</td>
+                                                <td>{{ $contrato->fecha_fin_contrato ?? 'Sin asignar' }}</td>
+                                                <td>{{ ucfirst($contrato->estado) }}</td>
+                                                <td>{{ $contrato->monto_total_contrato }}</td>
+                                                <td>{{ $contrato->paquete->nombre_paquete}}</td>
+                                                <td>{{ $contrato->cliente->id_cliente }}-{{ $contrato->cliente->nombre_completo }}</td>
+                                            
                                             </tr>
                                             @endforeach
 

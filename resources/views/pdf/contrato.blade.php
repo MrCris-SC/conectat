@@ -360,7 +360,7 @@
 
                         <tr>
                             <td><strong>Municipio:</strong></td>
-                            <td>{{ $cliente->domicilio ? $cliente->domicilio->municipio : 'No asignado' }}</td>
+                            <td> {{ $cliente->domicilio ? $cliente->domicilio->localidad : 'No asignado' }}</td>
                         </tr>
                     </table>
                 </td>
@@ -371,44 +371,28 @@
                         <tr>
                             <td><strong>Paquete Elegido:</strong></td>
                             <td>
-                                @if($cliente->nombre_paquete)
-                                    {{ $cliente->nombre_paquete->nombre_paquete }}
-                                @else
-                                    No asignado
-                                @endif
+                            {{ $cliente->nombrepaquete ? $cliente->nombrepaquete->nombre_paquete : 'No asignado' }}
                             </td>
                         </tr>
 
                         <tr>
                             <td><strong>Características del Paquete:</strong></td>
                             <td>
-                                @if($cliente->nombre_paquete)
-                                    {{ $cliente->nombre_paquete->caracteristicas_paquete }}
-                                @else
-                                    No asignado
-                                @endif
+                                    {{$cliente->nombrepaquete ? $cliente->nombrepaquete->caracteristicas_paquete: 'No asignado' }}
                             </td>
                         </tr>
 
                         <tr>
                             <td><strong>Precio Mensual:</strong></td>
                             <td>
-                                @if($cliente->nombre_paquete)
-                                    ${{ $cliente->nombre_paquete->precio }}
-                                @else
-                                    No asignado
-                                @endif
+                                    ${{$cliente->nombrepaquete ? $cliente->nombrepaquete->precio:'No asignado' }}
                             </td>
                         </tr>
 
                         <tr>
                             <td><strong>Velocidad de Conexión:</strong></td>
                             <td>
-                                @if($cliente->nombre_paquete)
-                                    {{ $cliente->nombre_paquete->velocidad_paquete }} Mbps
-                                @else
-                                    No asignado
-                                @endif
+                                    ${{$cliente->nombrepaquete ? $cliente->nombrepaquete->velocidad_paquete:'No asignado' }} Mbps                             
                             </td>
                         </tr>
                     </table>

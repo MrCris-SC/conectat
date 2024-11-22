@@ -15,6 +15,7 @@ use App\Http\Controllers\AcercaNosotrosController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\DireccionController;
 
+
 Route::post('/cliente/{id_cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('cliente.contrato');
 
 
@@ -61,6 +62,13 @@ Route::middleware('admin')->group(function () {
 
     // Ruta para procesar la actualización del administrador
     Route::put('/admin/{id}', [AdminController::class, 'ActualizarAdmin'])->name('admin.update');
+    
+    Route::get('/precontratos', [PreContratoController::class, 'index'])->name('precontratos.index');
+   
+    Route::put('/precontrato/{id_precontrato}/cambiar-paquete', [PrecontratoController::class, 'cambiarPaquete'])->name('precontrato.cambiarPaquete');
+   
+    Route::get('contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato'])->name('contratos.crear');
+
 
 });
 //Cerrar Sesion
