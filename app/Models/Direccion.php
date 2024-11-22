@@ -10,7 +10,7 @@ class Direccion extends Model
     use HasFactory;
 
     protected $table = 'direcciones'; // Nombre de la tabla en la base de datos
-
+    public $timestamps = false;
     protected $fillable = [
         'codigo_postal',
         'localidad',
