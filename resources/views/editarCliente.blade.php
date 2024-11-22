@@ -30,29 +30,40 @@
     <script>
         // Espera que el DOM esté completamente cargado
         document.addEventListener('DOMContentLoaded', function() {
-            // Selecciona el botón y los campos del formulario
-            const btnEditar = document.getElementById('btnEditar');
-            const campos = document.querySelectorAll('#formEditarCliente input, #formEditarCliente select');
-            const btnGuardar = document.getElementById('btnGuardar');
-            
-            campos.forEach(campo => {
-                campo.disabled = true;
-            });
+    // Selecciona los campos que deseas deshabilitar (Nombre Completo, Correo, Teléfono)
+    const camposDeshabilitados = document.querySelectorAll('#formEditarCliente input[name="nombre_completo"], #formEditarCliente input[name="correo_electronico"], #formEditarCliente input[name="telefono"]');
+    
+    // Selecciona todos los campos del formulario y el botón
+    const btnEditar = document.getElementById('btnEditar');
+    const campos = document.querySelectorAll('#formEditarCliente input, #formEditarCliente select');
+    const btnGuardar = document.getElementById('btnGuardar');
 
-            // Asegura que el botón "Guardar Cambios" esté oculto al cargar la página
-            btnGuardar.style.display = 'none';
+    // Deshabilita solo los campos específicos
+    camposDeshabilitados.forEach(campo => {
+        campo.disabled = true;
+    });
 
-            // Añade un evento click al botón
-            btnEditar.addEventListener('click', function() {
-                // Recorre cada campo y habilítalo
-                campos.forEach(campo => {
-                    campo.disabled = false;
-                });
-                // Oculta el botón "Editar" y muestra el botón "Guardar Cambios"
-                btnEditar.style.display = 'none';
-                btnGuardar.style.display = 'block';
-            });
+    // Asegura que el botón "Guardar Cambios" esté oculto al cargar la página
+    btnGuardar.style.display = 'none';
+
+    // Añade un evento click al botón "Editar"
+    btnEditar.addEventListener('click', function() {
+        // Recorre todos los campos y habilítalos
+        campos.forEach(campo => {
+            campo.disabled = false;
         });
+
+        // Vuelve a deshabilitar los campos específicos
+        camposDeshabilitados.forEach(campo => {
+            campo.disabled = true;
+        });
+
+        // Oculta el botón "Editar" y muestra el botón "Guardar Cambios"
+        btnEditar.style.display = 'none';
+        btnGuardar.style.display = 'block';
+    });
+});
+
     </script>
 </head>
 <body>
@@ -370,90 +381,13 @@
 
                
 
-                <!-- Modifique seleccion de ip de paquete y actualizacion de manera automatica los datos del pquete -->
-                <!-- <div class="mb-3">
-                    <label for="fk_paquete" class="form-label">ID del Paquete y Nombre</label>
-                    <select class="form-control"id="fk_paquete" name="fk_paquete" required>
-                        @foreach ($paquetes as $paquete)
-                            <option value="{{ $paquete->id_nombre_paquete }}" 
-                                {{ $cliente->fk_paquete == $paquete->id_nombre_paquete ? 'selected' : '' }}>
-                                {{ $paquete->id_nombre_paquete }}-{{ $paquete->nombre_paquete }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="Datos_Paquete" class="form-label">Datos del paquete</label>
-                    <input type="text" class="form-control" id="Datos_Paquete" name="Datos_Paquete" 
-                        value="Paquete: {{ $cliente->nombrepaquete->nombre_paquete }} de $:{{ $cliente->nombrepaquete->precio }} incluye:{{ $cliente->nombrepaquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombrepaquete->velocidad_paquete }}" required> 
-                </div>
-                -->         
+                    
                 <button type="submit" class="btn btn-primary" id="btnGuardar" style="display: none;">Guardar Cambios</button>
                 <br>
 
-                <button type="button" class="btn btn-primary" id="btnEditar">Modificar campos</button>
-       
-                <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
-
-                <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#editAddressModal-{{ $cliente->id_cliente }}">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-edit"></i>
-                    </span>
-                    <span class="text">Editar Dirección</span>
+                <button type="button" class="btn btn-primary" id="btnEditar">Modificar campos</button>       
+                    <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
                 </button>
-
-            <div class="modal fade" id="editAddressModal-{{ $cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="editAddressModalLabel-{{ $cliente->id_cliente }}" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <!-- Header del modal -->
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editAddressModalLabel-{{ $cliente->id_cliente }}">Agregar Dirección</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <!-- Cuerpo del modal -->
-                        <div class="modal-body">
-                            <form id="addAddressForm-{{ $cliente->id_cliente }}" action="{{ route('direccion.store') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="fk_cliente" value="{{ $cliente->id_cliente }}">
-                                
-                                <!-- Campos de dirección -->
-                                <div class="form-group">
-                                    <label for="calle-{{ $cliente->id_cliente }}">Calle</label>
-                                    <input type="text" class="form-control" id="calle-{{ $cliente->id_cliente }}" name="calle">
-                                </div>
-                                <div class="form-group">
-                                    <label for="colonia-{{ $cliente->id_cliente }}">Colonia</label>
-                                    <input type="text" class="form-control" id="colonia-{{ $cliente->id_cliente }}" name="colonia">
-                                </div>
-                                <div class="form-group">
-                                    <label for="localidad-{{ $cliente->id_cliente }}">Localidad</label>
-                                    <input type="text" class="form-control" id="localidad-{{ $cliente->id_cliente }}" name="localidad">
-                                </div>
-                                <div class="form-group">
-                                    <label for="estado-{{ $cliente->id_cliente }}">Entidad Federativa</label>
-                                    <input type="text" class="form-control" id="estado-{{ $cliente->id_cliente }}" name="estado">
-                                </div>
-                                <div class="form-group">
-                                    <label for="codigo_postal-{{ $cliente->id_cliente }}">Código Postal</label>
-                                    <input type="text" class="form-control" id="codigo_postal-{{ $cliente->id_cliente }}" name="codigo_postal">
-                                </div>
-                                <div class="form-group">
-                                    <label for="referencias-{{ $cliente->id_cliente }}">Referencias</label>
-                                    <input type="text" class="form-control" id="referencias-{{ $cliente->id_cliente }}" name="referencias">
-                                </div>
-
-                                <!-- Botón Guardar -->
-                                <button type="submit" id="saveButton-{{ $cliente->id_cliente }}" class="btn btn-success">Guardar</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p></p>
-
 
 
             <section class="direcciones">
@@ -479,6 +413,28 @@
                                 <strong>Estado:</strong> {{ $direccion->entidad_federativa }}<br>
                                 <strong>Código Postal:</strong> {{ $direccion->codigo_postal }}<br>
                                 <strong>Referencias:</strong> {{ $direccion->referencia_domicilio }}
+                                <br><br>
+           
+                                   <!-- Botón Editar -->
+                                   <button 
+                                        class="btn btn-primary btn-editar" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#modalEditarDireccion"
+                                        data-id="{{ $direccion->id_direccion }}"
+                                        data-calle="{{ $direccion->calle }}"
+                                        data-colonia="{{ $direccion->colonia }}"
+                                        data-localidad="{{ $direccion->localidad }}"
+                                        data-entidad="{{ $direccion->entidad_federativa }}"
+                                        data-cp="{{ $direccion->codigo_postal }}"
+                                        data-referencia="{{ $direccion->referencia_domicilio }}">
+                                        Editar
+                                    </button>
+                                
+                                    @if (is_null($direccion->precontrato))
+                                        <button class="btn btn-success" onclick="registrarPrecontrato({{ $direccion->id_direccion }})">Registrar Precontrato</button>
+                                    @else
+                                        <span>Precontrato registrado</span>
+                                    @endif
                             </li>
                         @endforeach
                     </ul>
@@ -532,6 +488,62 @@
                 </div>
             </div>
 
+            <!-- Modal para editar dirección existente -->
+            <div class="modal fade" id="modalEditarDireccion" tabindex="-1" aria-labelledby="modalEditarDireccionLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalEditarDireccionLabel">Editar Dirección</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Formulario del modal -->
+                            <form method="POST" id="formEditarDireccion">
+                                @csrf
+                                @method('PUT')
+                                
+                                <!-- Campo oculto para el ID de la dirección -->
+                                <input type="hidden" id="id_direccion" name="id_direccion">
+                                
+                                <div class="mb-3">
+                                    <label for="edit_calle" class="form-label">Calle</label>
+                                    <input type="text" class="form-control" id="edit_calle" name="calle" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="edit_colonia" class="form-label">Colonia</label>
+                                    <input type="text" class="form-control" id="edit_colonia" name="colonia" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="edit_localidad" class="form-label">Localidad</label>
+                                    <input type="text" class="form-control" id="edit_localidad" name="localidad" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="edit_entidad_federativa" class="form-label">Estado</label>
+                                    <input type="text" class="form-control" id="edit_entidad_federativa" name="entidad_federativa" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="edit_codigo_postal" class="form-label">Código Postal</label>
+                                    <input type="text" class="form-control" id="edit_codigo_postal" name="codigo_postal" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="edit_referencia_domicilio" class="form-label">Referencias</label>
+                                    <textarea class="form-control" id="edit_referencia_domicilio" name="referencia_domicilio" rows="3"></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">Actualizar Dirección</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
@@ -568,7 +580,7 @@
         </div>
     </div>
 
-    <!-- Agrega los datos de paquetes en un elemento de script para usarlo en JavaScript -->
+
     <script>
         // Convertir los datos de los paquetes a un objeto JSON
         const paquetes = @json($paquetes);
@@ -586,6 +598,37 @@
             }
         });
     </script>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const botonesEditar = document.querySelectorAll('.btn-editar');
+
+        botonesEditar.forEach(boton => {
+            boton.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const calle = this.getAttribute('data-calle');
+                const colonia = this.getAttribute('data-colonia');
+                const localidad = this.getAttribute('data-localidad');
+                const entidad = this.getAttribute('data-entidad');
+                const cp = this.getAttribute('data-cp');
+                const referencia = this.getAttribute('data-referencia');
+
+                // Llenar el formulario del modal con los datos
+                const formEditar = document.getElementById('formEditarDireccion');
+                formEditar.action = `/direccion/update/${id}`;
+                document.getElementById('id_direccion').value = id;
+                document.getElementById('edit_calle').value = calle;
+                document.getElementById('edit_colonia').value = colonia;
+                document.getElementById('edit_localidad').value = localidad;
+                document.getElementById('edit_entidad_federativa').value = entidad;
+                document.getElementById('edit_codigo_postal').value = cp;
+                document.getElementById('edit_referencia_domicilio').value = referencia;
+            });
+        });
+    });
+    </script>
+
     
     <!-- Bootstrap core JavaScript-->
     <!-- Vendor Scripts -->
