@@ -13,15 +13,16 @@ class editarClienteController extends Controller
 {
     public function editarCliente($id_cliente)
     {
-        // Buscar el cliente por su ID
-        //$cliente = Cliente::findOrFail($id_cliente);
-        $cliente = Cliente::with('domicilio','nombrepaquete')->findOrFail($id_cliente);
+        // Buscar el cliente y cargar relaciones necesarias
+        $cliente = Cliente::with(['domicilio', 'nombrepaquete', 'direcciones'])->findOrFail($id_cliente);
+
+        // Obtener todos los paquetes
         $paquetes = NombrePaquete::all();
-       // $direccion = Direccion::where('fk_cliente', $id_cliente)->first();
-    
-        // Retornar la vista con los datos del cliente
-        return view('editarCliente', compact('cliente','paquetes'));
+
+        // Retornar la vista con los datos del cliente, direcciones y paquetes
+        return view('editarCliente', compact('cliente', 'paquetes'));
     }
+
 
     // Método para actualizar el cliente
     public function actualizarCliente(Request $request, $id_cliente)

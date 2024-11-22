@@ -339,8 +339,7 @@
                                             <th>Código Postal</th>
                                             <th>Municipio</th>
                                             <th>Dirección</th>
-                                            <th>Referencia de Domicilio</th>
-                                            <th>Paquete</th>
+                                            <th>Referencia de Domicilio</th>                                           
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -354,8 +353,7 @@
                                             <td>{{ $precontrato->direccion->codigo_postal ?? 'N/A' }}</td>
                                             <td>{{ $precontrato->direccion->localidad ?? 'N/A' }}</td>
                                             <td>{{ $precontrato->direccion->calle ?? 'N/A' }}</td>
-                                            <td>{{ $precontrato->direccion->referencia_domicilio ?? 'N/A' }}</td>
-                                            <td>{{ $precontrato->paquete->nombre_paquete ?? 'N/A' }}</td>
+                                            <td>{{ $precontrato->direccion->referencia_domicilio ?? 'N/A' }}</td>                                            
                                             <td>
                                                     <!-- Botón de Administrar -->
                                                     <a href="{{ route('cliente.edit', $precontrato->cliente->id_cliente) }}" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">

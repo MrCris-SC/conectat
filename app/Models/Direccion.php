@@ -10,15 +10,15 @@ class Direccion extends Model
     use HasFactory;
 
     protected $table = 'direcciones'; // Nombre de la tabla en la base de datos
-
+    public $timestamps = false;
     protected $fillable = [
-        'fk_cliente',
-        'calle',
-        'colonia',
-        'localidad',
-        'estado',
         'codigo_postal',
-        'referencias',
+        'localidad',
+        'entidad_federativa',
+        'colonia',
+        'calle',
+        'referencia_domicilio',
+        'fk_cliente',
     ];
 
     /**

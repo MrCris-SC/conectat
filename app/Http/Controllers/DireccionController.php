@@ -13,27 +13,27 @@ class DireccionController extends Controller
     public function store(Request $request)
     {
         // Validar los datos recibidos
-        $validatedData = $request->validate([
-            'fk_cliente' => 'required|exists:clientes,id_cliente', // Verifica que el cliente exista
+        $request->validate([
+            'fk_cliente' => 'required|exists:clientes,id_cliente',
             'calle' => 'required|string|max:255',
             'colonia' => 'required|string|max:255',
             'localidad' => 'required|string|max:255',
-            'estado' => 'required|string|max:255',
-            'codigo_postal' => 'required|numeric',
-            'referencias' => 'nullable|string|max:255',
+            'entidad_federativa' => 'required|string|max:255',
+            'codigo_postal' => 'required|string|max:10',
+            'referencia_domicilio' => 'nullable|string|max:500',
         ]);
+        // Crear la nueva dirección
+        Direccion::create($request->all());
 
-        $direccion = new Direccion();
-        $direccion->fk_cliente = $validatedData['fk_cliente'];
-        $direccion->calle = $validatedData['calle'];
-        $direccion->colonia = $validatedData['colonia'];
-        $direccion->localidad = $validatedData['localidad'];
-        $direccion->estado = $validatedData['estado'];
-        $direccion->codigo_postal = $validatedData['codigo_postal'];
-        $direccion->referencias = $validatedData['referencias'];
-        $direccion->save();
+        // Redirigir con un mensaje de éxito
+        return redirect()->back()->with('success', 'Dirección registrada exitosamente.');
+    }
+    
+    public function mostrarDirecciones($clienteId)
+    {
+        // Obtener las direcciones asociadas a un cliente específico
+        $direcciones = Direccion::where('fk_cliente', $clienteId)->get();
 
-        // Redireccionar con un mensaje de éxito
-        return redirect()->back()->with('success', 'La dirección se agregó correctamente.');
+        return view('cliente.direcciones', compact('direcciones'));
     }
 }

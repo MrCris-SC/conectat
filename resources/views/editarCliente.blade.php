@@ -11,6 +11,9 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- JS de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
     <link href="{{ asset('css/packs.css') }}" rel="stylesheet">
     <title>Editar de Clientes</title>
 
@@ -365,38 +368,10 @@
                     <input type="text" class="form-control" name="telefono" maxlength="10" value="{{ $cliente->telefono }}" required>
                 </div>
 
-                <div class="mb-3">
-                    <label for="codigo_postal" class="form-label">Código Postal</label>
-                    <input type="text" class="form-control" name="codigo_postal" maxlength="5" value="{{ $cliente->domicilio->codigo_postal ?? '' }}"  required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="localidad" class="form-label">Localidad</label>
-                    <input type="text" class="form-control" name="localidad" value="{{ $cliente->domicilio->localidad ?? '' }}" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="entidad_federativa" class="form-label">Entidad Federativa</label>
-                    <input type="text" class="form-control" name="entidad_federativa" value="{{ $cliente->domicilio->entidad_federativa ?? '' }}" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="colonia" class="form-label">Colonia</label>
-                    <input type="text" class="form-control" name="colonia" value="{{ $cliente->domicilio->colonia ?? '' }}" required>
-                </div>
-
-            <div class="mb-3">
-                <label for="calle" class="form-label">Calle</label>
-                <input type="text" class="form-control" name="calle" value="{{ $cliente->domicilio->calle ?? '' }}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="referencia_domicilio" class="form-label">Referencia de Domicilio</label>
-                <input type="text" class="form-control" name="referencia_domicilio" value="{{ $cliente->domicilio->referencia_domicilio ?? '' }}" required>
-            </div>
+               
 
                 <!-- Modifique seleccion de ip de paquete y actualizacion de manera automatica los datos del pquete -->
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="fk_paquete" class="form-label">ID del Paquete y Nombre</label>
                     <select class="form-control"id="fk_paquete" name="fk_paquete" required>
                         @foreach ($paquetes as $paquete)
@@ -413,7 +388,7 @@
                     <input type="text" class="form-control" id="Datos_Paquete" name="Datos_Paquete" 
                         value="Paquete: {{ $cliente->nombrepaquete->nombre_paquete }} de $:{{ $cliente->nombrepaquete->precio }} incluye:{{ $cliente->nombrepaquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombrepaquete->velocidad_paquete }}" required> 
                 </div>
-
+                -->         
                 <button type="submit" class="btn btn-primary" id="btnGuardar" style="display: none;">Guardar Cambios</button>
                 <br>
 
@@ -422,64 +397,141 @@
                 <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
 
                 <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#editAddressModal-{{ $cliente->id_cliente }}">
-    <span class="icon text-white-50">
-        <i class="fas fa-edit"></i>
-    </span>
-    <span class="text">Editar Dirección</span>
-</button>
-
-<div class="modal fade" id="editAddressModal-{{ $cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="editAddressModalLabel-{{ $cliente->id_cliente }}" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <!-- Header del modal -->
-            <div class="modal-header">
-                <h5 class="modal-title" id="editAddressModalLabel-{{ $cliente->id_cliente }}">Agregar Dirección</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span class="icon text-white-50">
+                        <i class="fas fa-edit"></i>
+                    </span>
+                    <span class="text">Editar Dirección</span>
                 </button>
-            </div>
-            <!-- Cuerpo del modal -->
-            <div class="modal-body">
-                <form id="addAddressForm-{{ $cliente->id_cliente }}" action="{{ route('direccion.store') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="fk_cliente" value="{{ $cliente->id_cliente }}">
-                    
-                    <!-- Campos de dirección -->
-                    <div class="form-group">
-                        <label for="calle-{{ $cliente->id_cliente }}">Calle</label>
-                        <input type="text" class="form-control" id="calle-{{ $cliente->id_cliente }}" name="calle">
-                    </div>
-                    <div class="form-group">
-                        <label for="colonia-{{ $cliente->id_cliente }}">Colonia</label>
-                        <input type="text" class="form-control" id="colonia-{{ $cliente->id_cliente }}" name="colonia">
-                    </div>
-                    <div class="form-group">
-                        <label for="localidad-{{ $cliente->id_cliente }}">Localidad</label>
-                        <input type="text" class="form-control" id="localidad-{{ $cliente->id_cliente }}" name="localidad">
-                    </div>
-                    <div class="form-group">
-                        <label for="estado-{{ $cliente->id_cliente }}">Entidad Federativa</label>
-                        <input type="text" class="form-control" id="estado-{{ $cliente->id_cliente }}" name="estado">
-                    </div>
-                    <div class="form-group">
-                        <label for="codigo_postal-{{ $cliente->id_cliente }}">Código Postal</label>
-                        <input type="text" class="form-control" id="codigo_postal-{{ $cliente->id_cliente }}" name="codigo_postal">
-                    </div>
-                    <div class="form-group">
-                        <label for="referencias-{{ $cliente->id_cliente }}">Referencias</label>
-                        <input type="text" class="form-control" id="referencias-{{ $cliente->id_cliente }}" name="referencias">
-                    </div>
 
-                    <!-- Botón Guardar -->
-                    <button type="submit" id="saveButton-{{ $cliente->id_cliente }}" class="btn btn-success">Guardar</button>
-                </form>
+            <div class="modal fade" id="editAddressModal-{{ $cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="editAddressModalLabel-{{ $cliente->id_cliente }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <!-- Header del modal -->
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editAddressModalLabel-{{ $cliente->id_cliente }}">Agregar Dirección</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!-- Cuerpo del modal -->
+                        <div class="modal-body">
+                            <form id="addAddressForm-{{ $cliente->id_cliente }}" action="{{ route('direccion.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="fk_cliente" value="{{ $cliente->id_cliente }}">
+                                
+                                <!-- Campos de dirección -->
+                                <div class="form-group">
+                                    <label for="calle-{{ $cliente->id_cliente }}">Calle</label>
+                                    <input type="text" class="form-control" id="calle-{{ $cliente->id_cliente }}" name="calle">
+                                </div>
+                                <div class="form-group">
+                                    <label for="colonia-{{ $cliente->id_cliente }}">Colonia</label>
+                                    <input type="text" class="form-control" id="colonia-{{ $cliente->id_cliente }}" name="colonia">
+                                </div>
+                                <div class="form-group">
+                                    <label for="localidad-{{ $cliente->id_cliente }}">Localidad</label>
+                                    <input type="text" class="form-control" id="localidad-{{ $cliente->id_cliente }}" name="localidad">
+                                </div>
+                                <div class="form-group">
+                                    <label for="estado-{{ $cliente->id_cliente }}">Entidad Federativa</label>
+                                    <input type="text" class="form-control" id="estado-{{ $cliente->id_cliente }}" name="estado">
+                                </div>
+                                <div class="form-group">
+                                    <label for="codigo_postal-{{ $cliente->id_cliente }}">Código Postal</label>
+                                    <input type="text" class="form-control" id="codigo_postal-{{ $cliente->id_cliente }}" name="codigo_postal">
+                                </div>
+                                <div class="form-group">
+                                    <label for="referencias-{{ $cliente->id_cliente }}">Referencias</label>
+                                    <input type="text" class="form-control" id="referencias-{{ $cliente->id_cliente }}" name="referencias">
+                                </div>
+
+                                <!-- Botón Guardar -->
+                                <button type="submit" id="saveButton-{{ $cliente->id_cliente }}" class="btn btn-success">Guardar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
             <p></p>
 
-        </form>
+
+
+            <section class="direcciones">
+                <h3>Direcciones Asociadas</h3>
+                @if ($cliente->direcciones->isEmpty())
+                    <p>No hay direcciones registradas para este cliente.</p>
+                @else
+                <div class="div-new">
+                    <p>Registrar nueva direccion </p>
+
+                    <!-- Botón para agregar dirección -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaDireccion">
+                        Agregar Nueva Dirección
+                    </button>
+                </div>
+                <br><br>
+                    <ul class="list-group">
+                        @foreach ($cliente->direcciones as $direccion)
+                            <li class="list-group-item">
+                                <strong>Calle:</strong> {{ $direccion->calle }}<br>
+                                <strong>Colonia:</strong> {{ $direccion->colonia }}<br>
+                                <strong>Localidad:</strong> {{ $direccion->localidad }}<br>
+                                <strong>Estado:</strong> {{ $direccion->entidad_federativa }}<br>
+                                <strong>Código Postal:</strong> {{ $direccion->codigo_postal }}<br>
+                                <strong>Referencias:</strong> {{ $direccion->referencia_domicilio }}
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+
+                
+            </section>
+
+            <!-- Modal para registrar nueva dirección -->
+          
+            <div class="modal fade" id="modalNuevaDireccion" tabindex="-1" aria-labelledby="modalNuevaDireccionLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalNuevaDireccionLabel">Registrar Nueva Dirección</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Contenido del modal -->
+                            <form id="formNuevaDireccion" method="POST" action="{{ route('direcciones.add') }}">
+                                @csrf
+                                <input type="hidden" name="fk_cliente" value="{{ $cliente->id_cliente }}">
+                                <div class="mb-3">
+                                    <label for="calle" class="form-label">Calle</label>
+                                    <input type="text" class="form-control" id="calle" name="calle" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="colonia" class="form-label">Colonia</label>
+                                    <input type="text" class="form-control" id="colonia" name="colonia" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="localidad" class="form-label">Localidad</label>
+                                    <input type="text" class="form-control" id="localidad" name="localidad" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="entidad_federativa" class="form-label">Estado</label>
+                                    <input type="text" class="form-control" id="entidad_federativa" name="entidad_federativa" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="codigo_postal" class="form-label">Código Postal</label>
+                                    <input type="text" class="form-control" id="codigo_postal" name="codigo_postal" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="referencia_domicilio" class="form-label">Referencias</label>
+                                    <textarea class="form-control" id="referencia_domicilio" name="referencia_domicilio" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Guardar Dirección</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">

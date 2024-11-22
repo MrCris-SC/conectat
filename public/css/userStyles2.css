@@ -789,6 +789,7 @@ transform-origin: center; /* Centra el escalado */
 #paqueteSlider {
   max-width: 100%;
   margin: auto;
+  height: 600px;
 }
 
 @media (max-width: 768px) {

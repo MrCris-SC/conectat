@@ -125,9 +125,9 @@
         
                    
         <section class="pricing py-5">
-            <div id="paqueteSlider" class="carousel slide" data-bs-ride="carousel">
+            <div id="paqueteSlider" class="carousel slide">
                 <div class="carousel-inner">
-                    @foreach($paquetes->chunk(1) as $index => $paqueteChunk)
+                    @foreach($paquetes->chunk(3) as $index => $paqueteChunk)
                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                             <div class="d-flex justify-content-center flex-wrap">
                                 @foreach($paqueteChunk as $paquete)

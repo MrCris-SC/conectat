@@ -28,5 +28,10 @@ class Cliente extends Model
     return $this->hasMany(Direccion::class, 'fk_cliente', 'id_cliente');
     }
 
+    public function domicilio()   
+    {
+        return $this->hasOne(Domicilio::class, 'fk_cliente', 'id_cliente');    
+    }
+
 }
 
