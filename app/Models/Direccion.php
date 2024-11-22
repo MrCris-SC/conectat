@@ -11,6 +11,7 @@ class Direccion extends Model
 
     protected $table = 'direcciones'; // Nombre de la tabla en la base de datos
     public $timestamps = false;
+    protected $primaryKey = 'id_direccion';
     protected $fillable = [
         'codigo_postal',
         'localidad',
@@ -28,4 +29,6 @@ class Direccion extends Model
     {
         return $this->belongsTo(Cliente::class, 'fk_cliente', 'id_cliente');
     }
+    
+
 }
