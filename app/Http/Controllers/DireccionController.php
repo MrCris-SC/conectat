@@ -37,19 +37,19 @@ class DireccionController extends Controller
         return view('cliente.direcciones', compact('direcciones'));
     }
     public function update(Request $request, $id_direccion)
-{
-    $direcciones = Direccion::findOrFail($id_direccion);
-    $request->validate([
-        'calle' => 'required|string|max:255',
-        'colonia' => 'required|string|max:255',
-        'localidad' => 'required|string|max:255',
-        'entidad_federativa' => 'required|string|max:255',
-        'codigo_postal' => 'required|string|max:10',
-        'referencia_domicilio' => 'nullable|string|max:500',
-    ]);
-    $direcciones->update($request->all());
-    return redirect()->back()->with('success', 'Dirección actualizada correctamente.');
-}
+    {
+        $direcciones = Direccion::findOrFail($id_direccion);
+        $request->validate([
+            'calle' => 'required|string|max:255',
+            'colonia' => 'required|string|max:255',
+            'localidad' => 'required|string|max:255',
+            'entidad_federativa' => 'required|string|max:255',
+            'codigo_postal' => 'required|string|max:10',
+            'referencia_domicilio' => 'nullable|string|max:500',
+        ]);
+        $direcciones->update($request->all());
+        return redirect()->back()->with('success', 'Dirección actualizada correctamente.');
+    }
 
 
 }
