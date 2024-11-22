@@ -370,25 +370,7 @@
 
                
 
-                <!-- Modifique seleccion de ip de paquete y actualizacion de manera automatica los datos del pquete -->
-                <!-- <div class="mb-3">
-                    <label for="fk_paquete" class="form-label">ID del Paquete y Nombre</label>
-                    <select class="form-control"id="fk_paquete" name="fk_paquete" required>
-                        @foreach ($paquetes as $paquete)
-                            <option value="{{ $paquete->id_nombre_paquete }}" 
-                                {{ $cliente->fk_paquete == $paquete->id_nombre_paquete ? 'selected' : '' }}>
-                                {{ $paquete->id_nombre_paquete }}-{{ $paquete->nombre_paquete }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="Datos_Paquete" class="form-label">Datos del paquete</label>
-                    <input type="text" class="form-control" id="Datos_Paquete" name="Datos_Paquete" 
-                        value="Paquete: {{ $cliente->nombrepaquete->nombre_paquete }} de $:{{ $cliente->nombrepaquete->precio }} incluye:{{ $cliente->nombrepaquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombrepaquete->velocidad_paquete }}" required> 
-                </div>
-                -->         
+                 
                 <button type="submit" class="btn btn-primary" id="btnGuardar" style="display: none;">Guardar Cambios</button>
                 <br>
 
