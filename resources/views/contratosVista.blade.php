@@ -95,9 +95,9 @@
 
     <!-- Nav Item - Ajustes -->
     <li class="nav-item">
-        <a class="nav-link" href="ajustes.html">
+        <a class="nav-link" href="{{ url('/precontratos') }}">
             <i class="fas fa-fw fa-cogs"></i>
-            <span>Ajustes del Sistema</span></a>
+            <span>Precontratos</span></a>
     </li>
 
     <!-- Nav Item - Ayuda -->
@@ -354,15 +354,16 @@
                                             @else
                                             @foreach($contratos as $contrato)
                                             <tr>
-                                               
-                                                
                                                 <td>{{ $contrato->id_contrato }}</td>
-                                                <td>{{ $contrato->fecha_inicio }}</td>
-                                                <td>{{ $contrato->fecha_fin }}</td>
-                                                <td>{{ $contrato->estado }}</td>
-                                                <td>{{ $contrato->monto }}</td>
-                                                <td>{{ $contrato->fk_paquete }}</td>
-                                                <td>{{ $contrato->fk_cliente }}</td>
+                                                <td>{{ $contrato->fecha_inicio_contrato ?? 'Sin asignar' }}</td>
+                                                <td>{{ $contrato->fecha_fin_contrato ?? 'Sin asignar' }}</td>
+                                                <td>{{ ucfirst($contrato->estado) }}</td>
+                                                <td>{{ $contrato->monto_total_contrato }}</td>
+                                                 <!-- Acceso a la relación 'paquete' -->
+                                                <td>{{ $contrato->paquete ? $contrato->paquete->nombre_paquete : 'Sin Paquete' }}</td>
+
+                                                <!-- Acceso a la relación 'cliente' -->
+                                                <td>{{ $contrato->cliente ? $contrato->cliente->nombre_completo : 'Sin Cliente' }}</td>
                                             </tr>
                                             @endforeach
 

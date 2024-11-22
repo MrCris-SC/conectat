@@ -11,10 +11,25 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\miPrecontrato;
 use App\Mail\VerificacionCodigo;
 use Illuminate\Support\Str;
+use App\Models\NombrePaquete;
+use App\Models\Message;
 
 
 class PreContratoController extends Controller
 {
+    public function index()
+    {
+        // Obtener todos los precontratos con las relaciones
+        $precontratos = Precontrato::with(['cliente', 'direccion', 'paquete'])->get();
+        // Obtén todos los paquetes disponibles
+        $paquetes = NombrePaquete::all();
+        $mensajes = Message::latest()->take(5)->get(); // Obtiene los 5 mensajes más recientes
+        //return view('index', compact('mensajes'));
+
+        // Retornar la vista con los datos
+        return view('preContrato', compact('precontratos','paquetes','mensajes'));
+    }
+
     public function mostrarFormulario()
     {
         return view('datos');
@@ -153,5 +168,31 @@ public function verificarCodigo(Request $request)
     {
         return view('verificar-Codigo');
     }
-    
+
+    public function cambiarPaquete(Request $request, $id_precontrato)
+    {
+        $precontrato = Precontrato::findOrFail($id_precontrato);
+        $precontrato->fk_paquete = $request->fk_paquete;
+        $precontrato->save();
+
+         // Validar los datos de entrada
+        $validatedData = $request->validate([
+            'fk_paquete' => 'required|exists:nombres_paquetes,id_nombre_paquete',
+        ]);
+
+        $cliente = $precontrato->cliente;
+        //dd($cliente);
+
+        if ($cliente) {
+            //$cliente->fk_paquete = $validatedData['fk_paquete'];
+            $cliente->fk_paquete = $request->fk_paquete;
+             // Verifica aquí si fk_paquete tiene el valor correcto antes de guardar
+               // Actualizar el estado de 'es_cliente'
+            $cliente->es_cliente = $request->input('es_cliente'); //uso para practicar el estado de 'es_cliente'
+            $cliente->save();
+        }
+
+        return redirect()->back()->with('success', 'El paquete ha sido actualizado correctamente.');
+    }
+
 }

@@ -134,9 +134,9 @@
 
     <!-- Nav Item - Ajustes -->
     <li class="nav-item">
-        <a class="nav-link" href="ajustes.html">
+        <a class="nav-link" href="{{ url('/precontratos') }}">
             <i class="fas fa-fw fa-cogs"></i>
-            <span>Ajustes del Sistema</span></a>
+            <span>Precontratos</span></a>
     </li>
 
     <!-- Nav Item - Ayuda -->
@@ -580,7 +580,25 @@
         </div>
     </div>
 
-    <!-- Agrega los datos de paquetes en un elemento de script para usarlo en JavaScript -->
+
+    <script>
+        // Convertir los datos de los paquetes a un objeto JSON
+        const paquetes = @json($paquetes);
+
+        document.getElementById('fk_paquete').addEventListener('change', function() {
+            // Obtener el ID de paquete seleccionado
+            const selectedId = this.value;
+            
+            // Buscar el paquete seleccionado en el objeto `paquetes`
+            const paquete = paquetes.find(p => p.id_nombre_paquete == selectedId);
+            
+            // Actualizar el campo "Datos_Paquete" con los detalles del paquete seleccionado
+            if (paquete) {
+                document.getElementById('Datos_Paquete').value = `Paquete: ${paquete.nombre_paquete} de $:${paquete.precio} incluye:${paquete.caracteristicas_paquete} velocidad:${paquete.velocidad_paquete}`;
+            }
+        });
+    </script>
+
     
     <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -610,11 +628,6 @@
         });
     });
     </script>
-
-
-
-  
-
 
     
     <!-- Bootstrap core JavaScript-->

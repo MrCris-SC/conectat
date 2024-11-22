@@ -21,6 +21,7 @@ class Contrato extends Model
         'estado',
         'monto_total_contrato',
         'monto_total_mensualidad',
+        'fk_precontrato',
         'fk_paquete',
         'fk_cliente',
     ];
@@ -33,4 +34,34 @@ class Contrato extends Model
 
         return $id;
     }
+
+    public function precontrato()
+    {
+        return $this->belongsTo(Precontrato::class, 'fk_precontrato', 'id_precontrato');
+    }
+
+    // Relación con el cliente
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class, 'fk_cliente', 'id_cliente');
+    }
+
+    // Relación con el paquete
+    public function paquete()
+    {
+        return $this->belongsTo(NombrePaquete::class, 'fk_paquete', 'id_nombre_paquete');
+    }
+   /* // Relación con el cliente
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class);  // Laravel asume 'cliente_id' por defecto
+    }
+
+    // Relación con el paquete
+    public function paquete()
+    {
+        return $this->belongsTo(NombrePaquete::class);  // Laravel asume 'paquete_id' por defecto
+    }*/
+
+
 }
