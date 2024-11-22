@@ -94,4 +94,6 @@ Route::post('/enviar-mensaje', [ContactoController::class, 'enviarMensaje'])->na
 Route::post('/direccion', [DireccionController::class, 'store'])->name('direccion.store');
 Route::get('/cliente/{id}/direcciones', [DireccionController::class, 'mostrarDirecciones'])->name('cliente.direcciones');
 Route::post('/direcciones', [DireccionController::class, 'store'])->name('direcciones.add');
+Route::put('/direccion/update/{id}', [DireccionController::class, 'update'])->name('direcciones.update');
 
+Route::post('/crearPrecontrato', [PrecontratoController::class, 'crearPrecontrato'])->name('crearPrecontrato');
