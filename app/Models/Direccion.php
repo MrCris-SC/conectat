@@ -28,4 +28,8 @@ class Direccion extends Model
     {
         return $this->belongsTo(Cliente::class, 'fk_cliente', 'id_cliente');
     }
+    public function precontrato()
+    {
+        return $this->hasOne(Precontrato::class, 'fk_direccion', 'id');
+    }
 }
