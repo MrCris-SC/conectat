@@ -359,11 +359,8 @@
                                                 <td>{{ $contrato->fecha_fin_contrato ?? 'Sin asignar' }}</td>
                                                 <td>{{ ucfirst($contrato->estado) }}</td>
                                                 <td>{{ $contrato->monto_total_contrato }}</td>
-                                                 <!-- Acceso a la relación 'paquete' -->
-                                                <td>{{ $contrato->paquete ? $contrato->paquete->nombre_paquete : 'Sin Paquete' }}</td>
-
-                                                <!-- Acceso a la relación 'cliente' -->
-                                                <td>{{ $contrato->cliente ? $contrato->cliente->nombre_completo : 'Sin Cliente' }}</td>
+                                                <td>{{ $contrato->precontrato->paquete->nombre_paquete }}</td>
+                                                <td>{{ $contrato->precontrato->cliente->nombre_completo }}</td>
                                             </tr>
                                             @endforeach
 
