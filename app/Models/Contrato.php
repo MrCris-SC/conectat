@@ -51,4 +51,17 @@ class Contrato extends Model
     {
         return $this->belongsTo(NombrePaquete::class, 'fk_paquete', 'id_nombre_paquete');
     }
+   /* // Relación con el cliente
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class);  // Laravel asume 'cliente_id' por defecto
+    }
+
+    // Relación con el paquete
+    public function paquete()
+    {
+        return $this->belongsTo(NombrePaquete::class);  // Laravel asume 'paquete_id' por defecto
+    }*/
+
+
 }
