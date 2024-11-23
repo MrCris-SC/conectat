@@ -60,13 +60,11 @@ class ContratoController extends Controller
             'estado' => $estado,
             'monto_total_contrato' => 500, // Cambiar si es necesario
             'monto_total_mensualidad' => $monto,
-           'fk_precontrato' => $precontrato->id_precontrato,
-           'fk_paquete' => $paquete->id_nombre_paquete,
-            'fk_cliente' => $cliente->id_cliente,
+            'fk_precontrato' => $precontrato->id_precontrato,
+            'fk_paquete' => $precontrato->$paquete->id_nombre_paquete,
+            'fk_cliente' => $precontrato->$cliente->id_cliente,
         ];
-
-        
-        //dd($datosContrato);
+        dd($datosContrato);
         Contrato::create($datosContrato);
         $cliente->es_cliente = 1;
         $cliente->save();

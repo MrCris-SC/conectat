@@ -398,6 +398,14 @@
                                                             </div>
                                                         </div>
                                                     
+                                                           <!-- Botón de Contratos -->
+                                                <a href="{{ route('contratos.crear', ['id_cliente' => $precontrato->cliente->id_cliente]) }}" class="btn btn-info btn-icon-split">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-file-contract"></i>
+                                                    </span>
+                                                    <span class="text">Contratos</span>
+                                                </a> 
+                                                <br><br>
                                                     <!-- Botón de Contratos -->
                                                     
                                                     <a href="javascript:void(0);" 
@@ -406,7 +414,7 @@
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-file-contract"></i>
                                                         </span>
-                                                        <span class="text">Contratos</span>
+                                                        <span class="text">Contratos1</span>
                                                     </a>
 
                                                     <!-- Modal Cliente ya tiene contrato -->
