@@ -61,8 +61,8 @@ class ContratoController extends Controller
             'monto_total_contrato' => 500, // Cambiar si es necesario
             'monto_total_mensualidad' => $monto,
            'fk_precontrato' => $precontrato->id_precontrato,
-           //'fk_paquete' => $paquete->id_nombre_paquete,
-            //'fk_cliente' => $cliente->id_cliente,
+           'fk_paquete' => $paquete->id_nombre_paquete,
+            'fk_cliente' => $cliente->id_cliente,
         ];
 
         

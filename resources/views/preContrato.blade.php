@@ -591,7 +591,7 @@
     </script>
 
 
-    <script>
+    <!--<script>
 
         let clienteIdSeleccionado = null;
         let nombre_cliente = null;
@@ -637,7 +637,7 @@
         }
 
        
-    </script>
+    </script>--> 
 
     <!-- Bootstrap core JavaScript--> 
     <!-- Vendor Scripts -->
