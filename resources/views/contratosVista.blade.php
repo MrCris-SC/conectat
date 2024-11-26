@@ -342,7 +342,7 @@
                                                 <th>Monto</th>
                                                 <th>Paquete</th>
                                                 <th>Cliente</th>
-                                               
+                                                <th>Aciones</th>
                                                
                                             </tr>
                                         </thead>
@@ -361,6 +361,14 @@
                                                 <td>{{ $contrato->monto_total_contrato }}</td>
                                                 <td>{{ $contrato->precontrato->paquete->nombre_paquete }}</td>
                                                 <td>{{ $contrato->precontrato->cliente->nombre_completo }}</td>
+                                                <td>
+                                                <a href="" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-edit"></i>
+                                                    </span>
+                                                    <span class="text">Administrar</span>
+                                                </a>
+                                                </td>
                                             </tr>
                                             @endforeach
 

@@ -206,17 +206,7 @@ public function verificarCodigo(Request $request)
             'fk_paquete' => 'required|exists:nombres_paquetes,id_nombre_paquete',
         ]);
 
-        $cliente = $precontrato->cliente;
-        //dd($cliente);
-
-        if ($cliente) {
-            //$cliente->fk_paquete = $validatedData['fk_paquete'];
-            $cliente->fk_paquete = $request->fk_paquete;
-             // Verifica aquí si fk_paquete tiene el valor correcto antes de guardar
-               // Actualizar el estado de 'es_cliente'
-            $cliente->es_cliente = $request->input('es_cliente'); //uso para practicar el estado de 'es_cliente'
-            $cliente->save();
-        }
+        
 
         return redirect()->back()->with('success', 'El paquete ha sido actualizado correctamente.');
     }

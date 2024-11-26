@@ -38,25 +38,10 @@
             </div>
         </nav>
 
-       
-        <section class="container-code">
-
-                <h2 class="text-center">Verificación de Código</h2>
-                <form action="{{ route('verificarCodigo') }}" method="POST">
-                @csrf <!-- Protección CSRF en Laravel -->
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="codigo" class="form-label">Ingrese el código que recibió en su correo</label>
-                        <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código de verificación" required>
-                    </div>
-                </div>
-
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button type="submit" class="btn btn-primary">Verificar</button>
-                </div>
-            </form>
-        </section>
+        <div class="container">
+            @yield('content') <!-- Aquí se insertará el contenido de las otras vistas -->
+        </div>
+        
  <!-- footer********************************************************************************-->
 
         <footer>

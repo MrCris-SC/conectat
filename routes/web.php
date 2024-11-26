@@ -94,7 +94,7 @@ Route::get('/seleccionar-paquete/{id_nombre_paquete}', [PreContratoController::c
 Route::post('/enviar-correo', [MailController::class, 'enviarCorreo'])->name('enviar.correo');
 
 
-Route::get('/paquetePromocion', [UserController::class, 'promociones'])->name('mostrar.paquetes');
+
 
 Route::get('/acercaNosotros', [AcercaNosotrosController::class, 'acerca'])->name('acerca');
 Route::get('/contacto', [ContactoController::class, 'contacto'])->name('contacto');
