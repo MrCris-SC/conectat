@@ -22,6 +22,7 @@ class DireccionController extends Controller
             'codigo_postal' => 'required|string|max:10',
             'referencia_domicilio' => 'nullable|string|max:500',
         ]);
+        dd($request->validate);
         // Crear la nueva dirección
         Direccion::create($request->all());
 

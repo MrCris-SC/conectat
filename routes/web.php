@@ -72,14 +72,10 @@ Route::middleware('admin')->group(function () {
     Route::put('/precontrato/{id_precontrato}/cambiar-paquete', [PrecontratoController::class, 'cambiarPaquete'])->name('precontrato.cambiarPaquete');
    
     // Crear contrato
-    Route::get('/contratos', [ContratoController::class, 'mostrarContratos'])->name('mostrar.contratos');
+   Route::get('/contratos', [ContratoController::class, 'mostrarContratos'])->name('mostrar.contratos');
 
-    Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato'])->name('contratos.crear');
-    //Route::post('/cliente/{cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('insertar.contrato');
+    //Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato'])->name('contratos.crear');
 
-    //Route::get('cliente/{id}/contrato', [editarClienteController::class, 'generarContratoPDF'])->name('cliente.contratopdf');
-    // Generar PDF
-    Route::get('/contratos/pdf/{id_cliente}', [ContratoController::class, 'generarContratoPDF'])->name('contratos.generarPDF');
 });
 //Cerrar Sesion
 Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
@@ -110,3 +106,9 @@ Route::post('/direcciones', [DireccionController::class, 'store'])->name('direcc
 Route::put('/direccion/update/{id}', [DireccionController::class, 'update'])->name('direcciones.update');
 
 Route::post('/precontratos/registrar', [PrecontratoController::class, 'registrar'])->name('precontratos.registrar');
+
+Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato']);
+
+// Ruta para descargar el contrato en PDF (GET)
+Route::get('/contratos/pdf/{id_cliente}', [ContratoController::class, 'generarContratoPDF'])->name('contratos.pdf');
+
