@@ -475,7 +475,7 @@
                                     <div class="col-md-4">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h5 class="card-title">{{ $paquete->nombre }}</h5>
+                                                <h5 class="card-title">{{ $paquete->nombre_paquete }}</h5>
                                                 <p class="card-text">Precio: ${{ $paquete->precio }}</p>
                                                 <input type="radio" name="fk_paquete" value="{{ $paquete->id_nombre_paquete }}" 
                                                 onclick="setPaqueteId({{ $paquete->id_nombre_paquete }})" required>

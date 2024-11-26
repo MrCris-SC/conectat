@@ -336,103 +336,70 @@
                                             <th>Nombre Completo</th>
                                             <th>Correo</th>
                                             <th>Teléfono</th>
-                                            <th>Código Postal</th>
-                                            <th>Municipio</th>
-                                            <th>Dirección</th>
-                                            <th>Referencia de Domicilio</th>                                           
+                                                                                      
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($clientes as $precontrato)
+                                    @forelse($clientes as $cliente)
                                         <tr>
-                                            <td>{{ $precontrato->cliente->id_cliente ?? 'N/A' }}</td>
-                                            <td>{{ $precontrato->cliente->nombre_completo ?? 'N/A' }}</td>
-                                            <td>{{ $precontrato->cliente->correo_electronico ?? 'N/A' }}</td>
-                                            <td>{{ $precontrato->cliente->telefono ?? 'N/A' }}</td>
-                                            <td>{{ $precontrato->direccion->codigo_postal ?? 'N/A' }}</td>
-                                            <td>{{ $precontrato->direccion->localidad ?? 'N/A' }}</td>
-                                            <td>{{ $precontrato->direccion->calle ?? 'N/A' }}</td>
-                                            <td>{{ $precontrato->direccion->referencia_domicilio ?? 'N/A' }}</td>                                            
+                                            <td>{{ $cliente->id_cliente }}</td>
+                                            <td>{{ $cliente->nombre_completo }}</td>
+                                            <td>{{ $cliente->correo_electronico }}</td>
+                                            <td>{{ $cliente->telefono }}</td>
+                                            
                                             <td>
-                                                    <!-- Botón de Administrar -->
-                                                    <a href="{{ route('cliente.edit', $precontrato->cliente->id_cliente) }}" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">
+                                                <!-- Botón de Administrar -->
+                                                <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-edit"></i>
+                                                    </span>
+                                                    <span class="text">Administrar</span>
+                                                </a>
+                                                <!-- Modal para Contratos -->
+                                               
+                                                <p></p>
+
+                                                <form id="deleteForm-{{ $cliente->id_cliente }}" action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+
+                                                    <button type="button" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#deleteModal-{{ $cliente->id_cliente }}">
                                                         <span class="icon text-white-50">
-                                                            <i class="fas fa-edit"></i>
+                                                            <i class="fas fa-trash"></i>
                                                         </span>
-                                                        <span class="text">Administrar</span>
-                                                    </a>
-                                                    <!-- Modal para Contratos -->
-                                                        <div class="modal fade" id="contratoModal-{{ $precontrato->cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="contratoModalLabel-{{ $precontrato->cliente->id_cliente }}" aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="contratoModalLabel-{{ $precontrato->cliente->id_cliente }}">¿Desea crear y descargar el contrato?</h5>
-                                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">×</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <span id="nombreClienteModal-{{ $precontrato->cliente->id_cliente }}"></span>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                                                                        <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $precontrato->cliente->id_cliente }})" data-dismiss="modal">Confirmar</button>
-                                                                    </div>
-                                                                </div>
+                                                        <span class="text">Eliminar</span>
+                                                    </button>
+                                                </form>
+
+                                                <div class="modal fade" id="deleteModal-{{ $cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-{{ $cliente->id_cliente }}" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="deleteModalLabel-{{ $cliente->id_cliente }}">Confirmar Eliminación</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
                                                             </div>
-                                                        </div>
-                                                    <p></p>
-
-                                                    <!-- Botón de Contratos 
-                                                    <a href="javascript:void(0);" onclick="abrirContratoModal({{ $precontrato->cliente->id_cliente }}, '{{ $precontrato->cliente->nombre_completo }}');" class="btn btn-info btn-icon-split">
-                                                        <span class="icon text-white-50">
-                                                            <i class="fas fa-file-contract"></i>
-                                                        </span>
-                                                        <span class="text">Contratos</span>
-                                                    </a>-->
-                                                    <p></p>
-
-                                                    <form id="deleteForm-{{ $precontrato->cliente->id_cliente }}" action="{{ route('cliente.destroy',  $precontrato->cliente->id_cliente) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    
-                                                        <button type="button" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#deleteModal-{{ $precontrato->cliente->id_cliente }}">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-trash"></i>
-                                                            </span>
-                                                            <span class="text">Eliminar</span>
-                                                        </button>
-                                                    </form>
-                                                    
-                                                    <div class="modal fade" id="deleteModal-{{  $precontrato->cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-{{  $precontrato->cliente->id_cliente }}" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="deleteModalLabel-{{  $precontrato->cliente->id_cliente }}">Confirmar Eliminación</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    ¿Estás seguro de que deseas eliminar el cliente <strong>{{  $precontrato->cliente->id_cliente }}</strong>?
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                                    <button type="button" class="btn btn-danger" onclick="document.getElementById('deleteForm-{{  $precontrato->cliente->id_cliente}}').submit();">Eliminar</button>
-                                                                </div>
+                                                            <div class="modal-body">
+                                                                ¿Estás seguro de que deseas eliminar el cliente <strong>{{ $cliente->nombre_completo }}</strong>?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                                <button type="button" class="btn btn-danger" onclick="document.getElementById('deleteForm-{{ $cliente->id_cliente }}').submit();">Eliminar</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="10" class="text-center">No hay clientes registrados.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center">No hay clientes registrados.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+
                                 </table>
 
 
@@ -477,26 +444,7 @@
         </div>
     </div>
 
- <!-- Modal para Contratos -->
-    <div class="modal fade" id="contratoModal-{{ $precontrato->cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="contratoModalLabel-{{ $precontrato->cliente->id_cliente }}" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="contratoModalLabel-{{ $precontrato->cliente->id_cliente }}">¿Desea crear y descargar el contrato?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Seleccione "Confirmar" para generar y descargar el contrato en PDF para <span id="nombreClienteModal-{{ $precontrato->cliente->id_cliente }}"></span>.
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <button class="btn btn-primary" onclick="crearContratoYDescargarPDF({{ $precontrato->cliente->id_cliente }})" data-dismiss="modal">Confirmar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+ 
 
     <script>
 

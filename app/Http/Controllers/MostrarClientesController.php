@@ -18,7 +18,7 @@ class mostrarClientesController extends Controller
     public function mostrarClientes()
     {
         // Consulta a través de Precontrato para obtener clientes, direcciones y paquetes relacionados
-        $clientes = Precontrato::with(['cliente', 'direccion', 'paquete'])->get();
+        $clientes = Cliente::all();
         //$clientes = Cliente::with(['precontratos', 'nombrepaquete', 'domicilio'])->get();
 
         //dd($clientes);
