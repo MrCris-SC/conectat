@@ -13,6 +13,7 @@ use App\Mail\VerificacionCodigo;
 use Illuminate\Support\Str;
 use App\Models\NombrePaquete;
 use App\Models\Message;
+use Illuminate\Support\Facades\Log;
 
 
 class PreContratoController extends Controller
@@ -77,7 +78,31 @@ class PreContratoController extends Controller
         return redirect()->route('verificarCodigo');
     }
     
-   
+    
+
+    public function registrar(Request $request)
+    {
+        // Validar los datos enviados
+        $validated = $request->validate([
+            'fk_cliente' => 'required|exists:clientes,id_cliente',
+            'fk_direccion' => 'required|exists:direcciones,id_direccion',
+            'fk_paquete' => 'required|exists:nombres_paquetes,id_nombre_paquete',
+        ]);
+    
+        
+    
+        // Inserta el registro en la base de datos
+        Precontrato::create($validated);
+    
+        return redirect()->back()->with('success', 'Precontrato registrado correctamente.');
+    }
+    
+
+    
+
+    
+    
+    
 
 
 public function verificarCodigo(Request $request)
@@ -99,8 +124,9 @@ public function verificarCodigo(Request $request)
             'nombre_completo' => $clienteData['nombre_completo'],
             'correo_electronico' => $clienteData['correo_electronico'],
             'telefono' => $clienteData['telefono'],
-            'fk_paquete' => $clienteData['fk_paquete'],
         ]);
+        
+
         $houseData = session('datos_domicilio');
         // Crear una nueva dirección
         $domicilio = Domicilio::create([

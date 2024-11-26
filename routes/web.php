@@ -44,6 +44,7 @@ Route::middleware('admin')->group(function () {
     Route::delete('/cliente/{id}', [MostrarClientesController::class, 'destroy'])->name('cliente.destroy');
     Route::get('/clienteRegistrados/{id}', [EditarClienteController::class, 'editarCliente'])->name('cliente.edit');
     Route::put('/cliente/{id}', [EditarClienteController::class, 'actualizarCliente'])->name('cliente.update');
+
     Route::post('/direccion', [DireccionController::class, 'store'])->name('direccion.store');
     Route::get('/cliente/{id}/direcciones', [DireccionController::class, 'mostrarDirecciones'])->name('cliente.direcciones');
     Route::post('/direcciones', [DireccionController::class, 'store'])->name('direcciones.add');
@@ -108,5 +109,4 @@ Route::get('/cliente/{id}/direcciones', [DireccionController::class, 'mostrarDir
 Route::post('/direcciones', [DireccionController::class, 'store'])->name('direcciones.add');
 Route::put('/direccion/update/{id}', [DireccionController::class, 'update'])->name('direcciones.update');
 
-
-Route::post('/crearPrecontrato', [PrecontratoController::class, 'crearPrecontrato'])->name('crearPrecontrato');
+Route::post('/precontratos/registrar', [PrecontratoController::class, 'registrar'])->name('precontratos.registrar');

@@ -29,8 +29,6 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}"onclick="verificarDatos(event, '{{ url('/user') }}', 'Inicio')" >Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}" onclick="verificarDatos(event, '{{ url('/user') }}', 'Paquetes')">Planes de Internet</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/paquetePromocion') }}" onclick="verificarDatos(event, '{{ url('/paquetePromocion') }}', 'Promociones')">Promociones</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url('/acercaNosotros')}}" onclick="verificarDatos(event, '{{ url('/acercaNosotros') }}', 'Acerca de Nosotros')">Acerca</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url('/contacto')}}" onclick="verificarDatos(event, '{{ url('/contacto')}}', 'Contacto')">Contáctanos</a></li>
                     </ul>

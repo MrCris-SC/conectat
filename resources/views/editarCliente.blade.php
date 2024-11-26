@@ -30,39 +30,37 @@
     <script>
         // Espera que el DOM esté completamente cargado
         document.addEventListener('DOMContentLoaded', function() {
-    // Selecciona los campos que deseas deshabilitar (Nombre Completo, Correo, Teléfono)
-    const camposDeshabilitados = document.querySelectorAll('#formEditarCliente input[name="nombre_completo"], #formEditarCliente input[name="correo_electronico"], #formEditarCliente input[name="telefono"]');
-    
-    // Selecciona todos los campos del formulario y el botón
-    const btnEditar = document.getElementById('btnEditar');
-    const campos = document.querySelectorAll('#formEditarCliente input, #formEditarCliente select');
-    const btnGuardar = document.getElementById('btnGuardar');
+        // Deshabilita solo los campos específicos
+        const camposDeshabilitados = document.querySelectorAll('#formEditarCliente input[name="nombre_completo"], #formEditarCliente input[name="correo_electronico"], #formEditarCliente input[name="telefono"]');
+        const btnEditar = document.getElementById('btnEditar');
+        const campos = document.querySelectorAll('#formEditarCliente input, #formEditarCliente select');
+        const btnGuardar = document.getElementById('btnGuardar');
 
-    // Deshabilita solo los campos específicos
-    camposDeshabilitados.forEach(campo => {
-        campo.disabled = true;
-    });
-
-    // Asegura que el botón "Guardar Cambios" esté oculto al cargar la página
-    btnGuardar.style.display = 'none';
-
-    // Añade un evento click al botón "Editar"
-    btnEditar.addEventListener('click', function() {
-        // Recorre todos los campos y habilítalos
-        campos.forEach(campo => {
-            campo.disabled = false;
-        });
-
-        // Vuelve a deshabilitar los campos específicos
+        // Deshabilita solo los campos específicos
         camposDeshabilitados.forEach(campo => {
             campo.disabled = true;
         });
 
-        // Oculta el botón "Editar" y muestra el botón "Guardar Cambios"
-        btnEditar.style.display = 'none';
-        btnGuardar.style.display = 'block';
+        // Asegura que el botón "Guardar Cambios" esté oculto al cargar la página
+        btnGuardar.style.display = 'none';
+
+        // Añade un evento click al botón "Editar"
+        btnEditar.addEventListener('click', function() {
+            // Recorre todos los campos y habilítalos
+            campos.forEach(campo => {
+                campo.disabled = false;  // Habilita todos los campos
+            });
+
+            // Vuelve a deshabilitar los campos específicos
+            camposDeshabilitados.forEach(campo => {
+                campo.disabled = false;  // Permite modificar estos campos
+            });
+
+            // Oculta el botón "Editar" y muestra el botón "Guardar Cambios"
+            btnEditar.style.display = 'none';
+            btnGuardar.style.display = 'block';
+        });
     });
-});
 
     </script>
 </head>
@@ -358,9 +356,9 @@
 
                 </nav>
                 <!-- End of Topbar -->
-    <div class="container mt-5">
-        <h2>Editar Cliente</h2>
-        <form method="POST" id="formEditarCliente" action="{{ route('cliente.update', $cliente->id_cliente) }}" >
+        <div class="container mt-5">
+            <h2>Editar Cliente</h2>
+            <form method="POST" id="formEditarCliente" action="{{ route('cliente.update', $cliente->id_cliente) }}">
             @csrf
             @method('PUT')
 
@@ -379,17 +377,14 @@
                     <input type="text" class="form-control" name="telefono" maxlength="10" value="{{ $cliente->telefono }}" required>
                 </div>
 
-               
-
-                    
                 <button type="submit" class="btn btn-primary" id="btnGuardar" style="display: none;">Guardar Cambios</button>
                 <br>
+                <button type="button" class="btn btn-primary" id="btnEditar">Modificar campos</button>
+                <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
 
-                <button type="button" class="btn btn-primary" id="btnEditar">Modificar campos</button>       
-                    <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
-                </button>
-
-
+<br><br>
             <section class="direcciones">
                 <h3>Direcciones Asociadas</h3>
                 @if ($cliente->direcciones->isEmpty())
@@ -430,8 +425,14 @@
                                         Editar
                                     </button>
                                 
+                                    <!-- Botón para abrir el modal -->
                                     @if (is_null($direccion->precontrato))
-                                        <button class="btn btn-success" onclick="registrarPrecontrato({{ $direccion->id_direccion }})">Registrar Precontrato</button>
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmarPrecontratoModal" 
+                                                data-id-direccion="{{ $direccion->id_direccion }}" 
+                                                data-id-cliente="{{ $cliente->id_cliente }}" 
+                                                >
+                                            Registrar Precontrato
+                                        </button>
                                     @else
                                         <span>Precontrato registrado</span>
                                     @endif
@@ -443,6 +444,64 @@
                 
             </section>
 
+            <!-- Modal de Confirmación del precontrato -->
+            
+            <div class="modal fade" id="confirmarPrecontratoModal" tabindex="-1" role="dialog" aria-labelledby="confirmarPrecontratoModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                        <form id="formRegistrarPrecontrato" method="POST" action="{{ route('precontratos.registrar') }}">
+                            @csrf
+                           
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmarPrecontratoModalLabel">Confirmar Registro</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Selecciona un paquete para continuar:</p>
+                                <div class="row">
+                                    @foreach ($paquetes as $paquete)
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $paquete->nombre }}</h5>
+                                                <p class="card-text">Precio: ${{ $paquete->precio }}</p>
+                                                <input type="radio" name="fk_paquete" value="{{ $paquete->id_nombre_paquete }}" 
+                                                onclick="setPaqueteId({{ $paquete->id_nombre_paquete }})" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <hr>
+                                <p>¿Estás seguro de que deseas registrar este precontrato?</p>
+                                <!-- Campos ocultos para enviar los datos -->
+                                <input type="hidden" name="fk_cliente" id="modalFkCliente">
+                                <input type="hidden" name="fk_direccion" id="modalFkDireccion">
+                                <input type="hidden" name="fk_paquete" id="modalFkPaquete">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Confirmar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
             <!-- Modal para registrar nueva dirección -->
           
             <div class="modal fade" id="modalNuevaDireccion" tabindex="-1" aria-labelledby="modalNuevaDireccionLabel" aria-hidden="true">
@@ -450,7 +509,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalNuevaDireccionLabel">Registrar Nueva Dirección</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <!-- Contenido del modal -->
@@ -494,7 +555,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalEditarDireccionLabel">Editar Dirección</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <!-- Formulario del modal -->
@@ -581,23 +644,6 @@
     </div>
 
 
-    <script>
-        // Convertir los datos de los paquetes a un objeto JSON
-        const paquetes = @json($paquetes);
-
-        document.getElementById('fk_paquete').addEventListener('change', function() {
-            // Obtener el ID de paquete seleccionado
-            const selectedId = this.value;
-            
-            // Buscar el paquete seleccionado en el objeto `paquetes`
-            const paquete = paquetes.find(p => p.id_nombre_paquete == selectedId);
-            
-            // Actualizar el campo "Datos_Paquete" con los detalles del paquete seleccionado
-            if (paquete) {
-                document.getElementById('Datos_Paquete').value = `Paquete: ${paquete.nombre_paquete} de $:${paquete.precio} incluye:${paquete.caracteristicas_paquete} velocidad:${paquete.velocidad_paquete}`;
-            }
-        });
-    </script>
 
     
     <script>
@@ -627,6 +673,44 @@
             });
         });
     });
+    </script>
+
+    <script>
+        // Función para asignar el ID del paquete al campo oculto
+        function setPaqueteId(paqueteId) {
+            const inputFkPaquete = document.getElementById('modalFkPaquete');
+            if (inputFkPaquete) {
+                inputFkPaquete.value = paqueteId; // Asignar el ID del paquete seleccionado
+                console.log(`Paquete seleccionado: ${paqueteId}`); // Verificar que se asigna correctamente
+            } else {
+                console.error('Campo oculto modalFkPaquete no encontrado.');
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+    const confirmarPrecontratoModal = document.getElementById('confirmarPrecontratoModal');
+
+    confirmarPrecontratoModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+
+        // Obtener los valores de los atributos data del botón
+        const idDireccion = button.getAttribute('data-id-direccion');
+        const idCliente = button.getAttribute('data-id-cliente');
+
+        // Rellenar los campos ocultos del formulario
+        document.getElementById('modalFkCliente').value = idCliente;
+        document.getElementById('modalFkDireccion').value = idDireccion;
+
+        // Limpiar selección previa de paquetes
+        document.querySelectorAll('input[name="fk_paquete"]').forEach((radio) => {
+            radio.checked = false;
+        });
+    });
+});
+
+
+
     </script>
 
     
