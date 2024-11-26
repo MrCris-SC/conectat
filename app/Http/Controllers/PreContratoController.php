@@ -98,12 +98,6 @@ class PreContratoController extends Controller
     }
     
 
-    
-
-    
-    
-    
-
 
 public function verificarCodigo(Request $request)
 {
@@ -206,7 +200,14 @@ public function verificarCodigo(Request $request)
             'fk_paquete' => 'required|exists:nombres_paquetes,id_nombre_paquete',
         ]);
 
-        
+        $cliente = $precontrato->cliente;
+        //dd($cliente);
+
+        if ($cliente) {
+           
+            $cliente->es_cliente = $request->input('es_cliente'); //uso para practicar el estado de 'es_cliente'
+            $cliente->save();
+        }
 
         return redirect()->back()->with('success', 'El paquete ha sido actualizado correctamente.');
     }

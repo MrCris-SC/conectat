@@ -51,7 +51,7 @@ class ContratoController extends Controller
             // Define los valores del contrato
             $fecha_inicio = Carbon::now();
             $fecha_fin = $fecha_inicio->copy()->addYear();
-            $estado = 'activo';
+            $estado = 'pendiente';
 
             // Datos que serán enviados al modelo
             $datosContrato = [
