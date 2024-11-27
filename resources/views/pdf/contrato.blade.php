@@ -345,22 +345,18 @@
                         <tr>
                             <td><strong>Dirección:</strong></td>
                             <td>
-                                @if($cliente->domicilio)
-                                    {{ $cliente->domicilio->calle }}, {{ $cliente->domicilio->colonia }}, {{ $cliente->domicilio->municipio }}, {{ $cliente->domicilio->entidad_federativa }}
-                                @else
-                                    No asignada
-                                @endif
+                                    {{ $direccion->calle  }}, {{ $direccion->colonia }}, {{ $direccion->municipio }}, {{ $direccion->entidad_federativa }}
                             </td>
                         </tr>
 
                         <tr>
                             <td><strong>Código Postal:</strong></td>
-                            <td>{{ $cliente->domicilio ? $cliente->domicilio->codigo_postal : 'No asignado' }}</td>
+                            <td>{{ $direccion->codigo_postal }}</td>
                         </tr>
 
                         <tr>
                             <td><strong>Municipio:</strong></td>
-                            <td> {{ $cliente->domicilio ? $cliente->domicilio->localidad : 'No asignado' }}</td>
+                            <td> {{ $direccion->localidad }}</td>
                         </tr>
                     </table>
                 </td>
@@ -371,28 +367,28 @@
                         <tr>
                             <td><strong>Paquete Elegido:</strong></td>
                             <td>
-                            {{ $cliente->nombrepaquete ? $cliente->nombrepaquete->nombre_paquete : 'No asignado' }}
+                            {{  $paquete->nombre_paquete }}
                             </td>
                         </tr>
 
                         <tr>
                             <td><strong>Características del Paquete:</strong></td>
                             <td>
-                                    {{$cliente->nombrepaquete ? $cliente->nombrepaquete->caracteristicas_paquete: 'No asignado' }}
+                                    {{  $paquete->caracteristicas_paquete }}
                             </td>
                         </tr>
 
                         <tr>
                             <td><strong>Precio Mensual:</strong></td>
                             <td>
-                                    ${{$cliente->nombrepaquete ? $cliente->nombrepaquete->precio:'No asignado' }}
+                                    ${{ $paquete->precio }}
                             </td>
                         </tr>
 
                         <tr>
                             <td><strong>Velocidad de Conexión:</strong></td>
                             <td>
-                                    ${{$cliente->nombrepaquete ? $cliente->nombrepaquete->velocidad_paquete:'No asignado' }} Mbps                             
+                                    {{ $paquete->velocidad_paquete }} Mbps                             
                             </td>
                         </tr>
                     </table>

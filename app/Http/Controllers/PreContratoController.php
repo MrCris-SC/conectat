@@ -12,6 +12,7 @@ use App\Mail\miPrecontrato;
 use App\Mail\VerificacionCodigo;
 use Illuminate\Support\Str;
 use App\Models\NombrePaquete;
+use App\Models\Contrato;
 use App\Models\Message;
 use Illuminate\Support\Facades\Log;
 
@@ -24,11 +25,12 @@ class PreContratoController extends Controller
         $precontratos = Precontrato::with(['cliente', 'direccion', 'paquete'])->get();
         // Obtén todos los paquetes disponibles
         $paquetes = NombrePaquete::all();
+        $contratos = Contrato::all();
         $mensajes = Message::latest()->take(5)->get(); // Obtiene los 5 mensajes más recientes
         //return view('index', compact('mensajes'));
 
         // Retornar la vista con los datos
-        return view('preContrato', compact('precontratos','paquetes','mensajes'));
+        return view('preContrato', compact('precontratos','paquetes','contratos','mensajes'));
     }
 
     public function mostrarFormulario()
@@ -212,5 +214,4 @@ class PreContratoController extends Controller
         return redirect()->back()->with('success', 'El paquete ha sido actualizado correctamente.');
     }
 
-  }
 }

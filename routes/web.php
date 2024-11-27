@@ -107,12 +107,14 @@ Route::put('/direccion/update/{id}', [DireccionController::class, 'update'])->na
 
 Route::post('/precontratos/registrar', [PrecontratoController::class, 'registrar'])->name('precontratos.registrar');
 // web.php
-Route::get('/contratos/verificar/{id_cliente}', [ContratoController::class, 'verificarContratoYDireccion']);
+Route::get('/contratos/verificar/{id_precontrato}', [ContratoController::class, 'verificarContrato']);
 
-Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato']);
+
+//Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato']);
+Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato'])->name('contratos.crear');
 
 // Ruta para descargar el contrato en PDF (GET)
-Route::get('/contratos/pdf/{id_cliente}', [ContratoController::class, 'generarContratoPDF'])->name('contratos.pdf');
+Route::get('/contratos/pdf/{id_precontrato}', [ContratoController::class, 'generarContratoPDF'])->name('contratos.pdf');
 
 Route::get('/gestion', function () {return view('gestionContratos');});
 
