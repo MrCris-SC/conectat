@@ -21,12 +21,7 @@ class ContratoController extends Controller
                 // Verificar si el cliente tiene direcciones registradas
                 $domicilios = Domicilio::where('fk_cliente', $id_cliente)->get();
 
-            /*    if ($domicilios->isEmpty()) {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'El cliente no tiene domicilios registrados.'
-                    ], 404);
-                }*/
+            
         
                 // Obtén el precontrato específico por el ID del cliente
                 $precontrato = Precontrato::with(['cliente', 'direccion', 'paquete'])
@@ -50,13 +45,12 @@ class ContratoController extends Controller
                 }*/
         
                 // Verificar si ya existe un contrato para la dirección asociada al precontrato
-                $direccion = $precontrato->direccion; // Dirección asociada al precontrato
-                if ($direccion) {
+                $precontrato1 = $precontrato->id_precontrato; // Dirección asociada al precontrato
+                if ($precontrato1) {
                     $cliente = Cliente::find($id_cliente);
-                    $contratoExistente = Precontrato::whereHas('cliente', function ($query) use ($id_cliente, $direccion) {
-                        $query->where('id_cliente', $id_cliente)
-                            ->where ('fk_direccion', $direccion->id_direccion);
-                    })->first();
+                    $contratoExistente = Contrato::where('fk_precontrato', $precontrato1)
+                        
+                        ->first();
 
                     /*$contratoExistente = Contrato::whereHas('precontrato', function ($query) use ($id_cliente, $direccion) {
                         $query->where ('fk_cliente', $id_cliente)
@@ -127,7 +121,7 @@ class ContratoController extends Controller
                 $monto = $paquete->precio;
                 //$fecha_inicio = Carbon::now();
                 //$fecha_fin = $fecha_inicio->copy()->addYear();
-                $estado = 'activo';
+                $estado = 'pendiente';
         
                 // Datos para crear el contrato
                 $datosContrato = [
@@ -210,7 +204,7 @@ class ContratoController extends Controller
         }
     }
 
-}
+    
 
     public function show($id)
     {

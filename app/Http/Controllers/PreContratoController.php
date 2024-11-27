@@ -99,80 +99,80 @@ class PreContratoController extends Controller
     
 
 
-public function verificarCodigo(Request $request)
-{
-    // Validar el código
-    $request->validate([
-        'codigo' => 'required',
-    ]);
-    
-    // Verificar si el código ingresado es igual al código en la sesión
-    if ($request->codigo === session('codigo_verificacion')) {
-        DB::enableQueryLog(); // Habilitar el registro de consultas para depuración
-
-        // Obtener los datos del cliente desde la sesión
-        $clienteData = session('datos_cliente');
-        
-        // Crear un nuevo cliente
-        $cliente = Cliente::create([
-            'nombre_completo' => $clienteData['nombre_completo'],
-            'correo_electronico' => $clienteData['correo_electronico'],
-            'telefono' => $clienteData['telefono'],
+    public function verificarCodigo(Request $request)
+    {
+        // Validar el código
+        $request->validate([
+            'codigo' => 'required',
         ]);
         
+        // Verificar si el código ingresado es igual al código en la sesión
+        if ($request->codigo === session('codigo_verificacion')) {
+            DB::enableQueryLog(); // Habilitar el registro de consultas para depuración
 
-        $houseData = session('datos_domicilio');
-        // Crear una nueva dirección
-        $domicilio = Domicilio::create([
-            'calle' => $houseData['direccion'] ?? null,
-            'codigo_postal' => $houseData['cp'], // Si el 'cp' es parte de la dirección
-            'colonia' => $houseData['colonia'],
-            'localidad' => $houseData['municipio'],
-            'entidad_federativa' => $houseData['entidad'],
-            'referencia_domicilio' => $houseData['referencia_domicilio'],
-            'fk_cliente' => $cliente->id_cliente, 
-        ]);
-        
-        // Crear un precontrato relacionado con el cliente y la dirección
-        Precontrato::create([
-            'fk_cliente' => $cliente->id_cliente,  // Relación con el cliente creado
-            'fk_direccion' => $domicilio->id_direccion,  // Relación con la dirección creada
-            'fk_paquete' => $clienteData['fk_paquete'], // Usar el ID del paquete almacenado en la sesión
-        ]);
+            // Obtener los datos del cliente desde la sesión
+            $clienteData = session('datos_cliente');
+            
+            // Crear un nuevo cliente
+            $cliente = Cliente::create([
+                'nombre_completo' => $clienteData['nombre_completo'],
+                'correo_electronico' => $clienteData['correo_electronico'],
+                'telefono' => $clienteData['telefono'],
+            ]);
+            
 
-        // Obtener el nombre del paquete
-        $idPaquete = $clienteData['fk_paquete'];
-        $nombre_paquete = DB::table('nombres_paquetes')->where('id_nombre_paquete', $idPaquete)->value('nombre_paquete');
+            $houseData = session('datos_domicilio');
+            // Crear una nueva dirección
+            $domicilio = Domicilio::create([
+                'calle' => $houseData['direccion'] ?? null,
+                'codigo_postal' => $houseData['cp'], // Si el 'cp' es parte de la dirección
+                'colonia' => $houseData['colonia'],
+                'localidad' => $houseData['municipio'],
+                'entidad_federativa' => $houseData['entidad'],
+                'referencia_domicilio' => $houseData['referencia_domicilio'],
+                'fk_cliente' => $cliente->id_cliente, 
+            ]);
+            
+            // Crear un precontrato relacionado con el cliente y la dirección
+            Precontrato::create([
+                'fk_cliente' => $cliente->id_cliente,  // Relación con el cliente creado
+                'fk_direccion' => $domicilio->id_direccion,  // Relación con la dirección creada
+                'fk_paquete' => $clienteData['fk_paquete'], // Usar el ID del paquete almacenado en la sesión
+            ]);
 
-        // Enviar el correo después de crear el cliente y precontrato
-        $nombre_usuario = $clienteData['nombre_completo'];
-        $correo_usuario = $clienteData['correo_electronico'];
-        $localidad = $houseData['municipio'];
-        $direccion = $houseData['direccion'];
-        $telefono = $clienteData['telefono'];
-        $referencia_domicilio = $houseData['referencia_domicilio'];
+            // Obtener el nombre del paquete
+            $idPaquete = $clienteData['fk_paquete'];
+            $nombre_paquete = DB::table('nombres_paquetes')->where('id_nombre_paquete', $idPaquete)->value('nombre_paquete');
 
-        // Enviar el correo utilizando el Mailable
-        Mail::to($correo_usuario)->send(new miPrecontrato(
-            $nombre_usuario,
-            $correo_usuario,
-            $nombre_paquete,
-            $localidad,
-            $direccion,
-            $telefono,
-            $referencia_domicilio
-        ));
+            // Enviar el correo después de crear el cliente y precontrato
+            $nombre_usuario = $clienteData['nombre_completo'];
+            $correo_usuario = $clienteData['correo_electronico'];
+            $localidad = $houseData['municipio'];
+            $direccion = $houseData['direccion'];
+            $telefono = $clienteData['telefono'];
+            $referencia_domicilio = $houseData['referencia_domicilio'];
 
-        // Limpiar los datos de la sesión
-        session()->forget(['codigo_verificacion', 'datos_cliente']);
+            // Enviar el correo utilizando el Mailable
+            Mail::to($correo_usuario)->send(new miPrecontrato(
+                $nombre_usuario,
+                $correo_usuario,
+                $nombre_paquete,
+                $localidad,
+                $direccion,
+                $telefono,
+                $referencia_domicilio
+            ));
 
-        // Redirigir a la página de paquetes
-        return redirect()->route('mostrar.paquetes');
-    } else {
-        // Si el código no es válido, redirigir con un mensaje de error
-        return back()->withErrors(['codigo' => 'El código ingresado es incorrecto.']);
+            // Limpiar los datos de la sesión
+            session()->forget(['codigo_verificacion', 'datos_cliente']);
+
+            // Redirigir a la página de paquetes
+            return redirect()->route('mostrar.paquetes');
+        } else {
+            // Si el código no es válido, redirigir con un mensaje de error
+            return back()->withErrors(['codigo' => 'El código ingresado es incorrecto.']);
+        }
     }
-}
 
 
     public function seleccionarPaquete($id_nombre_paquete)
@@ -208,7 +208,7 @@ public function verificarCodigo(Request $request)
             $cliente->es_cliente = $request->input('es_cliente'); //uso para practicar el estado de 'es_cliente'
             $cliente->save();
 
-
+        }
         return redirect()->back()->with('success', 'El paquete ha sido actualizado correctamente.');
     }
 
