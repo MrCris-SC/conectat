@@ -400,9 +400,8 @@
                                                 </div>
                                                 <!-- Botón de Contratos -->
                                                         
-                                                <a href="javascript:void(0);" class="btn btn-info btn-icon-split" 
-                                                        onclick="mostrarModalContrato({{ $precontrato->cliente->id_cliente }}, {{ $precontrato->cliente->es_cliente }})">
-                                                            <span class="icon text-white-50">
+                                                <a href="javascript:void(0);" class="btn btn-info btn-icon-split" onclick="mostrarModalContrato({{ $precontrato->cliente->id_cliente }}, {{ $precontrato->cliente->es_cliente }},{{ $precontrato->cliente->calle }})">
+                                                        <span class="icon text-white-50">
                                                                 <i class="fas fa-file-contract"></i>
                                                             </span>
                                                             <span class="text">Contratos</span>
@@ -440,7 +439,25 @@
                                                                         <span aria-hidden="true">×</span>
                                                                     </button>
                                                             </div>
+                                                           
                                                             <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="fechaInicioContrato">Fecha de inicio</label>
+                                                                    <input type="date" class="form-control" id="fechaInicioContrato" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="duracionContrato">Duración del contrato</label>
+                                                                    <select class="form-control" id="duracionContrato">
+                                                                        <option value="6">6 meses</option>
+                                                                        <option value="12">1 año</option>
+                                                                        <option value="18">1 año y medio</option>
+                                                                        <option value="24">2 años</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="fechaFinContrato">Fecha de fin</label>
+                                                                    <input type="text" class="form-control" id="fechaFinContrato" readonly>
+                                                                </div>
                                                                 ¿Está seguro de que desea crear un contrato para este cliente?
                                                             </div>
                                                             <div class="modal-footer">
@@ -527,22 +544,64 @@
     <script>
         let idClienteContrato = null;
 
-        function mostrarModalContrato(idCliente, esCliente) {
+        function mostrarModalContrato(idCliente, esCliente, calle) {
             idClienteContrato = idCliente; // Guarda el ID del cliente temporalmente
 
-            if (esCliente === 1) {
-                // Mostrar el modal de cliente ya tiene contrato
-                var modalCliente = new bootstrap.Modal(document.getElementById('modalClienteContrato'));
-                modalCliente.show();
-            } else {
-                // Mostrar el modal de confirmación
-                var modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacionContrato'));
-                modalConfirmacion.show();
+            // Verificar si el cliente tiene contrato y dirección
+            fetch(`/contratos/verificar/${idClienteContrato}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.verificarContratoYDireccion) {
+                        // Mostrar el modal de cliente ya tiene contrato
+                        var modalCliente = new bootstrap.Modal(document.getElementById('modalClienteContrato'));
+                        modalCliente.show();
+                    } else {
+                        // Mostrar el modal de confirmación para crear nuevo contrato
+                        var modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacionContrato'));
+                        modalConfirmacion.show();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al verificar el contrato y dirección: ' + error.message);
+                });
+
+        }
+        // Función para calcular la fecha de finalización del contrato
+        function calcularFechaFin() {
+            const fechaInicio = document.getElementById('fechaInicioContrato').value;
+            const duracion = document.getElementById('duracionContrato').value;
+
+            if (fechaInicio && duracion) {
+                const fecha = new Date(fechaInicio);
+                fecha.setMonth(fecha.getMonth() + parseInt(duracion)); // Añadir los meses de duración
+
+                // Formatear la fecha de fin como dd/mm/yyyy
+                const fechaFin = `${fecha.getDate().toString().padStart(2, '0')}/${(fecha.getMonth() + 1).toString().padStart(2, '0')}/${fecha.getFullYear()}`;
+                document.getElementById('fechaFinContrato').value = fechaFin;
             }
         }
+        // Event Listener para actualizar la fecha de fin cuando la fecha de inicio o la duración cambian
+        document.getElementById('fechaInicioContrato').addEventListener('change', calcularFechaFin);
+        document.getElementById('duracionContrato').addEventListener('change', calcularFechaFin);
+
 
         /// Función para crear el contrato usando fetch
         function crearContrato(idCliente) {
+
+            const fechaInicio = document.getElementById('fechaInicioContrato').value;
+            const duracion = document.getElementById('duracionContrato').value;
+            const fechaFin = document.getElementById('fechaFinContrato').value;
+
+            //let fechaFin = document.getElementById('fechaFin').value; // Asume que es DD/MM/YYYY
+            let fechaFinCorrecta = fechaFin.split('/').reverse().join('-'); // Convierte a YYYY-MM-DD
+
+            // Ahora puedes enviar la fecha de esta manera
+            console.log(fechaInicio, fechaFin); // Verifica el resultado
+            if (!fechaInicio || !duracion || !fechaFin) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
             const url = `/contratos/crear/${idCliente}`;
 
             fetch(url, {
@@ -552,7 +611,11 @@
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id_cliente: idCliente })
+            body: JSON.stringify({
+                id_cliente: idCliente,
+                fecha_inicio: fechaInicio,
+                fecha_fin: fechaFinCorrecta,
+            })
         })
         .then(response => response.json())
         .then(data => {
