@@ -210,7 +210,6 @@ class ContratoController extends Controller
         }
     }
 
-}
 
     public function show($id)
     {

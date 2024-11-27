@@ -212,4 +212,5 @@ public function verificarCodigo(Request $request)
         return redirect()->back()->with('success', 'El paquete ha sido actualizado correctamente.');
     }
 
+  }
 }
