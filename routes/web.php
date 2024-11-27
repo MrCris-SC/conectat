@@ -114,3 +114,8 @@ Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearC
 // Ruta para descargar el contrato en PDF (GET)
 Route::get('/contratos/pdf/{id_cliente}', [ContratoController::class, 'generarContratoPDF'])->name('contratos.pdf');
 
+Route::get('/gestion', function () {return view('gestionContratos');});
+
+Route::get('/gestionContrato/{id}', [ContratoController::class, 'show'])->name('gestionContrato.show');
+
+Route::put('/contrato/{id}/estado', [ContratoController::class, 'updateEstado'])->name('contratos.updateEstado');

@@ -9,10 +9,12 @@ use Carbon\Carbon;
 use App\Models\NombrePaquete;
 use App\Models\Precontrato;
 use App\Models\Domicilio;
+use App\Models\Message;
 use PDF;
 
 class ContratoController extends Controller
 {    
+
         public function crearContrato(Request $request,$id_cliente)
         {
             try {
@@ -89,6 +91,8 @@ class ContratoController extends Controller
                 // Datos de fecha de inicio y fin recibidos del frontend
                 $fecha_inicio = trim($request->input('fecha_inicio'));
                 $fecha_fin = trim($request->input('fecha_fin'));
+
+    
                 
                 // Validar que las fechas estén presentes
                 if (!$fecha_inicio || !$fecha_fin) {
@@ -189,6 +193,7 @@ class ContratoController extends Controller
         return view('contratosVista', compact('contratos'));
     }
 
+
     public function verificarContratoYDireccion($id_cliente)
     {
         try {
@@ -206,3 +211,40 @@ class ContratoController extends Controller
     }
 
 }
+
+    public function show($id)
+    {
+        // Obtén el contrato por ID
+        $contrato = Contrato::findOrFail($id);
+
+        // Obtén los 5 mensajes más recientes
+        $mensajes = Message::latest()->take(5)->get();
+
+        // Pasar el contrato y los mensajes a la vista
+        return view('gestionContratos', compact('contrato', 'mensajes'));
+    }
+
+   
+
+    public function updateEstado(Request $request, $id)
+    {
+        // Validar el estado recibido
+        $request->validate([
+            'estado' => 'required|in:pendiente,activo,inactivo',
+        ]);
+
+        // Obtener el contrato por ID
+        $contrato = Contrato::findOrFail($id);
+
+        // Actualizar el estado del contrato
+        $contrato->estado = $request->estado;
+        $contrato->save();
+
+        // Redirigir de vuelta a la página de gestión del contrato con un mensaje de éxito
+        return redirect()->route('gestionContrato.show', $contrato->id_contrato)
+                        ->with('success', 'Estado del contrato actualizado con éxito.');
+    }
+
+    
+}
+
