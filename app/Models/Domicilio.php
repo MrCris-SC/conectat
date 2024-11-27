@@ -31,4 +31,9 @@ class Domicilio extends Model
     {
         return $this->belongsTo(Cliente::class, 'fk_cliente');
     }
+    public function domicilio()
+    {
+        return $this->belongsTo(Domicilio::class, 'fk_direccion');
+    }
+
 }

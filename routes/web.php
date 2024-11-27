@@ -106,6 +106,8 @@ Route::post('/direcciones', [DireccionController::class, 'store'])->name('direcc
 Route::put('/direccion/update/{id}', [DireccionController::class, 'update'])->name('direcciones.update');
 
 Route::post('/precontratos/registrar', [PrecontratoController::class, 'registrar'])->name('precontratos.registrar');
+// web.php
+Route::get('/contratos/verificar/{id_cliente}', [ContratoController::class, 'verificarContratoYDireccion']);
 
 Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato']);
 

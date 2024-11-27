@@ -39,6 +39,7 @@ class Contrato extends Model
    {
        return $this->belongsTo(Precontrato::class, 'fk_precontrato', 'id_precontrato');
    }
+   
 
    /* // Relación con el Cliente a través de Precontrato
     public function cliente()

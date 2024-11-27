@@ -30,10 +30,10 @@ class Direccion extends Model
         return $this->belongsTo(Cliente::class, 'fk_cliente', 'id_cliente');
     }
     // En el modelo Direccion
-public function precontrato()
-{
-    return $this->hasOne(Precontrato::class, 'fk_direccion', 'id_direccion');
-}
+    public function precontratos()
+    {
+        return $this->hasMany(Precontrato::class, 'fk_direccion');
+    }
 
 
 }
