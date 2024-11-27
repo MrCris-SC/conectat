@@ -95,9 +95,9 @@
 
     <!-- Nav Item - Ajustes -->
     <li class="nav-item">
-        <a class="nav-link" href="ajustes.html">
+        <a class="nav-link" href="{{ url('/precontratos') }}">
             <i class="fas fa-fw fa-cogs"></i>
-            <span>Ajustes del Sistema</span></a>
+            <span>Precontratos</span></a>
     </li>
 
     <!-- Nav Item - Ayuda -->
@@ -342,7 +342,7 @@
                                                 <th>Monto</th>
                                                 <th>Paquete</th>
                                                 <th>Cliente</th>
-                                               
+                                                <th>Aciones</th>
                                                
                                             </tr>
                                         </thead>
@@ -354,15 +354,21 @@
                                             @else
                                             @foreach($contratos as $contrato)
                                             <tr>
-                                               
-                                                
                                                 <td>{{ $contrato->id_contrato }}</td>
-                                                <td>{{ $contrato->fecha_inicio }}</td>
-                                                <td>{{ $contrato->fecha_fin }}</td>
-                                                <td>{{ $contrato->estado }}</td>
-                                                <td>{{ $contrato->monto }}</td>
-                                                <td>{{ $contrato->fk_paquete }}</td>
-                                                <td>{{ $contrato->fk_cliente }}</td>
+                                                <td>{{ $contrato->fecha_inicio_contrato ?? 'Sin asignar' }}</td>
+                                                <td>{{ $contrato->fecha_fin_contrato ?? 'Sin asignar' }}</td>
+                                                <td>{{ ucfirst($contrato->estado) }}</td>
+                                                <td>{{ $contrato->monto_total_contrato }}</td>
+                                                <td>{{ $contrato->precontrato->paquete->nombre_paquete }}</td>
+                                                <td>{{ $contrato->precontrato->cliente->id_cliente }}-{{ $contrato->precontrato->cliente->nombre_completo }}</td>
+                                                <td>
+                                                <a href="{{ route('gestionContrato.show', $contrato->id_contrato) }}" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-edit"></i>
+                                                    </span>
+                                                    <span class="text">Administrar</span>
+                                                </a>
+                                                </td>
                                             </tr>
                                             @endforeach
 

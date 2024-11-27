@@ -98,8 +98,8 @@
     <!-- Nav Item - Ajustes -->
     <li class="nav-item">
         <a class="nav-link" href="{{ url('/precontratos') }}">
-            <i class="fas fa-fw fa-cogs"></i>
-            <span>Precontratos</span></a>
+        <i class="fas fa-fw fa-cogs"></i>
+        <span>Precontratos</span></a>
     </li>
 
     <!-- Nav Item - Ayuda -->
@@ -317,96 +317,168 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
-              
-
-
+                 
                 <div class="card shadow mb-4" > 
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Clientes Registrados</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Precontratos Existentes</h6>
                         </div>
                          <!-- Apartado que se necesita hacerse responsivo -->
                         <div class="card-body">
-                                <div class="table-responsive" >
+                            <div class="table-responsive" >
 
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Nombre Completo</th>
-                                            <th>Correo</th>
-                                            <th>Teléfono</th>
-                                                                                      
-                                            <th>Acciones</th>
-                                        </tr>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Cliente</th>
+                                        <th>Dirección</th>
+                                        <th>Paquete</th>
+                                        <th>Es cliente</th>
+                                        <th>Acciones</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($clientes as $cliente)
+                                    @forelse($precontratos as $precontrato)
                                         <tr>
-                                            <td>{{ $cliente->id_cliente }}</td>
-                                            <td>{{ $cliente->nombre_completo }}</td>
-                                            <td>{{ $cliente->correo_electronico }}</td>
-                                            <td>{{ $cliente->telefono }}</td>
-                                            
+                                            <td>{{ $precontrato->id_precontrato }}</td>
+                                            <td>{{ $precontrato->cliente->id_cliente ?? 'Sin Cliente' }}-{{ $precontrato->cliente->nombre_completo ?? 'Sin Cliente' }}</td>
+                                            <td>{{ $precontrato->direccion->calle ?? 'Sin Dirección' }}</td>
+                                            <td>{{ $precontrato->paquete->id_nombre_paquete ?? '' }}-{{ $precontrato->paquete->nombre_paquete ?? 'Sin Paquete' }}</td> 
+                                            <!--<td>{{ $precontrato->cliente->es_cliente ?? 'No es Cliente'}} </td> -->
+                                            <td>{{ $precontrato->cliente->es_cliente == 1 ? 'Sí' : 'No' }}</td>                                       
                                             <td>
-                                                <!-- Botón de Administrar -->
-                                                <a href="{{ route('cliente.edit', $cliente->id_cliente) }}" class="btn btn-info btn-icon-split" style="width: 150px; display: inline-block;">
+
+                                                <!-- Botón para abrir el modal de cambiar paquete -->
+                                                <button type="button" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#cambiarPaqueteModal-{{ $precontrato->id_precontrato }}">
                                                     <span class="icon text-white-50">
-                                                        <i class="fas fa-edit"></i>
+                                                    <i class="fas fa-edit"></i>
                                                     </span>
-                                                    <span class="text">Administrar</span>
-                                                </a>
-                                                <!-- Modal para Contratos -->
-                                               
-                                                <p></p>
-
-                                                <form id="deleteForm-{{ $cliente->id_cliente }}" action="{{ route('cliente.destroy', $cliente->id_cliente) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-
-                                                    <button type="button" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#deleteModal-{{ $cliente->id_cliente }}">
-                                                        <span class="icon text-white-50">
-                                                            <i class="fas fa-trash"></i>
-                                                        </span>
-                                                        <span class="text">Eliminar</span>
-                                                    </button>
-                                                </form>
-
-                                                <div class="modal fade" id="deleteModal-{{ $cliente->id_cliente }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-{{ $cliente->id_cliente }}" aria-hidden="true">
+                                                    <span class="text">Cambiar Paquete</span>
+                                                </button>     
+                                                <!-- Modal para cambiar paquete -->
+                                                <div class="modal fade" id="cambiarPaqueteModal-{{ $precontrato->id_precontrato }}" tabindex="-1" role="dialog" aria-labelledby="cambiarPaqueteLabel-{{ $precontrato->id_precontrato }}" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
+                                                            <form action="{{ route('precontrato.cambiarPaquete', $precontrato->id_precontrato) }}" method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="cambiarPaqueteLabel-{{ $precontrato->id_precontrato }}">Cambiar Paquete</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">×</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3">
+                                                                        <label for="fk_paquete-{{ $precontrato->id_precontrato }}" class="form-label">Seleccionar Paquete</label>
+                                                                            <select class="form-control" id="fk_paquete-{{ $precontrato->id_precontrato }}" name="fk_paquete" required>
+                                                                            @foreach ($paquetes as $paquete)
+                                                                                <option value="{{ $paquete->id_nombre_paquete }}" 
+                                                                                    {{ $precontrato->paquete->id_nombre_paquete == $paquete->id_nombre_paquete ? 'selected' : '' }}>
+                                                                                    {{ $paquete->id_nombre_paquete }} - {{ $paquete->nombre_paquete }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                            </select>
+                                                                        </div>
+                                                                            <!-- Selección de Estado de Cliente en caso de usar eliminar no afecta funcionamiento -->
+                                                                        <div class="mb-3">
+                                                                            <label for="es_cliente-{{ $precontrato->id_precontrato }}" class="form-label">¿Es Cliente?</label>
+                                                                                <select class="form-control" id="es_cliente-{{ $precontrato->id_precontrato }}" name="es_cliente" required>
+                                                                                    <option value="1" {{ $precontrato->cliente->es_cliente == 1 ? 'selected' : '' }}>Sí</option>
+                                                                                    <option value="0" {{ $precontrato->cliente->es_cliente == 0 ? 'selected' : '' }}>No</option>
+                                                                                </select>
+                                                                        </div>
+                                                                    </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                                                        </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Botón de Contratos -->
+                                                        
+                                                <a href="javascript:void(0);" class="btn btn-info btn-icon-split" onclick="mostrarModalContrato({{ $precontrato->cliente->id_cliente }}, {{ $precontrato->cliente->es_cliente }},{{ $precontrato->cliente->calle }})">
+                                                        <span class="icon text-white-50">
+                                                                <i class="fas fa-file-contract"></i>
+                                                            </span>
+                                                            <span class="text">Contratos</span>
+                                                </a>
+
+                                                <!-- Modal Cliente ya tiene contrato -->
+                                                <div class="modal fade" id="modalClienteContrato" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="deleteModalLabel-{{ $cliente->id_cliente }}">Confirmar Eliminación</h5>
+                                                                <h5 class="modal-title" id="modalConfirmacionLabel">Contrato no disponible</h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
+                                                                    <span aria-hidden="true">×</span>
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                ¿Estás seguro de que deseas eliminar el cliente <strong>{{ $cliente->nombre_completo }}</strong>?
+                                                                Este cliente ya tiene un contrato
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                                <button type="button" class="btn btn-danger" onclick="document.getElementById('deleteForm-{{ $cliente->id_cliente }}').submit();">Eliminar</button>
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
+
+                                                <!-- Modal Confirmación de Creación de Contrato -->
+                                                <div class="modal fade" id="modalConfirmacionContrato" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="modalConfirmacionLabel">Confirmar Creación de Contrato</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">×</span>
+                                                                    </button>
+                                                            </div>
+                                                           
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="fechaInicioContrato">Fecha de inicio</label>
+                                                                    <input type="date" class="form-control" id="fechaInicioContrato" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="duracionContrato">Duración del contrato</label>
+                                                                    <select class="form-control" id="duracionContrato">
+                                                                        <option value="6">6 meses</option>
+                                                                        <option value="12">1 año</option>
+                                                                        <option value="18">1 año y medio</option>
+                                                                        <option value="24">2 años</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="fechaFinContrato">Fecha de fin</label>
+                                                                    <input type="text" class="form-control" id="fechaFinContrato" readonly>
+                                                                </div>
+                                                                ¿Está seguro de que desea crear un contrato para este cliente?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                                <button type="button" class="btn btn-primary" id="confirmarContratoBtn">Crear Contrato</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                                            
                                             </td>
                                         </tr>
-                                    @empty
+                                            @empty
                                         <tr>
-                                            <td colspan="6" class="text-center">No hay clientes registrados.</td>
+                                            <td colspan="10" class="text-center">No hay precontratos.</td>
                                         </tr>
                                     @endforelse
-                                </tbody>
-
+                                    </tbody>
                                 </table>
-
-
-                                
-                                </div>    
-                        </div>
-                
+                            </div>    
+                        </div>             
                 </div>
             </div>
         </div>
@@ -444,9 +516,148 @@
         </div>
     </div>
 
- 
+    <!-- Agrega los datos de paquetes en un elemento de script para usarlo en JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Convertir los datos de los paquetes a un objeto JSON
+            const paquetes = @json($paquetes);
+
+            // Iteramos sobre cada 'select' de paquetes en cada modal (en caso de que haya varios)
+            document.querySelectorAll('.form-control[id^="fk_paquete-"]').forEach(selectPaquete => {
+                selectPaquete.addEventListener('change', function() {
+                    // Obtener el ID del paquete seleccionado
+                    const selectedId = this.value;
+
+                    // Buscar el paquete seleccionado en el objeto `paquetes`
+                    const paquete = paquetes.find(p => p.id_nombre_paquete == selectedId);
+                    // Actualizar el campo "Datos_Paquete" con los detalles del paquete seleccionado
+                    const datosPaqueteInput = document.getElementById('Datos_Paquete-' + this.id.split('-')[1]);
+                    if (paquete && datosPaqueteInput) {
+                        // Actualizamos el contenido del textarea con los datos del paquete
+                        datosPaqueteInput.value = `Paquete: ${paquete.nombre_paquete}\nPrecio: $${paquete.precio}\nCaracterísticas: ${paquete.caracteristicas_paquete}\nVelocidad: ${paquete.velocidad_paquete}`;
+                    }
+                });
+            });
+        });
+    </script>
 
     <script>
+        let idClienteContrato = null;
+
+        function mostrarModalContrato(idCliente, esCliente, calle) {
+            idClienteContrato = idCliente; // Guarda el ID del cliente temporalmente
+
+            // Verificar si el cliente tiene contrato y dirección
+            fetch(`/contratos/verificar/${idClienteContrato}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.verificarContratoYDireccion) {
+                        // Mostrar el modal de cliente ya tiene contrato
+                        var modalCliente = new bootstrap.Modal(document.getElementById('modalClienteContrato'));
+                        modalCliente.show();
+                    } else {
+                        // Mostrar el modal de confirmación para crear nuevo contrato
+                        var modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacionContrato'));
+                        modalConfirmacion.show();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al verificar el contrato y dirección: ' + error.message);
+                });
+
+        }
+        // Función para calcular la fecha de finalización del contrato
+        function calcularFechaFin() {
+            const fechaInicio = document.getElementById('fechaInicioContrato').value;
+            const duracion = document.getElementById('duracionContrato').value;
+
+            if (fechaInicio && duracion) {
+                const fecha = new Date(fechaInicio);
+                fecha.setMonth(fecha.getMonth() + parseInt(duracion)); // Añadir los meses de duración
+
+                // Formatear la fecha de fin como dd/mm/yyyy
+                const fechaFin = `${fecha.getDate().toString().padStart(2, '0')}/${(fecha.getMonth() + 1).toString().padStart(2, '0')}/${fecha.getFullYear()}`;
+                document.getElementById('fechaFinContrato').value = fechaFin;
+            }
+        }
+        // Event Listener para actualizar la fecha de fin cuando la fecha de inicio o la duración cambian
+        document.getElementById('fechaInicioContrato').addEventListener('change', calcularFechaFin);
+        document.getElementById('duracionContrato').addEventListener('change', calcularFechaFin);
+
+
+        /// Función para crear el contrato usando fetch
+        function crearContrato(idCliente) {
+
+            const fechaInicio = document.getElementById('fechaInicioContrato').value;
+            const duracion = document.getElementById('duracionContrato').value;
+            const fechaFin = document.getElementById('fechaFinContrato').value;
+
+            //let fechaFin = document.getElementById('fechaFin').value; // Asume que es DD/MM/YYYY
+            let fechaFinCorrecta = fechaFin.split('/').reverse().join('-'); // Convierte a YYYY-MM-DD
+
+            // Ahora puedes enviar la fecha de esta manera
+            console.log(fechaInicio, fechaFin); // Verifica el resultado
+            if (!fechaInicio || !duracion || !fechaFin) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
+            const url = `/contratos/crear/${idCliente}`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+               'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id_cliente: idCliente,
+                fecha_inicio: fechaInicio,
+                fecha_fin: fechaFinCorrecta,
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Si la creación es exitosa, proceder con la descarga del PDF
+                descargarPDF(data.id_cliente);
+                
+            } else {
+                console.error(data.message);
+                alert('Error al crear el contrato: ' + data.message);
+            }
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al procesar la solicitud: ' + error.message);
+        });
+        }
+
+        // Función para descargar el PDF del contrato
+        function descargarPDF(idCliente) {
+            const url = `/contratos/pdf/${idCliente}`;
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank';
+            link.click();
+        }
+
+        // Event Listener para confirmar la creación del contrato
+        document.getElementById('confirmarContratoBtn').addEventListener('click', function () {
+            if (idClienteContrato) {
+                // Llamamos a la función para crear el contrato
+                crearContrato(idClienteContrato);
+                
+            } else {
+                alert('No se ha seleccionado un cliente.');
+            }
+        });
+    </script>
+
+
+    <!--<script>
 
         let clienteIdSeleccionado = null;
         let nombre_cliente = null;
@@ -492,9 +703,7 @@
         }
 
        
-    </script>
-
-
+    </script>--> 
 
     <!-- Bootstrap core JavaScript--> 
     <!-- Vendor Scripts -->

@@ -18,11 +18,7 @@ class Precontrato extends Model
 
     // Si deseas que el campo 'id_precontrato' se auto-incremente, no es necesario definirlo ya que Laravel lo detecta automáticamente.
     // Si quieres especificar los campos que pueden ser llenados masivamente (fillable)
-    protected $fillable = [
-        'fk_cliente', 
-        'fk_direccion', 
-        'fk_paquete'
-    ];
+    protected $fillable = ['fk_cliente', 'fk_direccion', 'fk_paquete'];
 
     public function cliente()
     {

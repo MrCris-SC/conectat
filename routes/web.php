@@ -15,6 +15,7 @@ use App\Http\Controllers\AcercaNosotrosController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\DireccionController;
 
+
 Route::post('/cliente/{id_cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('cliente.contrato');
 
 
@@ -44,6 +45,10 @@ Route::middleware('admin')->group(function () {
     Route::get('/clienteRegistrados/{id}', [EditarClienteController::class, 'editarCliente'])->name('cliente.edit');
     Route::put('/cliente/{id}', [EditarClienteController::class, 'actualizarCliente'])->name('cliente.update');
 
+    Route::post('/direccion', [DireccionController::class, 'store'])->name('direccion.store');
+    Route::get('/cliente/{id}/direcciones', [DireccionController::class, 'mostrarDirecciones'])->name('cliente.direcciones');
+    Route::post('/direcciones', [DireccionController::class, 'store'])->name('direcciones.add');
+
     // Mostrar el formulario de registro
     Route::get('adminRegister', [AdminController::class, 'showRegisterForm'])->name('admin.registerForm');
 
@@ -61,6 +66,15 @@ Route::middleware('admin')->group(function () {
 
     // Ruta para procesar la actualización del administrador
     Route::put('/admin/{id}', [AdminController::class, 'ActualizarAdmin'])->name('admin.update');
+    
+    Route::get('/precontratos', [PreContratoController::class, 'index'])->name('precontratos.index');
+   
+    Route::put('/precontrato/{id_precontrato}/cambiar-paquete', [PrecontratoController::class, 'cambiarPaquete'])->name('precontrato.cambiarPaquete');
+   
+    // Crear contrato
+   Route::get('/contratos', [ContratoController::class, 'mostrarContratos'])->name('mostrar.contratos');
+
+    //Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato'])->name('contratos.crear');
 
 });
 //Cerrar Sesion
@@ -80,20 +94,28 @@ Route::get('/seleccionar-paquete/{id_nombre_paquete}', [PreContratoController::c
 Route::post('/enviar-correo', [MailController::class, 'enviarCorreo'])->name('enviar.correo');
 
 
-Route::get('/paquetePromocion', [UserController::class, 'promociones'])->name('mostrar.paquetes');
 
-Route::post('/cliente/{cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('insertar.contrato');
-
-Route::get('cliente/{id}/contrato', [editarClienteController::class, 'generarContratoPDF'])->name('cliente.contratopdf');
-
-Route::get('/contratos', [ContratoController::class, 'mostrarContratos'])->name('mostrar.contratos');
 
 Route::get('/acercaNosotros', [AcercaNosotrosController::class, 'acerca'])->name('acerca');
 Route::get('/contacto', [ContactoController::class, 'contacto'])->name('contacto');
 Route::post('/enviar-mensaje', [ContactoController::class, 'enviarMensaje'])->name('enviar-mensaje');
+
 Route::post('/direccion', [DireccionController::class, 'store'])->name('direccion.store');
 Route::get('/cliente/{id}/direcciones', [DireccionController::class, 'mostrarDirecciones'])->name('cliente.direcciones');
 Route::post('/direcciones', [DireccionController::class, 'store'])->name('direcciones.add');
 Route::put('/direccion/update/{id}', [DireccionController::class, 'update'])->name('direcciones.update');
 
-Route::post('/crearPrecontrato', [PrecontratoController::class, 'crearPrecontrato'])->name('crearPrecontrato');
+Route::post('/precontratos/registrar', [PrecontratoController::class, 'registrar'])->name('precontratos.registrar');
+// web.php
+Route::get('/contratos/verificar/{id_cliente}', [ContratoController::class, 'verificarContratoYDireccion']);
+
+Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato']);
+
+// Ruta para descargar el contrato en PDF (GET)
+Route::get('/contratos/pdf/{id_cliente}', [ContratoController::class, 'generarContratoPDF'])->name('contratos.pdf');
+
+Route::get('/gestion', function () {return view('gestionContratos');});
+
+Route::get('/gestionContrato/{id}', [ContratoController::class, 'show'])->name('gestionContrato.show');
+
+Route::put('/contrato/{id}/estado', [ContratoController::class, 'updateEstado'])->name('contratos.updateEstado');

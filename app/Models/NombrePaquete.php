@@ -45,7 +45,5 @@ class NombrePaquete extends Model
     {
         return $this->hasMany(Precontrato::class, 'fk_paquete', 'id_nombre_paquete');
     }
-    
-
-    
+        
 }

@@ -21,8 +21,8 @@ class Contrato extends Model
         'estado',
         'monto_total_contrato',
         'monto_total_mensualidad',
-        'fk_paquete',
-        'fk_cliente',
+        'fk_precontrato',
+        
     ];
 
     public static function generateUniqueContractId()
@@ -33,4 +33,28 @@ class Contrato extends Model
 
         return $id;
     }
+
+   // Relación con el Precontrato
+   public function precontrato()
+   {
+       return $this->belongsTo(Precontrato::class, 'fk_precontrato', 'id_precontrato');
+   }
+   public function cliente()
+   {
+       return $this->belongsTo(Cliente::class, 'fk_cliente', 'id_cliente');
+   }
+   
+
+   /* // Relación con el Cliente a través de Precontrato
+    public function cliente()
+    {
+        return $this->belongsToThrough(Cliente::class, Precontrato::class);
+    }
+
+    // Relación con el Paquete a través de Precontrato
+    public function paquete()
+    {
+        return $this->belongsToThrough(NombrePaquete::class, Precontrato::class);
+    }*/
+
 }

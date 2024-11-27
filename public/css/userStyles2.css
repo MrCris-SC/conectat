@@ -1,5 +1,5 @@
 .body{
-  background-color: #333;
+  background-color: #bdd6e9;
   
 }
 
@@ -745,101 +745,92 @@ transform-origin: center; /* Centra el escalado */
   justify-content: center;
 }
 
+/* Estilos generales para el slider */
+/* Estilos generales para el slider */
+#paqueteSlider {
+  max-width: 100%;
+  margin: auto;
+  position: relative;
+  height: 600px;
+  overflow: hidden;
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  height: 100%;
+}
+
+.slider-wrapper {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+  /* Se añade un contenedor para hacer el efecto de desplazamiento infinito */
+  flex-wrap: nowrap;
+}
+
+.slider-item {
+  flex: 0 0 25%; /* Reducido para pantallas grandes */
+  box-sizing: border-box;
+  padding: 10px;
+}
+
 .card {
   margin: 20px;
-  width: 18rem;
-  max-width: 100%;
+  width: 100%; /* Se ajusta al tamaño del contenedor */
   padding: 20px;
   text-align: center;
   font-size: 1em;
   background: #fff;
 }
 
-.prev1,
-.next1 {
+.slider-control {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 123, 255, 0.8);
-  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
   border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: white;
+  font-size: 2rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  z-index: 1000;
+  padding: 10px;
+  border-radius: 50%;
 }
 
-.prev1:hover,
-.next1:hover {
-  background-color: #0056b3;
-}
-
-.prev1 {
+.slider-control.prev {
   left: 15px;
 }
 
-.next1 {
-  right: 15px;
+.slider-control.next {
+  right: 10px;
 }
 
-#paqueteSlider {
-  max-width: 100%;
-  margin: auto;
-  height: 600px;
-}
-
+/* Estilos para pantallas pequeñas */
 @media (max-width: 768px) {
-  .pricing .card2-price {
-    font-size: 2rem;
+  .slider-item {
+    flex: 1 0 100%; /* Un solo elemento visible */
   }
-  .card {
-    margin: 15px;
-    width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
-  }
-  .prev1,
-  .next1 {
-    width: 35px;
-    height: 35px;
-  }
-  .d-flex {
-    flex-wrap: wrap; /* Permite que las tarjetas se distribuyan en varias líneas */
-    flex-direction: row; /* Organiza las tarjetas en columnas */
-    align-items: center; /* Centra las columnas en la pantalla */
+
+  .slider-control {
+    font-size: 1.5rem;
+    padding: 8px;
   }
 }
 
+@media (max-width: 480px) {
+  .slider-item {
+    flex: 1 0 100%; /* Un solo elemento visible en pantallas más pequeñas */
+  }
 
-/* Estilo general para la tarjeta */
-/* Estilos de la tarjeta */
-.card2 {
-  transition: transform 0.3s, box-shadow 0.3s;
+  .slider-control {
+    font-size: 1.2rem;
+  }
 }
 
-.card2:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
-}
 
-.carousel-inner {
-  overflow: visible;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-color: #000;
-  border-radius: 50%;
-  padding: 10px;
-  opacity: 0.7;
-}
-
-.carousel-control-prev-icon:hover,
-.carousel-control-next-icon:hover {
-  opacity: 1;
-}
 
 .pricing {
   background: linear-gradient(135deg, #ffffff, #f8f9fa);

@@ -87,11 +87,10 @@
 
     <!-- Nav Item - Ajustes -->
     <li class="nav-item">
-        <a class="nav-link" href="ajustes.html">
+        <a class="nav-link" href="{{ url('/precontratos') }}">
             <i class="fas fa-fw fa-cogs"></i>
-            <span>Ajustes del Sistema</span></a>
+            <span>Precontratos</span></a>
     </li>
-
     <!-- Nav Item - Ayuda -->
     <li class="nav-item">
         <a class="nav-link" href="ayuda.html">

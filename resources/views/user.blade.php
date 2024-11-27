@@ -17,7 +17,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
     </head>
-    <body id="page-top">
+    <body>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
                 
@@ -27,9 +27,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}"onclick="verificarDatos(event)" >Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/paquetePromocion') }}" >Planes de Internet</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/paquetePromocion') }}">Promociones</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}"onclick="verificarDatos(event)" >Inicio</a></li>                        
+                        <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>                       
+                        <li class="nav-item"><a class="nav-link" href="#paquetes">Paquetes</a></li>  
                         <li class="nav-item"><a class="nav-link" href="{{ url('/acercaNosotros')}}">Acerda de</a></li>                       
                         <li class="nav-item"><a class="nav-link" href="{{ url('/contacto')}}">Contactanos</a></li>
                     </ul>
@@ -84,10 +84,10 @@
         </div>
 
         <!-- Services-->
-        <section id="paquetes_section" class="paquete-slider-section">
+        <section id="servicios" class="paquete-slider-section">
             <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Services</h2>
-                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                    <h2 class="section-heading text-uppercase">Servicios</h2>
+                    <h3 class="section-subheading text-muted">Conect@t: Internet de alta velocidad.</h3>
             </div>
             
             <div class="container">
@@ -96,26 +96,26 @@
                     <div class="col-md-4">
                         <span class="fa-stack fa-4x">
                             <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
+                            <i class="fas fa-wifi fa-stack-1x fa-inverse"></i>
                         </span>
-                        <h4 class="my-3">E-Commerce</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                        <h4 class="my-3">Velocidades de Internet Garantizadas y Flexibles</h4>
+                        <p class="text-muted">Disfruta de hasta 500 Mbps reales para streaming, gaming y videollamadas sin interrupciones.</p>
                     </div>
                     <div class="col-md-4">
                         <span class="fa-stack fa-4x">
                             <i class="fas fa-circle fa-stack-2x text-primary"></i>
                             <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
                         </span>
-                        <h4 class="my-3">Responsive Design</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                        <h4 class="my-3">Soporte Técnico 24/7 Personalizado</h4>
+                        <p class="text-muted">¿Problemas con tu conexión? Estamos disponibles las 24 horas, los 7 días de la semana.</p>
                     </div>
                     <div class="col-md-4">
                         <span class="fa-stack fa-4x">
                             <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
+                            <i class="fas fa-star fa-stack-1x fa-inverse"></i>
                         </span>
-                        <h4 class="my-3">Web Security</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                        <h4 class="my-3">Beneficios Exclusivos para Clientes:</h4>
+                        <p class="text-muted">Ahorra hasta un 20% en tu primer año de servicio o al combinar con servicios adicionales.</p>
                     </div>
                 </div>
             </div>
@@ -124,45 +124,42 @@
         
         
                    
-        <section class="pricing py-5">
-            <div id="paqueteSlider" class="carousel slide">
-                <div class="carousel-inner">
-                    @foreach($paquetes->chunk(3) as $index => $paqueteChunk)
-                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                            <div class="d-flex justify-content-center flex-wrap">
-                                @foreach($paqueteChunk as $paquete)
-                                    <div class="card2 mx-2 shadow-lg" style="width: 18rem; border-radius: 15px; overflow: hidden;">                                        <div class="card2-body p-4 text-center">
-                                            <h5 class="card2-title text-primary fw-bold">{{ $paquete->nombre_paquete }}</h5>
-                                            <p class="card2-text text-muted mb-3">{{ $paquete->descripcion }}</p>
-                                            <p class="fw-bold fs-4 text-success">Precio: ${{ $paquete->precio }}</p>
-                                            <ul class="fa-ul text-start">
-                                                <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Usuario único</li>
-                                                <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>5GB de almacenamiento</li>
-                                                <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Proyectos públicos ilimitados</li>
-                                                <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Acceso a la comunidad</li>
-                                                <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Proyectos privados ilimitados</li>
-                                                <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Soporte telefónico dedicado</li>
-                                            </ul>
-                                            <a href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}" class="btn btn-primary rounded-pill px-4 mt-3 shadow">Contrátanos</a>
-                                        </div>
-                                    </div>
-                                @endforeach
+        <section id= "paquetes" class="pricing py-5">
+            <br><br>    
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Nuestros paquetes</h2>        
+        </div>
+        <br>
+        
+        <div id="paqueteSlider" class="slider-container">
+            <div class="slider-wrapper">
+                @foreach($paquetes as $paquete)
+                    <div class="slider-item">
+                        <div class="card mx-auto shadow-lg" style="border-radius: 15px; overflow: hidden;">
+                            <div class="card-body p-4 text-center">
+                                <h5 class="card-title text-primary fw-bold">{{ $paquete->nombre_paquete }}</h5>
+                                <p class="card-text text-muted mb-3">{{ $paquete->descripcion }}</p>
+                                <p class="fw-bold fs-4 text-success">Precio: ${{ $paquete->precio }}</p>
+                                <ul class="fa-ul text-start">
+                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Dispositivos ilimitados</li>
+                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Internet ilimitado</li>
+                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>{{ $paquete->velocidad_paquete }} de velocidad</li>
+                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Soporte técnico gratis</li>
+                                    <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Proyectos privados ilimitados</li>
+                                    <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Soporte telefónico dedicado</li>
+                                </ul>
+                                <a href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}" class="btn btn-primary rounded-pill px-4 mt-3 shadow">Contrátanos</a>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-        
-                <!-- Controles manuales -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#paqueteSlider" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
-                </button>
-        
-                <button class="carousel-control-next" type="button" data-bs-target="#paqueteSlider" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Siguiente</span>
-                </button>
+                    </div>
+                @endforeach
             </div>
+            <button class="slider-control prev" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
+            <button class="slider-control next" id="nextSlide"><i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        
+                
         </section>
         
 
@@ -191,7 +188,84 @@
     </footer>
        
 
-    
+    <script>
+       document.addEventListener("DOMContentLoaded", function () {
+  const sliderWrapper = document.querySelector(".slider-wrapper");
+  const prevButton = document.getElementById("prevSlide");
+  const nextButton = document.getElementById("nextSlide");
+  const sliderItems = document.querySelectorAll(".slider-item");
+  const totalItems = sliderItems.length;
+
+  const cloneItems = () => {
+    // Creamos clones de todos los elementos
+    const clonedItems = [];
+    sliderItems.forEach(item => {
+      clonedItems.push(item.cloneNode(true)); // Clonamos cada elemento
+    });
+
+    // Insertamos los clones al principio y al final
+    clonedItems.forEach(item => {
+      sliderWrapper.appendChild(item);  // Insertamos clones al final
+    });
+
+    // Insertamos los clones al principio
+    clonedItems.reverse().forEach(item => {
+      sliderWrapper.insertBefore(item, sliderWrapper.firstChild);  // Insertamos clones al principio
+    });
+  };
+
+  cloneItems();// Duplicamos los elementos una vez cargado el slider
+
+  let currentIndex = 1;  // Comenzamos en el segundo elemento (para que no se vea el clone al inicio)
+  let itemWidth = sliderItems[0].offsetWidth; // Obtenemos el ancho de las tarjetas
+
+  // Función para mover el slider
+  function goToSlide(index) {
+    // Si llegamos al primer o último elemento (duplicado), ajustamos la transición
+    if (index < 0) {
+      currentIndex = totalItems;  // Mover a la última posición
+      sliderWrapper.style.transition = "none"; // Desactiva la transición para el "wrap-around"
+      sliderWrapper.style.transform = `translateX(${ -currentIndex * itemWidth }px)`; // Mover inmediatamente
+      setTimeout(() => {
+        sliderWrapper.style.transition = "transform 0.5s ease-in-out"; // Reactivamos la transición
+      }, 50); // Retraso para que se active la transición después
+
+    } else if (index >= totalItems + 1) {
+      currentIndex = 1;  // Mover al primer elemento
+      sliderWrapper.style.transition = "none"; // Desactiva la transición para el "wrap-around"
+      sliderWrapper.style.transform = `translateX(${ -currentIndex * itemWidth }px)`; // Mover inmediatamente
+      setTimeout(() => {
+        sliderWrapper.style.transition = "transform 0.5s ease-in-out"; // Reactivamos la transición
+      }, 50); // Retraso para que se active la transición después
+
+    } else {
+      currentIndex = index;  // Avanzamos al siguiente índice
+    }
+
+    const offset = -currentIndex * itemWidth;
+    sliderWrapper.style.transform = `translateX(${offset}px)`;
+  }
+
+  prevButton.addEventListener("click", function () {
+    goToSlide(currentIndex - 1);
+  });
+
+  nextButton.addEventListener("click", function () {
+    goToSlide(currentIndex + 1);
+  });
+
+  // Inicializamos el slider con la primera posición
+  goToSlide(currentIndex);
+
+  // Actualizamos el ancho de las tarjetas al redimensionar
+  window.addEventListener("resize", function () {
+    itemWidth = sliderItems[0].offsetWidth;  // Actualizamos el ancho de las tarjetas
+    goToSlide(currentIndex);  // Reajustamos el slider
+  });
+});
+
+
+    </script>
 
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
