@@ -335,8 +335,7 @@
                                             <th>ID</th>
                                             <th>Nombre Completo</th>
                                             <th>Correo</th>
-                                            <th>Teléfono</th>
-                                                                                      
+                                            <th>Teléfono</th>                                            
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>

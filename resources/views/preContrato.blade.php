@@ -400,7 +400,7 @@
                                                 </div>
                                                 <!-- Botón de Contratos -->
                                                         
-                                                <a href="javascript:void(0);" class="btn btn-info btn-icon-split" onclick="mostrarModalContrato({{ $precontrato->cliente->id_cliente }}, {{ $precontrato->cliente->es_cliente }},{{ $precontrato->cliente->calle }})">
+                                                <a href="javascript:void(0);" class="btn btn-info btn-icon-split" onclick="mostrarModalContrato({{ $precontrato->cliente->id_cliente }}, {{ $precontrato->cliente->es_cliente }}, {{ $precontrato->id_precontrato }})">
                                                         <span class="icon text-white-50">
                                                                 <i class="fas fa-file-contract"></i>
                                                             </span>
@@ -543,30 +543,29 @@
 
     <script>
         let idClienteContrato = null;
+        let idprecontratos = null;
 
-        function mostrarModalContrato(idCliente, esCliente, calle) {
-            idClienteContrato = idCliente; // Guarda el ID del cliente temporalmente
+        function mostrarModalContrato(idCliente, esCliente, idPrecontrato) {
+            // Asignar los valores de los parámetros
+            idClienteContrato = idCliente;
+            idprecontratos = idPrecontrato;
 
-            // Verificar si el cliente tiene contrato y dirección
-            fetch(`/contratos/verificar/${idClienteContrato}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.verificarContratoYDireccion) {
-                        // Mostrar el modal de cliente ya tiene contrato
-                        var modalCliente = new bootstrap.Modal(document.getElementById('modalClienteContrato'));
-                        modalCliente.show();
-                    } else {
-                        // Mostrar el modal de confirmación para crear nuevo contrato
-                        var modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacionContrato'));
-                        modalConfirmacion.show();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al verificar el contrato y dirección: ' + error.message);
-                });
+            // Obtener todos los contratos desde el backend
+            const contratos = @json($contratos);  // Aquí debes asegurarte de pasar la variable correctamente desde Blade
+            const contrato = contratos.find(p => p.fk_precontrato === idPrecontrato);
 
+            // Verificar si el cliente ya tiene un contrato
+            if (contrato) {
+                // Si ya tiene contrato, mostrar el modal de error
+                var modalContrato = new bootstrap.Modal(document.getElementById('modalClienteContrato'));
+                modalContrato.show();
+            } else {
+                // Si no tiene contrato, mostrar el modal de confirmación
+                var modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacionContrato'));
+                modalConfirmacion.show();
+            }
         }
+
         // Función para calcular la fecha de finalización del contrato
         function calcularFechaFin() {
             const fechaInicio = document.getElementById('fechaInicioContrato').value;
@@ -596,8 +595,10 @@
             //let fechaFin = document.getElementById('fechaFin').value; // Asume que es DD/MM/YYYY
             let fechaFinCorrecta = fechaFin.split('/').reverse().join('-'); // Convierte a YYYY-MM-DD
 
+            //console.log(idCliente)
+            //console.log(idprecontratos)
             // Ahora puedes enviar la fecha de esta manera
-            console.log(fechaInicio, fechaFin); // Verifica el resultado
+            //console.log(fechaInicio, fechaFin); // Verifica el resultado
             if (!fechaInicio || !duracion || !fechaFin) {
                 alert('Por favor, completa todos los campos.');
                 return;
@@ -615,13 +616,16 @@
                 id_cliente: idCliente,
                 fecha_inicio: fechaInicio,
                 fecha_fin: fechaFinCorrecta,
+                id_precontrato: idprecontratos
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
                 // Si la creación es exitosa, proceder con la descarga del PDF
-                descargarPDF(data.id_cliente);
+                //descargarPDF(data.id_cliente);
+                descargarPDF(idprecontratos); // Cambiar de `data.id_cliente` a `data.id_precontrato`
+
                 
             } else {
                 console.error(data.message);
@@ -636,8 +640,9 @@
         }
 
         // Función para descargar el PDF del contrato
-        function descargarPDF(idCliente) {
-            const url = `/contratos/pdf/${idCliente}`;
+        function descargarPDF(idPrecontrato) {
+            const url = `/contratos/pdf/${idPrecontrato}`;
+            console.log(url);
             const link = document.createElement('a');
             link.href = url;
             link.target = '_blank';
@@ -656,54 +661,6 @@
         });
     </script>
 
-
-    <!--<script>
-
-        let clienteIdSeleccionado = null;
-        let nombre_cliente = null;
-
-        // Función para abrir el modal y mostrar el nombre del cliente
-        function abrirContratoModal(idCliente, nombre) {
-            clienteIdSeleccionado = idCliente;
-            nombre_cliente = nombre;
-
-            // Actualiza el contenido del mensaje del modal con el ID del cliente
-            document.getElementById(`nombreClienteModal-${idCliente}`).textContent = 
-                `Seleccione "Confirmar" para generar y descargar el contrato en PDF para el cliente seleccionado: ${nombre_cliente} con el ID ${clienteIdSeleccionado}.`;
-
-            // Muestra el modal correspondiente al cliente
-            $(`#contratoModal-${idCliente}`).modal('show');
-        }
-
-        // Función para crear y descargar el contrato en PDF
-        function crearContratoYDescargarPDF(clienteId) {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-            // Realiza la solicitud POST para generar el contrato
-            fetch(`/cliente/${clienteId}/contrato`, {
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({}) // Cuerpo vacío, puedes agregar parámetros si es necesario
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Si la respuesta es exitosa, abre el PDF en una nueva ventana
-                    window.open(`/cliente/${clienteId}/contrato`, '_blank');
-                    // Oculta el modal correspondiente
-                    $(`#contratoModal-${clienteId}`).modal('hide');
-                } else {
-                    console.error("Error al insertar el contrato:", response);
-                }
-            })
-            .catch(error => console.error("Error en la solicitud:", error));
-        }
-
-       
-    </script>--> 
 
     <!-- Bootstrap core JavaScript--> 
     <!-- Vendor Scripts -->
