@@ -118,4 +118,7 @@ Route::get('/gestion', function () {return view('gestionContratos');});
 
 Route::get('/gestionContrato/{id}', [ContratoController::class, 'show'])->name('gestionContrato.show');
 
-Route::put('/contrato/{id}/estado', [ContratoController::class, 'updateEstado'])->name('contratos.updateEstado');
+Route::put('/contratos/{id}/estado', [ContratoController::class, 'updateEstado'])->name('contratos.updateEstado');
+Route::get('/contratos/{id}/pagos', [ContratoController::class, 'mostrarCalendarioPagos'])->name('contrato.pagos');
+
+

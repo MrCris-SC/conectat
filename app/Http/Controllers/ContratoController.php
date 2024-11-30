@@ -10,6 +10,7 @@ use App\Models\NombrePaquete;
 use App\Models\Precontrato;
 use App\Models\Domicilio;
 use App\Models\Message;
+use App\Models\Pago;
 use PDF;
 
 class ContratoController extends Controller
@@ -207,37 +208,82 @@ class ContratoController extends Controller
     
 
     public function show($id)
-    {
-        // Obtén el contrato por ID
-        $contrato = Contrato::findOrFail($id);
+{
+    // Obtén el contrato por ID
+    $contrato = Contrato::findOrFail($id);
 
-        // Obtén los 5 mensajes más recientes
-        $mensajes = Message::latest()->take(5)->get();
+    // Obtén los 5 mensajes más recientes
+    $mensajes = Message::latest()->take(5)->get();
 
-        // Pasar el contrato y los mensajes a la vista
-        return view('gestionContratos', compact('contrato', 'mensajes'));
-    }
+    // Obtén los pagos relacionados con el contrato
+    $pagos = Pago::where('fk_contrato', $id)->get();
 
-   
+    // Pasar el contrato, los mensajes y los pagos a la vista
+    return view('gestionContratos', compact('contrato', 'mensajes', 'pagos'));
+}
 
     public function updateEstado(Request $request, $id)
-    {
-        // Validar el estado recibido
-        $request->validate([
-            'estado' => 'required|in:pendiente,activo,inactivo',
+{
+    // Validar el estado recibido
+    $request->validate([
+        'estado' => 'required|in:pendiente,activo,inactivo',
+    ]);
+    
+
+    // Obtener el contrato por ID
+    $contrato = Contrato::findOrFail($id);
+
+    // Actualizar el estado del contrato
+    $contrato->estado = $request->estado;
+    $contrato->save();
+
+    // Generar el calendario de pagos si el estado es "activo"
+    if ($contrato->estado === 'activo') {
+        $this->crearCalendarioPagos($contrato);
+    }
+    if ($contrato->estado == 'inactivo') {
+        // Eliminar los pagos relacionados con este contrato
+        Pago::where('fk_contrato', $contrato->id_contrato)->delete();
+    }
+    $contrato->save();
+
+
+
+    // Redirigir de vuelta con un mensaje de éxito
+    return redirect()->route('gestionContrato.show', $contrato->id_contrato)
+                    ->with('success', 'Estado del contrato actualizado con éxito.');
+}
+
+private function crearCalendarioPagos(Contrato $contrato)
+{
+    $fechaPago = Carbon::parse($contrato->fecha_inicio_contrato); 
+    $montoMensual = $contrato->monto_total_mensualidad;
+
+    for ($i = 0; $i < $contrato->total_meses_contrato; $i++) {
+        // Crear cada pago
+       Pago::create([
+        'fk_contrato' => $contrato->id_contrato,
+        'fecha_pago' => $fechaPago->format('Y-m-d'),
+        'monto_acumulado_pagos' => $montoMensual,
+        'fecha_inicio_mensualidad' => $fechaPago->format('Y-m-d'), // Igual a la fecha de pago
+        'fecha_fin_mensualidad' => $fechaPago->copy()->endOfMonth()->format('Y-m-d'), // Fin del mes
+        'estado_pago' => 'pendiente', // Los pagos inician como "pendiente"
+            
+            
         ]);
 
-        // Obtener el contrato por ID
-        $contrato = Contrato::findOrFail($id);
+        // Avanzar al siguiente mes
+        $fechaPago = $fechaPago->copy()->addMonth();
 
-        // Actualizar el estado del contrato
-        $contrato->estado = $request->estado;
-        $contrato->save();
-
-        // Redirigir de vuelta a la página de gestión del contrato con un mensaje de éxito
-        return redirect()->route('gestionContrato.show', $contrato->id_contrato)
-                        ->with('success', 'Estado del contrato actualizado con éxito.');
     }
+}
+public function mostrarCalendarioPagos($id_contrato)
+{
+    $pagos = Pago::where('fk_contrato', $id_contrato)->get();
+
+    return view('pagos', compact('pagos'));
+}
+
 
     
 }
