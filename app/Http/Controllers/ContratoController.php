@@ -228,83 +228,120 @@ class ContratoController extends Controller
     */
 
     public function show($id)
-{
-    // Obtén el contrato por ID
-    $contrato = Contrato::findOrFail($id);
+    {
+        // Obtén el contrato por ID
+        $contrato = Contrato::findOrFail($id);
 
-    // Obtén los 5 mensajes más recientes
-    $mensajes = Message::latest()->take(5)->get();
+        // Obtén los 5 mensajes más recientes
+        $mensajes = Message::latest()->take(5)->get();
 
-    // Obtén los pagos relacionados con el contrato
-    $pagos = Pago::where('fk_contrato', $id)->get();
+        // Obtén los pagos relacionados con el contrato
+        $pagos = Pago::where('fk_contrato', $id)->get();
 
-    // Pasar el contrato, los mensajes y los pagos a la vista
-    return view('gestionContratos', compact('contrato', 'mensajes', 'pagos'));
-}
+        // Pasar el contrato, los mensajes y los pagos a la vista
+        return view('gestionContratos', compact('contrato', 'mensajes', 'pagos'));
+    }
 
     public function updateEstado(Request $request, $id)
-{
-    // Validar el estado recibido
-    $request->validate([
-        'estado' => 'required|in:pendiente,activo,inactivo',
-    ]);
-    
-
-    // Obtener el contrato por ID
-    $contrato = Contrato::findOrFail($id);
-
-    // Actualizar el estado del contrato
-    $contrato->estado = $request->estado;
-    $contrato->save();
-
-    // Generar el calendario de pagos si el estado es "activo"
-    if ($contrato->estado === 'activo') {
-        $this->crearCalendarioPagos($contrato);
-    }
-    if ($contrato->estado == 'inactivo') {
-        // Eliminar los pagos relacionados con este contrato
-        Pago::where('fk_contrato', $contrato->id_contrato)->delete();
-    }
-    $contrato->save();
-
-
-
-    // Redirigir de vuelta con un mensaje de éxito
-    return redirect()->route('gestionContrato.show', $contrato->id_contrato)
-                    ->with('success', 'Estado del contrato actualizado con éxito.');
-}
-
-private function crearCalendarioPagos(Contrato $contrato)
-{
-    $fechaPago = Carbon::parse($contrato->fecha_inicio_contrato); 
-    $montoMensual = $contrato->monto_total_mensualidad;
-
-    for ($i = 0; $i < $contrato->total_meses_contrato; $i++) {
-        // Crear cada pago
-       Pago::create([
-        'fk_contrato' => $contrato->id_contrato,
-        'fecha_pago' => $fechaPago->format('Y-m-d'),
-        'monto_acumulado_pagos' => $montoMensual,
-        'fecha_inicio_mensualidad' => $fechaPago->format('Y-m-d'), // Igual a la fecha de pago
-        'fecha_fin_mensualidad' => $fechaPago->copy()->endOfMonth()->format('Y-m-d'), // Fin del mes
-        'estado_pago' => 'pendiente', // Los pagos inician como "pendiente"
-            
-            
+    {
+        // Validar el estado recibido
+        $request->validate([
+            'estado' => 'required|in:pendiente,activo,inactivo',
         ]);
+        
 
-        // Avanzar al siguiente mes
-        $fechaPago = $fechaPago->copy()->addMonth();
+        // Obtener el contrato por ID
+        $contrato = Contrato::findOrFail($id);
 
+        // Actualizar el estado del contrato
+        $contrato->estado = $request->estado;
+        $contrato->save();
+
+        // Generar el calendario de pagos si el estado es "activo"
+        if ($contrato->estado === 'activo') {
+            $this->crearCalendarioPagos($contrato);
+        }
+        if ($contrato->estado == 'inactivo') {
+            // Eliminar los pagos relacionados con este contrato
+            Pago::where('fk_contrato', $contrato->id_contrato)->delete();
+        }
+        $contrato->save();
+
+
+
+        // Redirigir de vuelta con un mensaje de éxito
+        return redirect()->route('gestionContrato.show', $contrato->id_contrato)
+                        ->with('success', 'Estado del contrato actualizado con éxito.');
     }
-}
-public function mostrarCalendarioPagos($id_contrato)
-{
-    $pagos = Pago::where('fk_contrato', $id_contrato)->get();
 
-    return view('pagos', compact('pagos'));
-}
+    private function crearCalendarioPagos(Contrato $contrato)
+    {
+        $fechaPago = Carbon::parse($contrato->fecha_inicio_contrato); 
+        $montoMensual = $contrato->monto_total_mensualidad;
 
+        for ($i = 0; $i < $contrato->total_meses_contrato; $i++) {
+            // Crear cada pago
+        Pago::create([
+            'fk_contrato' => $contrato->id_contrato,
+            'fecha_pago' => $fechaPago->format('Y-m-d'),
+            'monto_acumulado_pagos' => $montoMensual,
+            'fecha_inicio_mensualidad' => $fechaPago->format('Y-m-d'), // Igual a la fecha de pago
+            'fecha_fin_mensualidad' => $fechaPago->copy()->endOfMonth()->format('Y-m-d'), // Fin del mes
+            'estado_pago' => 'pendiente', // Los pagos inician como "pendiente"
+                
+                
+            ]);
 
+            // Avanzar al siguiente mes
+            $fechaPago = $fechaPago->copy()->addMonth();
+
+        }
+    }
+    public function mostrarCalendarioPagos($id_contrato)
+    {
+        $pagos = Pago::where('fk_contrato', $id_contrato)->get();
+
+        return view('pagos', compact('pagos'));
+    }
+
+    public function generarTicket($id_pago)
+    {
+        // Obtener el pago por su ID
+        $pago = Pago::with('contrato')->findOrFail($id_pago);
+
+        // Validar que el estado sea "pendiente"
+        if ($pago->estado_pago !== 'pendiente') {
+            return redirect()->back()->withErrors('El pago ya ha sido procesado.');
+        }
+        // Cambiar el estado a "pagado"
+        $pago->estado_pago = 'pagado';
+        $pago->save();
+
+        // Determinar el próximo pago
+        $proximoPago = Pago::where('fk_contrato', $pago->fk_contrato)
+        ->where('fecha_pago', '>', $pago->fecha_pago)
+        ->where('estado_pago', 'pendiente') // Opcional: Solo considerar pagos pendientes
+        ->orderBy('fecha_pago', 'asc')
+        ->first();
+        // Preparar los datos para la vista del PDF
+        $data = [
+            'pago' => $pago,
+            'cliente' => $pago->contrato->precontrato->cliente,
+            'paquete' => $pago->contrato->precontrato->paquete,
+            'proximoPago' => $proximoPago,
+        ];
+
+        $pdf = PDF::loadView('pdf.ticket', $data);
+
+        // Configurar el tamaño de la página a un tamaño específico en milímetros o pulgadas
+        $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+
+        // Tamaño personalizado (en milímetros): 80mm de ancho y 180mm de alto
+        $pdf->setPaper([0, 0, 350, 430], 'portrait'); // [izquierda, arriba, ancho, alto]
+
+        // Descargar el archivo PDF
+        return $pdf->download('ticket_pago_' . $pago->id_pago . '.pdf');
+    }
     
 }
 
