@@ -11,6 +11,7 @@ class Pago extends Model
     use HasFactory;
 
     protected $table = 'pagos';
+    protected $primaryKey = 'id_pago';
 
     protected $fillable = [
         'fk_contrato',

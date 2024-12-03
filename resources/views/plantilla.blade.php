@@ -305,6 +305,11 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->               
+                @if (session('message'))
+                <div class="alert alert-info">
+                    {{ session('message') }}
+                </div>
+            @endif
 
                     <div class="container-fluid">
                         @yield('content') <!-- Aquí se insertará el contenido de las otras vistas -->
@@ -394,6 +399,7 @@
             modal.find('#modalMensaje').text(mensaje);
         });
     </script>
+
     
 </body>
 
