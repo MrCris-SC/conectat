@@ -78,7 +78,7 @@
 
     <div class="ticket">
         <div class="header">
-            <img src="asset{{images/logo1.png }}" alt="">
+            
             <h2>Ticket de Pago</h2>
             <!--<p><strong>Número de Pago:</strong> {{ $pago->id_pago }}</p>
             <p><strong>Fecha y Hora de Pago:</strong> {{ now()->format('d/m/Y H:i:s') }}</p>-->
