@@ -65,7 +65,7 @@
 
             <!-- Nav Item - Clientes -->
             <li class="nav-item">
-                <a class="nav-link" href="clienteRegistrados">
+                <a class="nav-link" href="{{url ('/clienteRegistrados')}}">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Gestión de Clientes</span></a>
             </li>
