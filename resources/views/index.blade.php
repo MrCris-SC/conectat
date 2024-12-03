@@ -246,6 +246,16 @@
                                             <p><strong>Correo: </strong><span id="modalCorreo"></span></p> <!-- Agregado para correo -->
                                             <p><strong>Mensaje: </strong></p>
                                             <p id="modalMensaje"></p>
+                                              <!-- Formulario para responder -->
+                                            <form id="respuestaForm" method="POST" action="{{ route('respuesta.mensaje') }}">
+                                                @csrf
+                                                <input type="hidden" id="correoRespuesta" name="correo" value="">
+                                                <div class="form-group">
+                                                    <label for="respuesta">Tu Respuesta:</label>
+                                                    <textarea class="form-control" id="respuesta" name="respuesta" rows="3" required></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Enviar Respuesta</button>
+                                            </form>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -253,9 +263,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            
-
 
                         </li>
 
@@ -491,8 +498,10 @@
             modal.find('#modalNombre').text(nombre);
             modal.find('#modalCorreo').text(correo); // Asigna el correo
             modal.find('#modalMensaje').text(mensaje);
+            $('#correoRespuesta').val(correo);
         });
     </script>
+    
     
 </body>
 
