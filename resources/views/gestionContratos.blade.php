@@ -46,23 +46,41 @@
                         <th>Fecha de Pago</th>
                         <th>Monto</th>
                         <th>Estado</th>
+                        <th>Ticket</th>
                     </tr>
                 </thead>
                 
                 <tbody>
                     @forelse ($pagos as $pago)
-                    <tr>
-                    <td>{{ $pago->fecha_pago }}</td>
-                    <td>{{ $pago->monto_acumulado_pagos }}</td>
-                    <td>{{ ucfirst($pago->estado_pago) }}</td>
-                </tr>
-                @empty
-                <tr>
-            <td colspan="3">No hay pagos registrados.</td>
-        </tr>
-    @endforelse
-</tbody>
-
+                    <tr data-estado="{{ $pago->estado_pago }}">
+                        <td>{{ $pago->fecha_pago }}</td>
+                        <td>{{ $pago->monto_acumulado_pagos }}</td>
+                        <td>{{ ucfirst($pago->estado_pago) }}</td>
+                        <td>
+                            @if ($pago->estado_pago === 'pagado')
+                                <a class="btn btn-info btn-icon-split" style="width: 175px; display: none;" disabled>
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-file-contract"></i>
+                                    </span>
+                                    <span class="text">Generar Ticket</span>
+                                </a>
+                            @elseif ($pago->estado_pago === 'pendiente')
+                                <a href="{{ route('pagos.ticket', $pago->id_pago) }}" class="btn btn-info btn-icon-split" 
+                                target="_blank" onclick="setTimeout(() => { location.reload(); }, 1000);" 
+                                style="width: 175px; display: inline-block;">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-file-contract"></i>
+                                    </span>
+                                    <span class="text">Generar Ticket</span>
+                                    </a>
+                            @endif
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="3">No hay pagos registrados.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

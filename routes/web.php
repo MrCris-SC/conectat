@@ -118,9 +118,15 @@ Route::get('/contratos/pdf/{id_precontrato}', [ContratoController::class, 'gener
 
 Route::get('/gestion', function () {return view('gestionContratos');});
 
+
+
 Route::get('/gestionContrato/{id}', [ContratoController::class, 'show'])->name('gestionContrato.show');
 
 Route::put('/contratos/{id}/estado', [ContratoController::class, 'updateEstado'])->name('contratos.updateEstado');
+
 Route::get('/contratos/{id}/pagos', [ContratoController::class, 'mostrarCalendarioPagos'])->name('contrato.pagos');
+
+Route::get('/pagos/{id_pago}/ticket', [ContratoController::class, 'generarTicket'])->name('pagos.ticket');
+
 
 
