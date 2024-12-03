@@ -129,4 +129,5 @@ Route::get('/contratos/{id}/pagos', [ContratoController::class, 'mostrarCalendar
 Route::get('/pagos/{id_pago}/ticket', [ContratoController::class, 'generarTicket'])->name('pagos.ticket');
 
 
+Route::post('/respuesta/mensaje', [ContactoController::class, 'enviarRespuesta'])->name('respuesta.mensaje');
 
