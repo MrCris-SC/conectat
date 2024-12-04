@@ -77,6 +77,34 @@
                 </div>
             </div>
         </footer>
+
+        <!-- Toast de Bootstrap -->
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="toastMessage" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Notificación</strong>
+                    <small>Justo ahora</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="toastBody">
+                    <!-- El mensaje se inserta aquí -->
+                </div>
+            </div>
+        </div>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            @if(session('success'))
+                var toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+                document.getElementById('toastBody').textContent = "{{ session('success') }}";
+                toast.show();
+            @elseif(session('error'))
+                var toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+                document.getElementById('toastBody').textContent = "{{ session('error') }}";
+                toast.show();
+            @endif
+        });
+        </script>
         <!--Aqui llega los componentes que se usa en el css-codigoverificacion.css-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <!-- * *                               SB Forms JS                               * *-->

@@ -12,6 +12,9 @@ use App\Models\Domicilio;
 use App\Models\Message;
 use App\Models\Pago;
 use PDF;
+use Illuminate\Support\Facades\Log;
+
+
 
 class ContratoController extends Controller
 {    
@@ -19,11 +22,12 @@ class ContratoController extends Controller
         public function crearContrato(Request $request,$id_cliente)
         {
             try {
-                // Verificar si el cliente tiene direcciones registradas
-                $domicilios = Domicilio::where('fk_cliente', $id_cliente)->get();
+                $validatedData = $request->validate([
+                    'fecha_inicio' => 'required|date',
+                    'fecha_fin' => 'required|date',
+                    'id_precontrato' => 'required|exists:precontratos,id_precontrato',
+                ]);
 
-            
-        
                 // Obtén el precontrato específico por el ID del cliente
                 $precontrato = Precontrato::with(['cliente', 'direccion', 'paquete'])
                     ->where('fk_cliente', $id_cliente)
@@ -35,37 +39,27 @@ class ContratoController extends Controller
                         'message' => 'El precontrato no fue encontrado.'
                     ], 404);
                 }
-        
-                // Verificar si la dirección del precontrato ya tiene un contrato
-            /* $domicilio = $precontrato->direccion;
-                if (!$domicilio) {
+                // Verificar si el precontrato ya tiene un contrato asociado
+                $precontrato = PreContrato::find($request->id_precontrato);
+
+                if ($precontrato->contrato) { // Suponiendo que la relación en PreContrato es 'contrato'
                     return response()->json([
                         'success' => false,
-                        'message' => 'La dirección asociada al precontrato no existe.'
+                        'message' => 'Este precontrato ya tiene un contrato asociado.'.$precontrato->id_precontrato
                     ]);
-                }*/
-        
-                // Verificar si ya existe un contrato para la dirección asociada al precontrato
-                $precontrato1 = $precontrato->id_precontrato; // Dirección asociada al precontrato
-                if ($precontrato1) {
-                    $cliente = Cliente::find($id_cliente);
-                    $contratoExistente = Contrato::where('fk_precontrato', $precontrato1)
-                        
-                        ->first();
-
-                    /*$contratoExistente = Contrato::whereHas('precontrato', function ($query) use ($id_cliente, $direccion) {
-                        $query->where ('fk_cliente', $id_cliente)
-                            ->where ('fk_direccion', $direccion->id_direccion);
-                    })->exists();*/
-
-                    if ($contratoExistente) {
-                        return response()->json([
-                            'success' => false,
-                            'message' => 'Ya existe un contrato con este id: '.$precontrato->id_precontrato.' '.' Direccion: ' . $direccion->calle . ' ' . $direccion->numero . ' asociado a este cliente.'
-                        ], 400);
-                    }
                 }
-                    
+        
+                        // Verificar si ya existe un contrato asociado al precontrato
+                /*$contratoExistente = Contrato::where('fk_precontrato', $precontrato->id_precontrato)
+                ->first(); // Verificamos solo si el precontrato está asociado
+
+                if ($contratoExistente) {
+                    return response()->json([
+                         'success' => false,
+                        'message' => 'Este precontrato ya tiene un contrato asociado.'
+                    ], 400);
+                }*/
+
                 // Verificar que el precontrato tenga un paquete asignado
                 if (!$precontrato->fk_paquete) {
                     return response()->json([
@@ -131,7 +125,7 @@ class ContratoController extends Controller
                     'fecha_fin_contrato' => $fecha_fin,
                     'total_meses_contrato' => $fecha_inicio->diffInMonths($fecha_fin), // Calcula el número de meses entre las dos fechas
                     'estado' => $estado,
-                    'monto_total_contrato' => $monto * $fecha_inicio->diffInMonths($fecha_fin), // Total por la duración del contrato
+                    'monto_total_contrato' => $monto + 200, // Total por la duración del contrato
                     'monto_total_mensualidad' => $monto,
                     'fk_precontrato' => $precontrato->id_precontrato,
                 ];
@@ -159,23 +153,30 @@ class ContratoController extends Controller
     
     
 
-    public function generarContratoPDF($id_cliente)
+    public function generarContratoPDF($id_precontrato)
     {
-        // Obtener el precontrato con sus relaciones
-        $precontrato = Precontrato::with(['cliente', 'paquete'])
-            ->where('fk_cliente', $id_cliente)
-            ->first();
+       // Obtener el precontrato con sus relaciones necesarias
+        $precontrato = Precontrato::with(['cliente', 'paquete', 'direccion'])
+        ->where('id_precontrato', $id_precontrato)
+        ->first();
     
-        if (!$precontrato || !$precontrato->paquete) {
-            return redirect()->route('clientes')->withErrors('Paquete o cliente no encontrado.');
+         // Verificar si se encontró el precontrato y que tenga un paquete asociado
+         if (!$precontrato || !$precontrato->paquete) {
+            //Log::error('Precontrato o paquete no encontrado: ' . $id_precontrato);
+            return redirect()->route('clientes')->withErrors('Precontrato, paquete o cliente no encontrado.');
         }
-    
+        
+
+        // Generar el PDF con los datos obtenidos
         $pdf = PDF::loadView('pdf.contrato', [
             'cliente' => $precontrato->cliente,
             'paquete' => $precontrato->paquete,
+            'direccion' => $precontrato->direccion,
         ]);
     
         return $pdf->download('contrato_cliente_' . $precontrato->cliente->id_cliente . '.pdf');
+
+        //return $pdf->download('contrato_cliente_' . $precontrato->cliente->id_cliente . '.pdf');
     }
     
 
@@ -183,108 +184,165 @@ class ContratoController extends Controller
     public function mostrarContratos()
     {
         // Cargar contratos con la relación precontrato, cliente y paquete
-        $contratos = Contrato::with('precontrato.cliente', 'precontrato.paquete')->get();
-    
-        return view('contratosVista', compact('contratos'));
+        $contratos = Contrato::with('precontrato.cliente', 'precontrato.paquete','precontrato.direccion')->get();
+        $mensajes = Message::latest()->take(5)->get();
+        return view('contratosVista', compact('contratos', 'mensajes'));
     }
 
-
-    public function verificarContratoYDireccion($id_cliente)
+   /* public function verificarContrato(Request $request, $id_precontrato)
     {
         try {
-            // Lógica para verificar contrato y dirección
-            $cliente = Cliente::find($id_cliente);
-            $precontrato = PreContrato::where('id_cliente', $id_cliente)->first(); // Obtén el precontrato del cliente.
+            // Verificar si el precontrato existe
+            $precontrato = PreContrato::find($id_precontrato);        
             if (!$precontrato) {
-                return response()->json(['error' => 'Contrato no encontrado'], 404);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Precontrato no encontrado.'
+                ]);
             }
-            // Continuar con el flujo si todo está bien
-            return response()->json($contrato);
+    
+            // Verificar si existe un contrato asociado con el id_precontrato
+            $contratoExistente = \DB::table('contratos')
+                ->where('fk_precontrato', $id_precontrato)
+                ->exists();
+    
+            // Si ya existe un contrato asociado, retornamos mensaje de error
+            if ($contratoExistente) {
+                return response()->json([
+                    'verificarContrato' => false,  // Aquí usamos 'false' porque ya existe un contrato asociado
+                    'message' => 'Este precontrato ya tiene un contrato asociado.'
+                ]);
+            }
+    
+            // Si no existe un contrato, permitimos la creación de uno nuevo
+            return response()->json([
+                'verificarContrato' => true,  // Aquí usamos 'true' porque el contrato no existe, se puede crear uno nuevo
+                'message' => 'Este precontrato no tiene un contrato asociado, puede proceder a crear uno.'
+            ]);
+            
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Ocurrió un error: ' . $e->getMessage()], 500);
+            return response()->json([
+                'error' => 'Ocurrió un error: ' . $e->getMessage()
+            ], 500);
         }
     }
-
-    
+    */
 
     public function show($id)
-{
-    // Obtén el contrato por ID
-    $contrato = Contrato::findOrFail($id);
+    {
+        // Obtén el contrato por ID
+        $contrato = Contrato::findOrFail($id);
 
-    // Obtén los 5 mensajes más recientes
-    $mensajes = Message::latest()->take(5)->get();
+        // Obtén los 5 mensajes más recientes
+        $mensajes = Message::latest()->take(5)->get();
 
-    // Obtén los pagos relacionados con el contrato
-    $pagos = Pago::where('fk_contrato', $id)->get();
+        // Obtén los pagos relacionados con el contrato
+        $pagos = Pago::where('fk_contrato', $id)->get();
 
-    // Pasar el contrato, los mensajes y los pagos a la vista
-    return view('gestionContratos', compact('contrato', 'mensajes', 'pagos'));
-}
+        // Pasar el contrato, los mensajes y los pagos a la vista
+        return view('gestionContratos', compact('contrato', 'mensajes', 'pagos'));
+    }
 
     public function updateEstado(Request $request, $id)
-{
-    // Validar el estado recibido
-    $request->validate([
-        'estado' => 'required|in:pendiente,activo,inactivo',
-    ]);
-    
-
-    // Obtener el contrato por ID
-    $contrato = Contrato::findOrFail($id);
-
-    // Actualizar el estado del contrato
-    $contrato->estado = $request->estado;
-    $contrato->save();
-
-    // Generar el calendario de pagos si el estado es "activo"
-    if ($contrato->estado === 'activo') {
-        $this->crearCalendarioPagos($contrato);
-    }
-    if ($contrato->estado == 'inactivo') {
-        // Eliminar los pagos relacionados con este contrato
-        Pago::where('fk_contrato', $contrato->id_contrato)->delete();
-    }
-    $contrato->save();
-
-
-
-    // Redirigir de vuelta con un mensaje de éxito
-    return redirect()->route('gestionContrato.show', $contrato->id_contrato)
-                    ->with('success', 'Estado del contrato actualizado con éxito.');
-}
-
-private function crearCalendarioPagos(Contrato $contrato)
-{
-    $fechaPago = Carbon::parse($contrato->fecha_inicio_contrato); 
-    $montoMensual = $contrato->monto_total_mensualidad;
-
-    for ($i = 0; $i < $contrato->total_meses_contrato; $i++) {
-        // Crear cada pago
-       Pago::create([
-        'fk_contrato' => $contrato->id_contrato,
-        'fecha_pago' => $fechaPago->format('Y-m-d'),
-        'monto_acumulado_pagos' => $montoMensual,
-        'fecha_inicio_mensualidad' => $fechaPago->format('Y-m-d'), // Igual a la fecha de pago
-        'fecha_fin_mensualidad' => $fechaPago->copy()->endOfMonth()->format('Y-m-d'), // Fin del mes
-        'estado_pago' => 'pendiente', // Los pagos inician como "pendiente"
-            
-            
+    {
+        // Validar el estado recibido
+        $request->validate([
+            'estado' => 'required|in:pendiente,activo,inactivo',
         ]);
+        
 
-        // Avanzar al siguiente mes
-        $fechaPago = $fechaPago->copy()->addMonth();
+        // Obtener el contrato por ID
+        $contrato = Contrato::findOrFail($id);
 
+        // Actualizar el estado del contrato
+        $contrato->estado = $request->estado;
+        $contrato->save();
+
+        // Generar el calendario de pagos si el estado es "activo"
+        if ($contrato->estado === 'activo') {
+            $this->crearCalendarioPagos($contrato);
+        }
+        if ($contrato->estado == 'inactivo') {
+            // Eliminar los pagos relacionados con este contrato
+            Pago::where('fk_contrato', $contrato->id_contrato)->delete();
+        }
+        $contrato->save();
+
+
+
+        // Redirigir de vuelta con un mensaje de éxito
+        return redirect()->route('gestionContrato.show', $contrato->id_contrato)
+                        ->with('success', 'Estado del contrato actualizado con éxito.');
     }
-}
-public function mostrarCalendarioPagos($id_contrato)
-{
-    $pagos = Pago::where('fk_contrato', $id_contrato)->get();
 
-    return view('pagos', compact('pagos'));
-}
+    private function crearCalendarioPagos(Contrato $contrato)
+    {
+        $fechaPago = Carbon::parse($contrato->fecha_inicio_contrato); 
+        $montoMensual = $contrato->monto_total_mensualidad;
 
+        for ($i = 0; $i < $contrato->total_meses_contrato; $i++) {
+            // Crear cada pago
+        Pago::create([
+            'fk_contrato' => $contrato->id_contrato,
+            'fecha_pago' => $fechaPago->format('Y-m-d'),
+            'monto_acumulado_pagos' => $montoMensual,
+            'fecha_inicio_mensualidad' => $fechaPago->format('Y-m-d'), // Igual a la fecha de pago
+            'fecha_fin_mensualidad' => $fechaPago->copy()->endOfMonth()->format('Y-m-d'), // Fin del mes
+            'estado_pago' => 'pendiente', // Los pagos inician como "pendiente"
+                
+                
+            ]);
 
+            // Avanzar al siguiente mes
+            $fechaPago = $fechaPago->copy()->addMonth();
+
+        }
+    }
+    public function mostrarCalendarioPagos($id_contrato)
+    {
+        $pagos = Pago::where('fk_contrato', $id_contrato)->get();
+
+        return view('pagos', compact('pagos'));
+    }
+
+    public function generarTicket($id_pago)
+    {
+        // Obtener el pago por su ID
+        $pago = Pago::with('contrato')->findOrFail($id_pago);
+
+        // Validar que el estado sea "pendiente"
+        if ($pago->estado_pago !== 'pendiente') {
+            return redirect()->back()->withErrors('El pago ya ha sido procesado.');
+        }
+        // Cambiar el estado a "pagado"
+        $pago->estado_pago = 'pagado';
+        $pago->save();
+
+        // Determinar el próximo pago
+        $proximoPago = Pago::where('fk_contrato', $pago->fk_contrato)
+        ->where('fecha_pago', '>', $pago->fecha_pago)
+        ->where('estado_pago', 'pendiente') // Opcional: Solo considerar pagos pendientes
+        ->orderBy('fecha_pago', 'asc')
+        ->first();
+        // Preparar los datos para la vista del PDF
+        $data = [
+            'pago' => $pago,
+            'cliente' => $pago->contrato->precontrato->cliente,
+            'paquete' => $pago->contrato->precontrato->paquete,
+            'proximoPago' => $proximoPago,
+        ];
+
+        $pdf = PDF::loadView('pdf.ticket', $data);
+
+        // Configurar el tamaño de la página a un tamaño específico en milímetros o pulgadas
+        $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+
+        // Tamaño personalizado (en milímetros): 80mm de ancho y 180mm de alto
+        $pdf->setPaper([0, 0, 350, 430], 'portrait'); // [izquierda, arriba, ancho, alto]
+
+        // Descargar el archivo PDF
+        return $pdf->download('ticket_pago_' . $pago->id_pago . '.pdf');
+    }
     
 }
 

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Administrador;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\AuthAdminRequest;
-
+use App\Models\Message;
 
 class AdminController extends Controller
 {
@@ -45,9 +45,9 @@ class AdminController extends Controller
     {
     // Obtener todos los administradores
     $administradores = Administrador::all();
-
+    $mensajes = Message::latest()->take(5)->get();
     // Retornar la vista con los administradores
-    return view('indexAdmin', ['administradores' => $administradores]);
+    return view('indexAdmin', compact('administradores', 'mensajes'));
     }
 
     public function destroy($id)

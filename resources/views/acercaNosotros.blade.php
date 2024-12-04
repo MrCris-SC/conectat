@@ -18,97 +18,98 @@
         <!-- Font Awesome icons (free version)-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <style>
-        .diseñopaquetes {
-        padding: 40px 20px;
-        background-color: #f9f9f9;
-        }
-
-            .about-section {
-                max-width: 1200px;
-                margin: auto;
+            .diseñopaquetes {
+            padding: 40px 20px;
+            background-color: #f9f9f9;
             }
 
-            .about-section h1 {
-                font-size: 2.5em;
-                margin-bottom: 1px;
-                text-align: center;
-                color: #333;
-            }
-
-            .content-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 20px;
-            }
-
-            .mission, .vision ,.history, .values, .team, .commitment {
-                background: #ffffff;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-            
-
-            .about-section h2 {
-                font-size: 1.8em;
-                color: #007bff;
-                margin-bottom: 15px;
-            }
-
-            .about-section p, .about-section ul {
-                font-size: 1em;
-                line-height: 1.6;
-                color: #666;
-                margin-bottom: 15px;
-                text-align: justify;
-                
-            }
-
-            .values ul {
-                list-style-type: none;
-                padding: 0;
-            }
-
-            .values ul li {
-                margin-bottom: 10px;
-            }
-
-            .values ul li strong {
-                color: #333;
-                font-weight: 600;
-            }
-
-            @media (max-width: 768px) {
-                .content-grid {
-                    grid-template-columns: 1fr;
+                .about-section {
+                    max-width: 1200px;
+                    margin: auto;
                 }
 
                 .about-section h1 {
-                    font-size: 2em;
+                    font-size: 2.5em;
+                    margin-bottom: 1px;
+                    text-align: center;
+                    color: #333;
                 }
-            }
+
+                .content-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 20px;
+                }
+
+                .mission, .vision ,.history, .values, .team, .commitment {
+                    background: #ffffff;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+                
+
+                .about-section h2 {
+                    font-size: 1.8em;
+                    color: #007bff;
+                    margin-bottom: 15px;
+                }
+
+                .about-section p, .about-section ul {
+                    font-size: 1em;
+                    line-height: 1.6;
+                    color: #666;
+                    margin-bottom: 15px;
+                    text-align: justify;
+                    
+                }
+
+                .values ul {
+                    list-style-type: none;
+                    padding: 0;
+                }
+
+                .values ul li {
+                    margin-bottom: 10px;
+                }
+
+                .values ul li strong {
+                    color: #333;
+                    font-weight: 600;
+                }
+
+                @media (max-width: 768px) {
+                    .content-grid {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .about-section h1 {
+                        font-size: 2em;
+                    }
+                }
         </style>
     </head>
     <body id="page-top">
         
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-
+                
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars ms-1"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}" >Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}">Planes de Internet</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/paquetePromocion') }}">Promociones</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}"onclick="verificarDatos(event)" >Inicio</a></li>                        
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user/#servicios') }}">Servicios</a></li>                       
+                        <li class="nav-item"><a class="nav-link" href="{{url('/user/#paquetes')}}">Paquetes</a></li>  
                         <li class="nav-item"><a class="nav-link" href="{{ url('/acercaNosotros')}}">Acerda de</a></li>                       
                         <li class="nav-item"><a class="nav-link" href="{{ url('/contacto')}}">Contactanos</a></li>
                     </ul>
                 </div>
             </div>
-        </nav>
+    </nav>
+
        
         <section class="diseñopaquetes">
             <div class="container containerpacks">
@@ -153,12 +154,8 @@
             </div>
         </section>
 
-
-
-     
-       
-        {{-- ***********************************************************************************footer --}}
         <footer>
+            <!--Pie de pagina donde se encuentra el footer css-precontrato-->
             <div class="footer-container">
                 <p>&copy; 2024 Tu Nombre. Todos los derechos reservados.</p>
                 <ul class="footer-links">

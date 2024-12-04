@@ -179,7 +179,30 @@
             <button class="slider-control prev" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
             <button class="slider-control next" id="nextSlide"><i class="fas fa-chevron-right"></i></button>
         </div>
+
         </section>        
+
+
+        
+                
+        </section>
+        
+
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="toastMessage" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Notificación</strong>
+                    <small>Justo ahora</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="toastBody">
+                    <!-- El mensaje se inserta aquí -->
+                </div>
+            </div>
+        </div>
+
+            
+
     <footer>
 
         <!--Pie de pagina donde se encuentra el footer css-precontrato-->
@@ -292,6 +315,22 @@
             });
         });
     </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    @if(session('success'))
+        var toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+        document.getElementById('toastBody').textContent = "{{ session('success') }}";
+        toast.show();
+    @elseif(session('error'))
+        var toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+        document.getElementById('toastBody').textContent = "{{ session('error') }}";
+        toast.show();
+    @endif
+});
+</script>
+    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Bootstrap core JS-->
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>

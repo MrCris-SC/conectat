@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail; // Agregar esta línea
 use App\Mail\MensajeContacto;
 use App\Models\Message;
+use App\Mail\RespuestaMensaje;
+
 
 class ContactoController extends Controller
 {
@@ -36,5 +38,22 @@ class ContactoController extends Controller
         
          // Redirigir con un mensaje de éxito
          return redirect()->back()->with('success', '¡Tu mensaje ha sido enviado con éxito!');
+    }
+    public function enviarRespuesta(Request $request)
+    {
+        // Validar los datos
+        $validated = $request->validate([
+            'correo' => 'required|email',
+            'respuesta' => 'required|string',
+        ]);
+
+        // Obtener el mensaje original de la base de datos
+        $mensaje = Message::where('correo_mensaje', $validated['correo'])->first();
+
+         // Enviar correo con el mensaje y la respuesta
+        Mail::to($validated['correo'])->send(new RespuestaMensaje($mensaje, $validated['respuesta']));
+
+        // Redirigir con un mensaje de éxito
+        return back()->with('success', 'Respuesta enviada exitosamente.');
     }
 }

@@ -14,7 +14,11 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\AcercaNosotrosController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\DireccionController;
+
 use App\Http\Controllers\PreguntasFrecuentesController;
+
+use App\Http\Controllers\FaqController;
+
 
 
 Route::post('/cliente/{id_cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('cliente.contrato');
@@ -108,19 +112,34 @@ Route::put('/direccion/update/{id}', [DireccionController::class, 'update'])->na
 
 Route::post('/precontratos/registrar', [PrecontratoController::class, 'registrar'])->name('precontratos.registrar');
 // web.php
-Route::get('/contratos/verificar/{id_cliente}', [ContratoController::class, 'verificarContratoYDireccion']);
+Route::get('/contratos/verificar/{id_precontrato}', [ContratoController::class, 'verificarContrato']);
 
-Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato']);
+
+//Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato']);
+Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato'])->name('contratos.crear');
 
 // Ruta para descargar el contrato en PDF (GET)
-Route::get('/contratos/pdf/{id_cliente}', [ContratoController::class, 'generarContratoPDF'])->name('contratos.pdf');
+Route::get('/contratos/pdf/{id_precontrato}', [ContratoController::class, 'generarContratoPDF'])->name('contratos.pdf');
 
 Route::get('/gestion', function () {return view('gestionContratos');});
+
+
 
 Route::get('/gestionContrato/{id}', [ContratoController::class, 'show'])->name('gestionContrato.show');
 
 Route::put('/contratos/{id}/estado', [ContratoController::class, 'updateEstado'])->name('contratos.updateEstado');
+
 Route::get('/contratos/{id}/pagos', [ContratoController::class, 'mostrarCalendarioPagos'])->name('contrato.pagos');
 Route::get('/user/preguntas', [UserController::class, 'index'])->name('preguntas');
 
+Route::get('/pagos/{id_pago}/ticket', [ContratoController::class, 'generarTicket'])->name('pagos.ticket');
+
+
+Route::post('/respuesta/mensaje', [ContactoController::class, 'enviarRespuesta'])->name('respuesta.mensaje');
+
+// rutas para el modulo faq
+Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+Route::get('/faq/{id}/edit', [FaqController::class, 'edit'])->name('faq.edit');
+Route::delete('/faq/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');
+Route::put('/faq/{id}', [FaqController::class, 'update'])->name('faq.update');
 

@@ -12,6 +12,7 @@ use App\Mail\miPrecontrato;
 use App\Mail\VerificacionCodigo;
 use Illuminate\Support\Str;
 use App\Models\NombrePaquete;
+use App\Models\Contrato;
 use App\Models\Message;
 use Illuminate\Support\Facades\Log;
 
@@ -24,11 +25,12 @@ class PreContratoController extends Controller
         $precontratos = Precontrato::with(['cliente', 'direccion', 'paquete'])->get();
         // Obtén todos los paquetes disponibles
         $paquetes = NombrePaquete::all();
+        $contratos = Contrato::all();
         $mensajes = Message::latest()->take(5)->get(); // Obtiene los 5 mensajes más recientes
         //return view('index', compact('mensajes'));
 
         // Retornar la vista con los datos
-        return view('preContrato', compact('precontratos','paquetes','mensajes'));
+        return view('preContrato', compact('precontratos','paquetes','contratos','mensajes'));
     }
 
     public function mostrarFormulario()
@@ -167,10 +169,10 @@ class PreContratoController extends Controller
             session()->forget(['codigo_verificacion', 'datos_cliente']);
 
             // Redirigir a la página de paquetes
-            return redirect()->route('mostrar.paquetes');
+            return redirect()->route('mostrar.paquetes')->with('success', '¡Te has registrado correctamente!');
         } else {
             // Si el código no es válido, redirigir con un mensaje de error
-            return back()->withErrors(['codigo' => 'El código ingresado es incorrecto.']);
+            return back()->with(['error' => 'El código ingresado es incorrecto.']);
         }
     }
 
