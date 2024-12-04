@@ -20,17 +20,17 @@ class PagosController extends Controller
 
         foreach ($pagosAtrasados as $pago) {
         // Si el pago está en estado "pendiente" y ha pasado la fecha de pago, cambiarlo a "atrasado"
-        if ($pago->estado_pago === 'pendiente') {
-            $pago->estado_pago = 'atrasado';
-            $pago->save();
-        }
+            if ($pago->estado_pago === 'pendiente') {
+                $pago->estado_pago = 'atrasado';
+                $pago->save();
+            }
 
-        // Si el pago está en estado "atrasado" por más de 10 días, cambiar el estado a "vencido"
-        if ($pago->estado_pago == 'atrasado' && $hoy->diffInDays($pago->fecha_pago) > 10) {
-            $pago->estado_pago = 'vencido';
-            $pago->monto_acumulado_pagos += 80; // Agregar multa de 80 pesos
-            $pago->save();
-        }
+            // Si el pago está en estado "atrasado" por más de 10 días, cambiar el estado a "vencido"
+            if ($pago->estado_pago === $hoy->diffInDays($pago->fecha_pago) > 10) {
+                $pago->estado_pago = 'vencido';
+                $pago->monto_acumulado_pagos += 80; // Agregar multa de 80 pesos
+                $pago->save();
+            }
         }
 
         // Verificar contratos asociados a los pagos vencidos y suspender los contratos correspondientes
