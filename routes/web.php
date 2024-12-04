@@ -14,7 +14,11 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\AcercaNosotrosController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\DireccionController;
+
+use App\Http\Controllers\PreguntasFrecuentesController;
+
 use App\Http\Controllers\FaqController;
+
 
 
 Route::post('/cliente/{id_cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('cliente.contrato');
@@ -126,6 +130,7 @@ Route::get('/gestionContrato/{id}', [ContratoController::class, 'show'])->name('
 Route::put('/contratos/{id}/estado', [ContratoController::class, 'updateEstado'])->name('contratos.updateEstado');
 
 Route::get('/contratos/{id}/pagos', [ContratoController::class, 'mostrarCalendarioPagos'])->name('contrato.pagos');
+Route::get('/user/preguntas', [UserController::class, 'index'])->name('preguntas');
 
 Route::get('/pagos/{id_pago}/ticket', [ContratoController::class, 'generarTicket'])->name('pagos.ticket');
 
