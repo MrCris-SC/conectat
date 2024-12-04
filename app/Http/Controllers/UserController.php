@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\NombrePaquete;
+use App\Models\FaqPregunta;
 
 class userController extends Controller
 {
@@ -32,6 +33,12 @@ class userController extends Controller
         return view('paquetePromocion', compact('paquetes'));
 
     }
+    public function index()
+    {
+        $preguntas = FaqPregunta::all();
+        return view('preguntas', compact('preguntas'));
+    }
+
 
 }
 
