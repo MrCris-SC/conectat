@@ -136,3 +136,5 @@ Route::post('/respuesta/mensaje', [ContactoController::class, 'enviarRespuesta']
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 Route::get('/faq/{id}/edit', [FaqController::class, 'edit'])->name('faq.edit');
 Route::delete('/faq/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');
+Route::put('/faq/{id}', [FaqController::class, 'update'])->name('faq.update');
+

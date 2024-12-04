@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\NombrePaquete;
 use App\Models\PromocionPaquete; // Asegúrate de importar el modelo de promociones
+use App\Models\Message;
 
 class PaqueteController extends Controller
 {
@@ -12,9 +13,9 @@ class PaqueteController extends Controller
     {
         // Recuperar todas las promociones de la tabla promociones_paquetes
         $promociones = PromocionPaquete::all();
-
+        $mensajes = Message::latest()->take(5)->get();
         // Pasar las promociones a la vista 'agregar-paquete'
-        return view('agregar-paquete', compact('promociones'));
+        return view('agregar-paquete', compact('promociones', 'mensajes'));
     }
 
     public function store(Request $request)
@@ -43,8 +44,8 @@ class PaqueteController extends Controller
     {
         $paquete = NombrePaquete::findOrFail($id);
         $promociones = PromocionPaquete::all(); // Obtener todas las promociones
-
-        return view('editar-paquete', compact('paquete', 'promociones'));
+        $mensajes = Message::latest()->take(5)->get();
+        return view('editar-paquete', compact('paquete', 'promociones', 'mensajes'));
     }
 
     public function update(Request $request, $id)

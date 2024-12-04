@@ -169,10 +169,10 @@ class PreContratoController extends Controller
             session()->forget(['codigo_verificacion', 'datos_cliente']);
 
             // Redirigir a la página de paquetes
-            return redirect()->route('mostrar.paquetes');
+            return redirect()->route('mostrar.paquetes')->with('success', '¡Te has registrado correctamente!');
         } else {
             // Si el código no es válido, redirigir con un mensaje de error
-            return back()->withErrors(['codigo' => 'El código ingresado es incorrecto.']);
+            return back()->with(['error' => 'El código ingresado es incorrecto.']);
         }
     }
 

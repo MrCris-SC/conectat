@@ -15,6 +15,7 @@ use PDF;
 use Illuminate\Support\Facades\Log;
 
 
+
 class ContratoController extends Controller
 {    
 
@@ -184,8 +185,8 @@ class ContratoController extends Controller
     {
         // Cargar contratos con la relación precontrato, cliente y paquete
         $contratos = Contrato::with('precontrato.cliente', 'precontrato.paquete','precontrato.direccion')->get();
-    
-        return view('contratosVista', compact('contratos'));
+        $mensajes = Message::latest()->take(5)->get();
+        return view('contratosVista', compact('contratos', 'mensajes'));
     }
 
    /* public function verificarContrato(Request $request, $id_precontrato)
