@@ -49,6 +49,11 @@ class Contrato extends Model
     {
         return $this->belongsTo(Cliente::class, 'fk_cliente', 'id_cliente');
     }
+
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class, 'fk_contrato'); // fk_contrato es la clave foránea en la tabla 'pagos'
+    }
    /*public function cliente()
    {
        return $this->hasOneThrough(Cliente::class, Precontrato::class, 'fk_precontrato', 'id_cliente', 'fk_precontrato', 'fk_cliente');

@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
+
+
         <title>Catalogo-Paquetes</title>
 
         <link href="{{ asset('css/userStyles2.css') }}" rel="stylesheet">
@@ -14,32 +16,8 @@
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <style>
-      
-    </style>
     </head>
     <body>
-    <div class="faq-container">
-    <h1 class="text-center mb-4">Preguntas Frecuentes</h1>
-
-    <!-- Accordion de Bootstrap -->
-    <div class="accordion" id="faqAccordion">
-        @foreach($preguntas as $pregunta)
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="heading{{ $loop->index }}">
-                    <button class="accordion-button{{ $loop->first ? '' : ' collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $loop->index }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="collapse{{ $loop->index }}">
-                        <strong>{{ $pregunta->pregunta }}</strong>
-                    </button>
-                </h2>
-                <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse{{ $loop->first ? ' show' : '' }}" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        <p>{{ $pregunta->respuesta_pregunta }}</p>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
-</div>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
                 
@@ -51,7 +29,8 @@
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}"onclick="verificarDatos(event)" >Inicio</a></li>                        
                         <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>                       
-                        <li class="nav-item"><a class="nav-link" href="#paquetes">Paquetes</a></li>  
+                        <li class="nav-item"><a class="nav-link" href="#paquetes">Paquetes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#dudas">Ayuda</a></li>   
                         <li class="nav-item"><a class="nav-link" href="{{ url('/acercaNosotros')}}">Acerda de</a></li>                       
                         <li class="nav-item"><a class="nav-link" href="{{ url('/contacto')}}">Contactanos</a></li>
                     </ul>
@@ -104,7 +83,7 @@
                     <span class="visually-hidden">Siguiente</span>
                 </button>
         </div>
-
+       
         <!-- Services-->
         <section id="servicios" class="paquete-slider-section">
             <div class="text-center">
@@ -148,45 +127,66 @@
                    
         <section id= "paquetes" class="pricing py-5">
             <br><br>    
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Nuestros paquetes</h2>        
-        </div>
-        <br>
-        
-        <div id="paqueteSlider" class="slider-container">
-            <div class="slider-wrapper">
-                @foreach($paquetes as $paquete)
-                    <div class="slider-item">
-                        <div class="card mx-auto shadow-lg" style="border-radius: 15px; overflow: hidden;">
-                            <div class="card-body p-4 text-center">
-                                <h5 class="card-title text-primary fw-bold">{{ $paquete->nombre_paquete }}</h5>
-                                <p class="card-text text-muted mb-3">{{ $paquete->descripcion }}</p>
-                                <p class="fw-bold fs-4 text-success">Precio: ${{ $paquete->precio }}</p>
-                                <ul class="fa-ul text-start">
-                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Dispositivos ilimitados</li>
-                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Internet ilimitado</li>
-                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>{{ $paquete->velocidad_paquete }} de velocidad</li>
-                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Soporte técnico gratis</li>
-                                    <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Proyectos privados ilimitados</li>
-                                    <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Soporte telefónico dedicado</li>
-                                </ul>
-                                <a href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}" class="btn btn-primary rounded-pill px-4 mt-3 shadow">Contrátanos</a>
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Nuestros paquetes</h2>        
+            </div>
+            <br>
+            
+            <div id="paqueteSlider" class="slider-container">
+                <div class="slider-wrapper">
+                    @foreach($paquetes as $paquete)
+                        <div class="slider-item">
+                            <div class="card mx-auto shadow-lg" style="border-radius: 15px; overflow: hidden;">
+                                <div class="card-body p-4 text-center">
+                                    <h5 class="card-title text-primary fw-bold">{{ $paquete->nombre_paquete }}</h5>
+                                    <p class="card-text text-muted mb-3">{{ $paquete->descripcion }}</p>
+                                    <p class="fw-bold fs-4 text-success">Precio: ${{ $paquete->precio }}</p>
+                                    <ul class="fa-ul text-start">
+                                        <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Dispositivos ilimitados</li>
+                                        <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Internet ilimitado</li>
+                                        <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>{{ $paquete->velocidad_paquete }} de velocidad</li>
+                                        <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Soporte técnico gratis</li>
+                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Proyectos privados ilimitados</li>
+                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Soporte telefónico dedicado</li>
+                                    </ul>
+                                    <a href="{{ route('seleccionarPaquete', ['id_nombre_paquete' => $paquete->id_nombre_paquete]) }}" class="btn btn-primary rounded-pill px-4 mt-3 shadow">Contrátanos</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
+                <button class="slider-control prev" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider-control next" id="nextSlide"><i class="fas fa-chevron-right"></i></button>
             </div>
-            <button class="slider-control prev" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
-            <button class="slider-control next" id="nextSlide"><i class="fas fa-chevron-right"></i></button>
-        </div>
-
-        </section>        
-
 
         
                 
         </section>
-        
+        <section id="dudas" class="mt-0 pt-0">
+            <div class="container mt-6">
+                <section class="row align-items-start">
+                <!-- Título a la izquierda -->
+                <div class="col-md-4">
+                    <h2 class="fw-bold">Preguntas Frecuentes</h2>
+                </div>
+                <!-- Preguntas a la derecha -->
+                <div class="col-md-8">
+                    <div class="accordion" id="faqAccordion"> @foreach($preguntas as $pregunta) <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ $loop->index }}">
+                            <button class="accordion-button{{ $loop->first ? '' : ' collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $loop->index }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="collapse{{ $loop->index }}">
+                                <strong>{{ $pregunta->pregunta }}</strong>
+                            </button>
+                            </h2>
+                            <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse{{ $loop->first ? ' show' : '' }}" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p>{{ $pregunta->respuesta_pregunta }}</p>
+                            </div>
+                            </div>
+                        </div> @endforeach </div>
+                </div>
+                </section>
+            </div>
+        </section>
 
         <div class="toast-container position-fixed top-0 end-0 p-3">
             <div id="toastMessage" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -202,7 +202,6 @@
         </div>
 
             
-
     <footer>
 
         <!--Pie de pagina donde se encuentra el footer css-precontrato-->
@@ -223,7 +222,8 @@
             </div>
         </div>
     </footer>
-    
+       
+
     <script>
        document.addEventListener("DOMContentLoaded", function () {
   const sliderWrapper = document.querySelector(".slider-wrapper");
@@ -298,24 +298,10 @@
     itemWidth = sliderItems[0].offsetWidth;  // Actualizamos el ancho de las tarjetas
     goToSlide(currentIndex);  // Reajustamos el slider
   });
-  document.addEventListener('DOMContentLoaded', () => {
-            const faqHeaders = document.querySelectorAll('.faq-header');
+});
 
-            faqHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const body = header.nextElementSibling;
-                    const isVisible = body.style.display === 'block';
 
-                    // Ocultar todas las respuestas
-                    document.querySelectorAll('.faq-body').forEach(b => b.style.display = 'none');
-
-                    // Mostrar/ocultar la actual
-                    body.style.display = isVisible ? 'none' : 'block';
-                });
-            });
-        });
     </script>
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     @if(session('success'))
@@ -330,10 +316,11 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
     
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Bootstrap core JS-->
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+
     </body>
 
 </html>

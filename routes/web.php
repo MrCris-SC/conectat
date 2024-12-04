@@ -14,7 +14,8 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\AcercaNosotrosController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\DireccionController;
-
+use App\Http\Controllers\PagosController;
+use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\PreguntasFrecuentesController;
 
 use App\Http\Controllers\FaqController;
@@ -143,3 +144,7 @@ Route::get('/faq/{id}/edit', [FaqController::class, 'edit'])->name('faq.edit');
 Route::delete('/faq/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');
 Route::put('/faq/{id}', [FaqController::class, 'update'])->name('faq.update');
 
+Route::post('/verificar-pagos', [PagosController::class, 'verificarPagosYContratos'])->name('verificar.pagos');
+
+//tickets
+Route::get('/tickets', [TicketsController::class, 'mostrarTickets'])->name('mostrar.tickets');
