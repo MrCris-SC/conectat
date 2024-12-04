@@ -5,8 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-
-
         <title>Catalogo-Paquetes</title>
 
         <link href="{{ asset('css/userStyles2.css') }}" rel="stylesheet">
@@ -16,8 +14,32 @@
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
+        <style>
+      
+    </style>
     </head>
     <body>
+    <div class="faq-container">
+    <h1 class="text-center mb-4">Preguntas Frecuentes</h1>
+
+    <!-- Accordion de Bootstrap -->
+    <div class="accordion" id="faqAccordion">
+        @foreach($preguntas as $pregunta)
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ $loop->index }}">
+                    <button class="accordion-button{{ $loop->first ? '' : ' collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $loop->index }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="collapse{{ $loop->index }}">
+                        <strong>{{ $pregunta->pregunta }}</strong>
+                    </button>
+                </h2>
+                <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse{{ $loop->first ? ' show' : '' }}" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <p>{{ $pregunta->respuesta_pregunta }}</p>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
                 
@@ -157,15 +179,7 @@
             <button class="slider-control prev" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
             <button class="slider-control next" id="nextSlide"><i class="fas fa-chevron-right"></i></button>
         </div>
-
-        
-                
-        </section>
-        
-
-
-
-            
+        </section>        
     <footer>
 
         <!--Pie de pagina donde se encuentra el footer css-precontrato-->
@@ -186,8 +200,7 @@
             </div>
         </div>
     </footer>
-       
-
+    
     <script>
        document.addEventListener("DOMContentLoaded", function () {
   const sliderWrapper = document.querySelector(".slider-wrapper");
@@ -262,17 +275,26 @@
     itemWidth = sliderItems[0].offsetWidth;  // Actualizamos el ancho de las tarjetas
     goToSlide(currentIndex);  // Reajustamos el slider
   });
-});
+  document.addEventListener('DOMContentLoaded', () => {
+            const faqHeaders = document.querySelectorAll('.faq-header');
 
+            faqHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const body = header.nextElementSibling;
+                    const isVisible = body.style.display === 'block';
 
+                    // Ocultar todas las respuestas
+                    document.querySelectorAll('.faq-body').forEach(b => b.style.display = 'none');
+
+                    // Mostrar/ocultar la actual
+                    body.style.display = isVisible ? 'none' : 'block';
+                });
+            });
+        });
     </script>
-
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Bootstrap core JS-->
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-
-
     </body>
 
 </html>
