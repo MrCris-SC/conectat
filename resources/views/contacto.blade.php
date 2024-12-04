@@ -30,8 +30,16 @@
                 margin-bottom: 30px;
             }
 
+            .container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                gap: 20px;
+            }
+
             .contact-info, .contact-form, .map-container {
-                margin-bottom: 30px;
+                flex: 1;
+                min-width: 300px;
                 background-color: #ffffff;
                 padding: 20px;
                 border-radius: 8px;
@@ -93,8 +101,14 @@
                 height: 300px;
             }
 
+            /* Responsivo: Teléfonos y pantallas pequeñas */
             @media (max-width: 768px) {
+                .container {
+                    flex-direction: column;
+                }
+
                 .contact-info, .contact-form, .map-container {
+                    min-width: 100%;
                     margin-bottom: 20px;
                 }
 
@@ -103,29 +117,54 @@
                 }
             }
 
+            /* Responsivo: Teléfonos pequeños */
+            @media (max-width: 480px) {
+                .section-title {
+                    font-size: 1.8em;
+                }
 
+                .contact-info h2, .contact-form h2, .map-container h2 {
+                    font-size: 1.5em;
+                }
+
+                .form-group input, .form-group textarea {
+                    font-size: 0.9em;
+                    padding: 8px;
+                }
+
+                .btn-submit {
+                    font-size: 1em;
+                    padding: 8px 15px;
+                }
+
+                .map-container iframe {
+                    height: 200px;
+                }
+            }
         </style>
+
+
     </head>
     <body id="page-top">
         
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-
+                
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars ms-1"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}" >Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}">Planes de Internet</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/paquetePromocion') }}">Promociones</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}"onclick="verificarDatos(event)" >Inicio</a></li>                        
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user/#servicios') }}">Servicios</a></li>                       
+                        <li class="nav-item"><a class="nav-link" href="{{url('/user/#paquetes')}}">Paquetes</a></li>  
                         <li class="nav-item"><a class="nav-link" href="{{ url('/acercaNosotros')}}">Acerda de</a></li>                       
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contactanos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/contacto')}}">Contactanos</a></li>
                     </ul>
                 </div>
             </div>
-        </nav>
+    </nav>
 
         <section class="contact-section">
             <div class="container">

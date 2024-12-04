@@ -42,17 +42,40 @@
                                     <span class="text">Editar</span>
                                 </a>
                                 <p></p>
-                                <form action="{{ route('admin.destroy', $admin->id_admin) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paquete?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    
-                                    <button type="submit" class="btn btn-danger btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-trash"></i>
-                                        </span>
-                                        <span class="text">Eliminar</span>
-                                    </button>
-                                </form>
+                                <!-- Botón para abrir el modal -->
+                                <button type="button" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#confirmDeleteModal-{{ $admin->id_admin }}">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                    <span class="text">Eliminar</span>
+                                </button>
+
+                                <!-- Modal de confirmación -->
+                                <div class="modal fade" id="confirmDeleteModal-{{ $admin->id_admin }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel">Confirmar Eliminación</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ¿Estás seguro de que deseas eliminar a este Administrador?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                <!-- Formulario para confirmar eliminación -->
+                                                <form action="{{ route('admin.destroy', $admin->id_admin) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                             </div>
                         </div>
