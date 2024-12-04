@@ -380,14 +380,14 @@
                                                                             @endforeach
                                                                             </select>
                                                                         </div>
-                                                                            <!-- Selección de Estado de Cliente en caso de usar eliminar no afecta funcionamiento -->
+                                                                            <!-- Selección de Estado de Cliente en caso de usar eliminar no afecta funcionamiento 
                                                                         <div class="mb-3">
                                                                             <label for="es_cliente-{{ $precontrato->id_precontrato }}" class="form-label">¿Es Cliente?</label>
                                                                                 <select class="form-control" id="es_cliente-{{ $precontrato->id_precontrato }}" name="es_cliente" required>
                                                                                     <option value="1" {{ $precontrato->cliente->es_cliente == 1 ? 'selected' : '' }}>Sí</option>
                                                                                     <option value="0" {{ $precontrato->cliente->es_cliente == 0 ? 'selected' : '' }}>No</option>
                                                                                 </select>
-                                                                        </div>
+                                                                        </div>-->
                                                                     </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
