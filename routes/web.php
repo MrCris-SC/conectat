@@ -14,6 +14,7 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\AcercaNosotrosController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\DireccionController;
+use App\Http\Controllers\FaqController;
 
 
 Route::post('/cliente/{id_cliente}/contrato', [ContratoController::class, 'crearContrato'])->name('cliente.contrato');
@@ -131,3 +132,7 @@ Route::get('/pagos/{id_pago}/ticket', [ContratoController::class, 'generarTicket
 
 Route::post('/respuesta/mensaje', [ContactoController::class, 'enviarRespuesta'])->name('respuesta.mensaje');
 
+// rutas para el modulo faq
+Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+Route::get('/faq/{id}/edit', [FaqController::class, 'edit'])->name('faq.edit');
+Route::delete('/faq/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');

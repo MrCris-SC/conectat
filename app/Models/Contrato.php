@@ -41,14 +41,14 @@ class Contrato extends Model
    }
    
    public function direccion()
-{
-    return $this->belongsTo(Domicilio::class, 'fk_direccion', 'id_direccion');
-}
+   {
+        return $this->belongsTo(Domicilio::class, 'fk_direccion', 'id_direccion');
+   }
 
-public function cliente()
-{
-    return $this->belongsTo(Cliente::class, 'fk_cliente', 'id_cliente');
-}
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class, 'fk_cliente', 'id_cliente');
+    }
    /*public function cliente()
    {
        return $this->hasOneThrough(Cliente::class, Precontrato::class, 'fk_precontrato', 'id_cliente', 'fk_precontrato', 'fk_cliente');

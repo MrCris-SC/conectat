@@ -124,7 +124,7 @@ class ContratoController extends Controller
                     'fecha_fin_contrato' => $fecha_fin,
                     'total_meses_contrato' => $fecha_inicio->diffInMonths($fecha_fin), // Calcula el número de meses entre las dos fechas
                     'estado' => $estado,
-                    'monto_total_contrato' => $monto * $fecha_inicio->diffInMonths($fecha_fin), // Total por la duración del contrato
+                    'monto_total_contrato' => $monto + 200, // Total por la duración del contrato
                     'monto_total_mensualidad' => $monto,
                     'fk_precontrato' => $precontrato->id_precontrato,
                 ];

@@ -108,9 +108,9 @@
 
             <!-- Nav Item - Ayuda -->
             <li class="nav-item">
-                <a class="nav-link" href="ayuda.html">
+                <a class="nav-link" href="{{ url('/faq')}}">
                     <i class="fas fa-fw fa-question-circle"></i>
-                    <span>Ayuda</span></a>
+                    <span>FAQ</span></a>
             </li>
 
             <!-- Divider -->
