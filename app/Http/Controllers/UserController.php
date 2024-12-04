@@ -9,12 +9,13 @@ class userController extends Controller
     public function showPackages()
     {
         $paquetes = NombrePaquete::with('promocion')
-            ->whereHas('promocion', function($query) {
-                $query->where('id_promocion', '!=', 0); // Filtra donde id_promocion no sea 0
-            })
-            ->get();
-    
-        return view('user', compact('paquetes'));
+        ->whereHas('promocion', function($query) {
+        $query->where('id_promocion', '!=', 0); // Filtra donde id_promocion no sea 0
+        })
+        ->get();
+        $preguntas = FaqPreguntas::all();
+            
+        return view('user', compact('paquetes', 'preguntas'));
     }
     
 
