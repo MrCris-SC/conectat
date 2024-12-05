@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Cliente;
 use App\Models\NombrePaquete;
 use App\Models\Domicilio;
+use App\Models\Message;
 use App\Models\Precontrato;  
 use PDF;
 use App\Http\Controllers\ContratoController;
@@ -24,9 +25,9 @@ class editarClienteController extends Controller
     
        // Cargar todos los paquetes disponibles
         $paquetes = NombrePaquete::all();
-
+        $mensajes = Message::latest()->take(5)->get();
         // Pasar los datos necesarios a la vista
-        return view('editarCliente', compact('cliente', 'direccionesSinPrecontrato', 'paquetes'));
+        return view('editarCliente', compact('cliente', 'direccionesSinPrecontrato', 'paquetes',  'mensajes'));
     }
 
 

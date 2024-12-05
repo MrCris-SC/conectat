@@ -91,13 +91,7 @@
                     <span>Reportes</span></a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Configuración
-            </div>
+            
 
             <!-- Nav Item - Ajustes -->
             <li class="nav-item">
@@ -388,7 +382,7 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
-
+    @yield('scripts')
     <!-- Script del Modal -->
     <script>
         // Asegúrate de que jQuery y Bootstrap estén cargados antes de este script

@@ -5,7 +5,7 @@
    <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary">Precontratos Existentes</h6>
    </div>
-   <!-- Apartado que se necesita hacerse responsivo -->
+   <!-- Aqui comienza la tabla -->
    <div class="card-body">
       <div class="table-responsive">
          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -133,11 +133,10 @@
 </div>
 @endsection
                  
-                
-            
 
-
-    <!-- Agrega los datos de paquetes en un elemento de script para usarlo en JavaScript -->
+@section('scripts')
+   
+    <!-- Script para el cambio de paquete en el precontrato -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Convertir los datos de los paquetes a un objeto JSON
@@ -281,4 +280,8 @@
             }
         });
     </script>
+
+
+@endsection 
+            
 
