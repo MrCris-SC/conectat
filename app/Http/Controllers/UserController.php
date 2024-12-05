@@ -14,7 +14,7 @@ class userController extends Controller
         $query->where('id_promocion', '!=', 0); // Filtra donde id_promocion no sea 0
         })
         ->get();
-        $preguntas = FaqPreguntas::all();
+        $preguntas = FaqPregunta::where('fk_categoria', 1)->get();
             
         return view('user', compact('paquetes', 'preguntas'));
     }

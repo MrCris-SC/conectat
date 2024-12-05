@@ -19,7 +19,12 @@
     </div>
 
     <br>
-
+    <div class="div-new">
+        <form action="{{ route('verificar.pagos') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-warning">Verificar Pagos y Contratos</button>
+        </form>
+    </div>
 
 <!-- DataTales Example -->
     <section class="page-section" id="portfolio">

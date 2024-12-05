@@ -86,7 +86,7 @@
 
             <!-- Nav Item - Reportes -->
             <li class="nav-item">
-                <a class="nav-link" href="reportes.html">
+                <a class="nav-link" href="{{ url('/tickets')}}">
                     <i class="fas fa-fw fa-chart-line"></i>
                     <span>Reportes</span></a>
             </li>

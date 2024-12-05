@@ -316,6 +316,16 @@ class ContratoController extends Controller
         }
         // Cambiar el estado a "pagado"
         $pago->estado_pago = 'pagado';
+
+        $contrato = $pago->contrato;
+
+        if ($contrato && $contrato->estado === 'suspendido') {
+            // Si el contrato está suspendido, cambiar su estado a "activo"
+            $contrato->estado = 'activo';
+            $contrato->save();
+        }
+
+
         $pago->save();
 
         // Determinar el próximo pago
