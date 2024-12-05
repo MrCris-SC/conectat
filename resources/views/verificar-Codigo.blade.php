@@ -21,7 +21,7 @@
     <body id="page-top">
         
 
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,8 +30,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}" >Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}">Planes de Internet</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}" >Inicio</a></li>                        
                         <li class="nav-item"><a class="nav-link" href="#about">Acerda de</a></li>                       
                         <li class="nav-item"><a class="nav-link" href="#contact">Contactanos</a></li>
                     </ul>
@@ -78,6 +77,34 @@
                 </div>
             </div>
         </footer>
+
+        <!-- Toast de Bootstrap -->
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="toastMessage" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Notificación</strong>
+                    <small>Justo ahora</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="toastBody">
+                    <!-- El mensaje se inserta aquí -->
+                </div>
+            </div>
+        </div>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            @if(session('success'))
+                var toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+                document.getElementById('toastBody').textContent = "{{ session('success') }}";
+                toast.show();
+            @elseif(session('error'))
+                var toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+                document.getElementById('toastBody').textContent = "{{ session('error') }}";
+                toast.show();
+            @endif
+        });
+        </script>
         <!--Aqui llega los componentes que se usa en el css-codigoverificacion.css-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <!-- * *                               SB Forms JS                               * *-->

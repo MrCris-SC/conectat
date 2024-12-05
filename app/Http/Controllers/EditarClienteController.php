@@ -4,59 +4,57 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cliente;
+use App\Models\NombrePaquete;
+use App\Models\Domicilio;
+use App\Models\Message;
+use App\Models\Precontrato;  
 use PDF;
+use App\Http\Controllers\ContratoController;
 
 class editarClienteController extends Controller
 {
     public function editarCliente($id_cliente)
     {
-        // Buscar el cliente por su ID
-        $cliente = Cliente::findOrFail($id_cliente);
+        // Buscar el cliente y cargar relaciones necesarias
+        $cliente = Cliente::with(['direcciones'])->findOrFail($id_cliente);
+
+        // Filtrar las direcciones que no tengan un precontrato
+        $direccionesSinPrecontrato = $cliente->direcciones->filter(function ($direccion) {
+            return $direccion->precontrato === null;
+        });
     
-        // Retornar la vista con los datos del cliente
-        return view('editarCliente', compact('cliente'));
+       // Cargar todos los paquetes disponibles
+        $paquetes = NombrePaquete::all();
+        $mensajes = Message::latest()->take(5)->get();
+        // Pasar los datos necesarios a la vista
+        return view('editarCliente', compact('cliente', 'direccionesSinPrecontrato', 'paquetes',  'mensajes'));
     }
+
 
     // Método para actualizar el cliente
     public function actualizarCliente(Request $request, $id_cliente)
     {
         // Buscar el cliente por su ID
         $cliente = Cliente::findOrFail($id_cliente);
-        
+
         // Validar los datos recibidos
         $validatedData = $request->validate([
             'nombre_completo' => 'required|string|max:255',
             'correo_electronico' => 'required|email',
-            'telefono' => 'required|string|max:20',
-            'cp' => 'required|string',
-            'municipio' => 'required|string|max:255',
-            'direccion' => 'nullable|string|max:255',
-            'referencia_domicilio' => 'required|string|max:255',
-            'fk_paquete' => 'required|exists:nombres_paquetes,id_nombre_paquete',
+            'telefono' => 'required|string|max:10',
         ]);
-        
-        // Actualizar el cliente con los datos validados
-        $cliente->update($validatedData);
-        
+
+        // Actualizar los datos del cliente
+        $cliente->nombre_completo = $validatedData['nombre_completo'];
+        $cliente->correo_electronico = $validatedData['correo_electronico'];
+        $cliente->telefono = $validatedData['telefono'];
+
+        $cliente->save();
+
         // Redirigir a la vista de clientes registrados con un mensaje de éxito
         return redirect()->route('clientes')->with('success', 'Cliente actualizado correctamente.');
     }
 
-    public function generarContratoPDF($id)
-    {
-        // Obtener los datos del cliente por su ID
-        $cliente = Cliente::with('nombre_paquete')->find($id);
 
-        // Si el cliente no existe, manejar el error
-        if (!$cliente) {
-            return redirect()->route('clientes')->withErrors('Cliente no encontrado.');
-        }
-
-        // Pasar los datos a la vista del contrato
-        $pdf = PDF::loadView('pdf.contrato', ['cliente' => $cliente]);
-
-        // Descargar el PDF
-        return $pdf->download('contrato_cliente_'.$cliente->id_cliente.'.pdf');
-    }
 }
 

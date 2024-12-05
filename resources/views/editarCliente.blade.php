@@ -1,469 +1,297 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link href="{{ asset('css/packs.css') }}" rel="stylesheet">
-    <title>Editar de Clientes</title>
+@extends('plantilla')
 
-    <!-- Custom fonts for this template-->
-        <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+@section('content')
+<section class="direcciones">
+                <h3>Direcciones Asociadas</h3>
+                @if ($cliente->direcciones->isEmpty())
+                    <p>No hay direcciones registradas para este cliente.</p>
+                @else
+                <div class="div-new">
+                    <p>Registrar nueva direccion </p>
 
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
-    
-    <script>
-        // Espera que el DOM esté completamente cargado
-        document.addEventListener('DOMContentLoaded', function() {
-            // Selecciona el botón y los campos del formulario
-            const btnEditar = document.getElementById('btnEditar');
-            const campos = document.querySelectorAll('#formEditarCliente input');
-            const btnGuardar = document.getElementById('btnGuardar');
-
-            // Asegura que los campos estén bloqueados (disabled) al cargar la página
-            campos.forEach(campo => {
-                campo.disabled = true;
-            });
-
-            // Asegura que el botón "Guardar Cambios" esté oculto al cargar la página
-            btnGuardar.style.display = 'none';
-
-            // Añade un evento click al botón
-            btnEditar.addEventListener('click', function() {
-                // Recorre cada campo y habilítalo
-                campos.forEach(campo => {
-                    campo.disabled = false;
-                });
-                // Oculta el botón "Editar" y muestra el botón "Guardar Cambios"
-                btnEditar.style.display = 'none';
-                btnGuardar.style.display = 'block';
-            });
-        });
-    </script>
-</head>
-<body>
-<div id="wrapper">
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <!-- Sidebar - Brand -->
-             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                     <i class="fas fa-globe"></i>
-                    </div>
-                    <div class="sidebar-brand-text mx-3">Admin Panel</div>
-                </a>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
-
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Gestion de paquetes:
-    </div>
-
-    <!-- Nav Item - Paquetes -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{url ('/')}}">
-            <i class="fas fa-fw fa-box"></i>
-            <span>Gestión de Paquetes</span></a>
-    </li>
-
-    <!-- Nav Item - Clientes -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url('/clienteRegistrados') }}">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Gestión de Clientes</span></a>
-    </li>
-
-         <!-- Nav Item - Clientes -->
-         <li class="nav-item">
-        <a class="nav-link" href="{{ url('/indexAdmin') }}">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Gestión de Adminisreadores</span></a>
-    </li>
-    <!-- Nav Item - Facturación -->
-    <li class="nav-item">
-        <a class="nav-link" href="facturacion.html">
-            <i class="fas fa-fw fa-file-invoice-dollar"></i>
-            <span>Facturación</span></a>
-    </li>
-
-    <!-- Nav Item - Reportes -->
-    <li class="nav-item">
-        <a class="nav-link" href="reportes.html">
-            <i class="fas fa-fw fa-chart-line"></i>
-            <span>Reportes</span></a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Configuración
-    </div>
-
-    <!-- Nav Item - Ajustes -->
-    <li class="nav-item">
-        <a class="nav-link" href="ajustes.html">
-            <i class="fas fa-fw fa-cogs"></i>
-            <span>Ajustes del Sistema</span></a>
-    </li>
-
-    <!-- Nav Item - Ayuda -->
-    <li class="nav-item">
-        <a class="nav-link" href="ayuda.html">
-            <i class="fas fa-fw fa-question-circle"></i>
-            <span>Ayuda</span></a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
-
-    <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
-
-        </ul>
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <form class="form-inline">
-                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                            <i class="fa fa-bars"></i>
-                        </button>
-                    </form>
-
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-
-                        <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
-
-                        <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
-                                    Message Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
-                                            alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
-                                            alt="...">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
-                                            alt="...">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                                            alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
-                        </li>
-
-                    </ul>
-
-                </nav>
-                <!-- End of Topbar -->
-    <div class="container mt-5">
-        <h2>Editar Cliente</h2>
-        <form id="formEditarCliente" action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
-            @csrf
-            @method('PUT')
-
-            <div class="mb-3">
-                <label for="nombre_completo" class="form-label">Nombre Completo</label>
-                <input type="text" class="form-control" name="nombre_completo" value="{{ $cliente->nombre_completo }}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="correo" class="form-label">Correo</label>
-                <input type="email" class="form-control" name="correo" value="{{ $cliente->correo_electronico }}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="text" class="form-control" name="telefono" value="{{ $cliente->telefono }}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="cp" class="form-label">Código Postal</label>
-                <input type="text" class="form-control" name="cp" value="{{ $cliente->cp }}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="municipio" class="form-label">Municipio</label>
-                <input type="text" class="form-control" name="municipio" value="{{ $cliente->municipio }}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="direccion" class="form-label">Dirección</label>
-                <input type="text" class="form-control" name="direccion" value="{{ $cliente->direccion }}">
-            </div>
-
-            <div class="mb-3">
-                <label for="referencia_domicilio" class="form-label">Referencia de Domicilio</label>
-                <input type="text" class="form-control" name="referencia_domicilio" value="{{ $cliente->referencia_domicilio }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="ID_Paquete" class="form-label">ID del Paquete</label>
-                <input type="text" class="form-control" name="ID_Paquete" value="{{ $cliente->fk_paquete }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="Datos_Paquete" class="form-label">Datos del paquete</label>
-           <input type="text" class="form-control" name="Datos_Paquete" value="Paquete: {{ $cliente->nombre_paquete->nombre_paquete }} de $:{{ $cliente->nombre_paquete->precio }} incluye:{{ $cliente->nombre_paquete->caracteristicas_paquete }} velocidad:{{ $cliente->nombre_paquete->velocidad_paquete }}" required> 
-
-            </div>
-           
-           
-            <form action="{{ route('cliente.update', $cliente->id_cliente) }}" method="POST">
-                @csrf
-                @method('PUT')
-
-                <button type="submit" class="btn btn-primary" id="btnGuardar" style="display: none;">Guardar Cambios</button>
-                <br>
-                
-            </form>
-            <br>
-
-            <button type="button" class="btn btn-primary" id="btnEditar">Modificar campos</button>
-       
-                <a href="{{ route('clientes') }}" class="btn btn-secondary">Cancelar</a>
-            </form>
-            <p></p>
-            <!--<a href="{{ route('cliente.contrato', $cliente->id_cliente) }}" class="btn btn-secondary" target="_blank">Generar PDF de Contrato</a>-->
-
-
-        </form>
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-        </div>
-    </div>
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
+                    <!-- Botón para agregar dirección -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaDireccion">
+                        Agregar Nueva Dirección
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                <br><br>
+                    <ul class="list-group">
+                        @foreach ($cliente->direcciones as $direccion)
+                            <li class="list-group-item">
+                                <strong>Calle:</strong> {{ $direccion->calle }}<br>
+                                <strong>Colonia:</strong> {{ $direccion->colonia }}<br>
+                                <strong>Localidad:</strong> {{ $direccion->localidad }}<br>
+                                <strong>Estado:</strong> {{ $direccion->entidad_federativa }}<br>
+                                <strong>Código Postal:</strong> {{ $direccion->codigo_postal }}<br>
+                                <strong>Referencias:</strong> {{ $direccion->referencia_domicilio }}
+                                <br><br>
+           
+                                   <!-- Botón Editar -->
+                                   <button 
+                                        class="btn btn-primary btn-editar" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#modalEditarDireccion"
+                                        data-id="{{ $direccion->id_direccion }}"
+                                        data-calle="{{ $direccion->calle }}"
+                                        data-colonia="{{ $direccion->colonia }}"
+                                        data-localidad="{{ $direccion->localidad }}"
+                                        data-entidad="{{ $direccion->entidad_federativa }}"
+                                        data-cp="{{ $direccion->codigo_postal }}"
+                                        data-referencia="{{ $direccion->referencia_domicilio }}">
+                                        Editar
+                                    </button>
+                                
+                                    <!-- Botón para abrir el modal -->
+                                    @if (is_null($direccion->precontrato))
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmarPrecontratoModal" 
+                                                data-id-direccion="{{ $direccion->id_direccion }}" 
+                                                data-id-cliente="{{ $cliente->id_cliente }}" 
+                                                >
+                                            Registrar Precontrato
+                                        </button>
+                                    @else
+                                        <span>Precontrato registrado</span>
+                                    @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+
+                
+            </section>
+
+            <!-- Modal de Confirmación del precontrato -->
+            
+            <div class="modal fade" id="confirmarPrecontratoModal" tabindex="-1" role="dialog" aria-labelledby="confirmarPrecontratoModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                        <form id="formRegistrarPrecontrato" method="POST" action="{{ route('precontratos.registrar') }}">
+                            @csrf
+                           
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmarPrecontratoModalLabel">Confirmar Registro</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Selecciona un paquete para continuar:</p>
+                                <div class="row">
+                                    @foreach ($paquetes as $paquete)
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $paquete->nombre_paquete }}</h5>
+                                                <p class="card-text">Precio: ${{ $paquete->precio }}</p>
+                                                <input type="radio" name="fk_paquete" value="{{ $paquete->id_nombre_paquete }}" 
+                                                onclick="setPaqueteId({{ $paquete->id_nombre_paquete }})" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <hr>
+                                <p>¿Estás seguro de que deseas registrar este precontrato?</p>
+                                <!-- Campos ocultos para enviar los datos -->
+                                <input type="hidden" name="fk_cliente" id="modalFkCliente">
+                                <input type="hidden" name="fk_direccion" id="modalFkDireccion">
+                                <input type="hidden" name="fk_paquete" id="modalFkPaquete">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Confirmar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-    </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <!-- Vendor Scripts -->
-    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-    <!-- Core plugin JavaScript -->
-    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+            <!-- Modal para registrar nueva dirección -->
+          
+            <div class="modal fade" id="modalNuevaDireccion" tabindex="-1" aria-labelledby="modalNuevaDireccionLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalNuevaDireccionLabel">Registrar Nueva Dirección</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Contenido del modal -->
+                            <form id="formNuevaDireccion" method="POST" action="{{ route('direcciones.add') }}">
+                                @csrf
+                                <input type="hidden" name="fk_cliente" value="{{ $cliente->id_cliente }}">
+                                <div class="mb-3">
+                                    <label for="calle" class="form-label">Calle</label>
+                                    <input type="text" class="form-control" id="calle" name="calle" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="colonia" class="form-label">Colonia</label>
+                                    <input type="text" class="form-control" id="colonia" name="colonia" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="localidad" class="form-label">Localidad</label>
+                                    <input type="text" class="form-control" id="localidad" name="localidad" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="entidad_federativa" class="form-label">Estado</label>
+                                    <input type="text" class="form-control" id="entidad_federativa" name="entidad_federativa" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="codigo_postal" class="form-label">Código Postal</label>
+                                    <input type="text" class="form-control" id="codigo_postal" name="codigo_postal" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="referencia_domicilio" class="form-label">Referencias</label>
+                                    <textarea class="form-control" id="referencia_domicilio" name="referencia_domicilio" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Guardar Dirección</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Custom scripts for all pages -->
-    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+            <!-- Modal para editar dirección existente -->
+            <div class="modal fade" id="modalEditarDireccion" tabindex="-1" aria-labelledby="modalEditarDireccionLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalEditarDireccionLabel">Editar Dirección</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Formulario del modal -->
+                            <form method="POST" id="formEditarDireccion">
+                                @csrf
+                                @method('PUT')
+                                
+                                <!-- Campo oculto para el ID de la dirección -->
+                                <input type="hidden" id="id_direccion" name="id_direccion">
+                                
+                                <div class="mb-3">
+                                    <label for="edit_calle" class="form-label">Calle</label>
+                                    <input type="text" class="form-control" id="edit_calle" name="calle" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="edit_colonia" class="form-label">Colonia</label>
+                                    <input type="text" class="form-control" id="edit_colonia" name="colonia" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="edit_localidad" class="form-label">Localidad</label>
+                                    <input type="text" class="form-control" id="edit_localidad" name="localidad" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="edit_entidad_federativa" class="form-label">Estado</label>
+                                    <input type="text" class="form-control" id="edit_entidad_federativa" name="entidad_federativa" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="edit_codigo_postal" class="form-label">Código Postal</label>
+                                    <input type="text" class="form-control" id="edit_codigo_postal" name="codigo_postal" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="edit_referencia_domicilio" class="form-label">Referencias</label>
+                                    <textarea class="form-control" id="edit_referencia_domicilio" name="referencia_domicilio" rows="3"></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">Actualizar Dirección</button>
+                            </form>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+@endsection
+          
+    
 
-    <!-- Page level plugins -->
-    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
-</body>
-</html>
+    @section('scripts')
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const botonesEditar = document.querySelectorAll('.btn-editar');
+
+        botonesEditar.forEach(boton => {
+            boton.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const calle = this.getAttribute('data-calle');
+                const colonia = this.getAttribute('data-colonia');
+                const localidad = this.getAttribute('data-localidad');
+                const entidad = this.getAttribute('data-entidad');
+                const cp = this.getAttribute('data-cp');
+                const referencia = this.getAttribute('data-referencia');
+
+                // Llenar el formulario del modal con los datos
+                const formEditar = document.getElementById('formEditarDireccion');
+                formEditar.action = `/direccion/update/${id}`;
+                document.getElementById('id_direccion').value = id;
+                document.getElementById('edit_calle').value = calle;
+                document.getElementById('edit_colonia').value = colonia;
+                document.getElementById('edit_localidad').value = localidad;
+                document.getElementById('edit_entidad_federativa').value = entidad;
+                document.getElementById('edit_codigo_postal').value = cp;
+                document.getElementById('edit_referencia_domicilio').value = referencia;
+            });
+        });
+    });
+    </script>
+
+    <script>
+        // Función para asignar el ID del paquete al campo oculto
+        function setPaqueteId(paqueteId) {
+            const inputFkPaquete = document.getElementById('modalFkPaquete');
+            if (inputFkPaquete) {
+                inputFkPaquete.value = paqueteId; // Asignar el ID del paquete seleccionado
+                console.log(`Paquete seleccionado: ${paqueteId}`); // Verificar que se asigna correctamente
+            } else {
+                console.error('Campo oculto modalFkPaquete no encontrado.');
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const confirmarPrecontratoModal = document.getElementById('confirmarPrecontratoModal');
+
+            confirmarPrecontratoModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+
+                // Obtener los valores de los atributos data del botón
+                const idDireccion = button.getAttribute('data-id-direccion');
+                const idCliente = button.getAttribute('data-id-cliente');
+
+                // Rellenar los campos ocultos del formulario
+                document.getElementById('modalFkCliente').value = idCliente;
+                document.getElementById('modalFkDireccion').value = idDireccion;
+
+                // Limpiar selección previa de paquetes
+                document.querySelectorAll('input[name="fk_paquete"]').forEach((radio) => {
+                    radio.checked = false;
+                });
+            });
+        });
+
+
+
+    </script>
+    @endsection

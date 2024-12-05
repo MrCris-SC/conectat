@@ -7,14 +7,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Administrador;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\AuthAdminRequest;
-
+use App\Models\Message;
 
 class AdminController extends Controller
 {
 
     public function showRegisterForm()
     {
-        return view('adminRegister');
+        $mensajes = Message::latest()->take(5)->get();
+        return view('adminRegister', compact('mensajes'));
     }
 
     public function register(Request $request)
@@ -45,9 +46,9 @@ class AdminController extends Controller
     {
     // Obtener todos los administradores
     $administradores = Administrador::all();
-
+    $mensajes = Message::latest()->take(5)->get();
     // Retornar la vista con los administradores
-    return view('indexAdmin', ['administradores' => $administradores]);
+    return view('indexAdmin', compact('administradores', 'mensajes'));
     }
 
     public function destroy($id)
@@ -64,7 +65,13 @@ class AdminController extends Controller
     public function edit($id_admin)
     {
         $admin = Administrador::findOrFail($id_admin); // Encuentra el administrador por ID
-        return view('editarAdmin', ['admin' => $admin]); // Retorna la vista con el administrador
+
+        //dd($admin);
+
+        
+        $mensajes = Message::latest()->take(5)->get();
+        return view('editarAdmin', compact('admin', 'mensajes')); // Retorna la vista con el administrador
+
     }
 
     // Método para procesar la actualización del administrador
@@ -88,44 +95,19 @@ class AdminController extends Controller
         }
 
         $admin->save(); // Guardar los cambios
-        // Actualizar el cliente con los datos validados
-        //$admin->update($validatedData);
 
         // Redirigir con un mensaje de éxito
         return redirect()->route('admin.list')->with('success', 'Administrador actualizado correctamente.');
     }
 
 
-public function login(Request $request)
-    {
-        if(!auth()-> guard('admin')->check()){
-            return view('login');
-         }
-        return redirect()-> route('/');
-
-        /*$request->validate([
-            'Correo_electronico' => 'required|email',
-            'Contraseña' => 'required',
-        ]);
-
-        $credentials = $request->only('Correo_electronico', 'Contraseña');
-
-        // Buscar al administrador por correo electrónico
-        $admin = Administrador::where('Correo_electronico', $credentials['Correo_electronico'])->first();
-
-        // Verificar si el administrador existe y si la contraseña es correcta
-        if ($admin && Hash::check($credentials['Contraseña'], $admin->Contraseña)) {
-            // Autenticar al administrador manualmente
-            Auth::guard('admin')->login($admin);
-
-            // Redirigir al dashboard o página deseada
-            return redirect()->intended('/');
+    public function login(Request $request)
+        {
+            if(!auth()-> guard('admin')->check()){
+                return view('login');
+            }
+            return redirect()-> route('/');
         }
-
-        // Si las credenciales no son correctas
-        return redirect()->back()->with('error', 'Las credenciales no son correctas');
-    */
-    }
 
     public function auth(AuthAdminRequest $request){
         if($request-> validated()){
@@ -133,11 +115,17 @@ public function login(Request $request)
             $remember = $request->has('remember'); 
 
             if(auth()->guard('admin')->attempt([
-                'Correo_electronico' => $request->Correo_electronico,
-                'password' => $request->Contraseña,  // Hash::make($request->Contraseña)
+                'Correo_electronico' => $request->correo_electronico,
+                'password' => $request->password,  // Hash::make($request->Contraseña)
             ],$remember)){
                 $request -> session()->regenerate();
+                
+                // Obtén el nombre del usuario autenticado y guárdalo en la sesión
+                $nombreAdmin = auth()->guard('admin')->user()->Nombre;
+                session(['nombreAdmin' => $nombreAdmin]);
+
                 return redirect()->route('paquete.index');
+
             } else{
                 return redirect()->route('admin.login')->with(
                     [

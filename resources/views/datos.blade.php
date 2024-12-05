@@ -28,19 +28,13 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}"onclick="verificarDatos(event)" >Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}" onclick="verificarDatos(event)">Planes de Internet</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#about">Acerda de</a></li>                       
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contactanos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}"onclick="verificarDatos(event, '{{ url('/user') }}', 'Inicio')" >Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/acercaNosotros')}}" onclick="verificarDatos(event, '{{ url('/acercaNosotros') }}', 'Acerca de Nosotros')">Acerca</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/contacto')}}" onclick="verificarDatos(event, '{{ url('/contacto')}}', 'Contacto')">Contáctanos</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-
-
-
-
-       
 
         <!--Contenedor de registro de datos que esta vinculado con el css-precontrato-->
     <section class="container-mt-5">
@@ -48,32 +42,14 @@
         <form action="{{ route('enviarCodigo') }}" method="POST">
             @csrf <!-- Protección CSRF en Laravel -->
            
-                
+                <h5>Datos personales</h5>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="codigoPostal" class="form-label">Nombre completo</label>
                     <input type="text" class="form-control" id="nombre_completo" name="nombre_completo" placeholder="Nombre completo" value="{{ old('nombre_completo') }}" required>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="calle" class="form-label">Codigo Postal</label>
-                    <input type="text" class="form-control" id="cp" name="cp" placeholder="Codigo Postal" value="{{ old('cp') }}" oninput="buscarCiudad()" required>
-                    
-                </div>
-            </div>
 
-            <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="noExterior" class="form-label">Municipio</label>
-                    <input type="text" class="form-control" id="municipio" name="municipio" readonly>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="noInterior" class="form-label">Direccion</label>
-                    <input type="text" class="form-control" id="direccion" name="direccion" value="{{ old('direccion') }}" placeholder="Direccion">
-                </div>
-            </div>
-
-            <div class="row">
-            <div class="col-md-6 mb-3">
                 <label for="ciudad" class="form-label">Correo</label>
                 <input type="email" class="form-control @error('correo_electronico') is-invalid @enderror" id="correo_electronico" name="correo_electronico" placeholder="Correo" value="{{ old('correo') }}" required>
                 <!-- Mostrar mensaje de error si el correo ya está registrado -->
@@ -82,18 +58,49 @@
                         {{ $message }}
                     </div>
                 @enderror
-            </div>
+            </div>  
+
+         
+                
+           
                 <div class="col-md-6 mb-3">
                     <label for="alcaldia" class="form-label">Telefono</label>
                     <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Telefono" value="{{ old('telefono') }}" maxlength="10" pattern="\d{10}" title="Debe ingresar exactamente 10 dígitos numéricos" required>
                 </div>
+                <hr>   
+                <h5>Datos de vivienda</h5>
+                <div class="col-md-6 mb-3">
+                    <label for="calle" class="form-label">Codigo Postal</label>
+                    <input type="text" class="form-control" id="cp" name="cp" placeholder="Codigo Postal" value="{{ old('cp') }}" oninput="buscarCiudad()" required>
+                    
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="noExterior" class="form-label">Entidad Federativa</label>
+                    <input type="text" class="form-control" id="entidad" name="entidad" readonly placeholder="Entidad Federativa">
+                </div>
+            
+                <div class="col-md-6 mb-3">
+                    <label for="noExterior" class="form-label">Municipio</label>
+                    <input type="text" class="form-control" id="municipio" name="municipio" readonly placeholder="Municipio">
+                </div>                
 
-                
-                
+                <div class="col-md-6 mb-3">
+                    <label for="noInterior" class="form-label">Colonia</label>
+                    <input type="text" class="form-control" id="colonia" name="colonia" placeholder="Colonia">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="noInterior" class="form-label">Direccion</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" value="{{ old('direccion') }}" placeholder="Direccion">
+                </div>
+            
                 <div class="col-md-6 mb-3">
                     <label for="alcaldia" class="form-label">Referencia de Domicilio</label>
-                    <input type="text" class="form-control" id="referencia_domicilio" name="referencia_domicilio" placeholder="Referencia de Domicilio" value="{{ old('referencia_domicilio') }}" required>
+                    <textarea type="text" class="form-control" id="referencia_domicilio" name="referencia_domicilio" placeholder="Referencia de Domicilio" value="{{ old('referencia_domicilio') }}" required></textarea>
+                    
                 </div>
+
+           
                 
 
             </div>
@@ -142,7 +149,8 @@
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 
             <!--Js para verificar los datos si estan llenos y mostrar el mensaje-->
-        <script>function verificarDatos(event) {
+        <script>
+        function verificarDatos(event, url, nombrePagina) {
             event.preventDefault(); // Prevenir la acción por defecto del enlace
         
             // Obtener los valores de los campos del formulario
@@ -170,23 +178,23 @@
         
             // Si todos los campos están llenos
             if (camposLlenos === 7) {
-                mensajeModal.innerText = '¿Estas seguro de cambiar a la página de paquetes? se perderá todo los datos ingresados ';
+                mensajeModal.innerText = `¿Estas seguro de cambiar a la página de ${nombrePagina}? se perderá todo los datos ingresados `;
                 modal.style.display = "block";
             }
             // Si se ingresaron algunos, pero no todos
             else if (camposLlenos > 0) {
-                mensajeModal.innerText = '¿Estas seguro de cambiar a la página de paquetes? se perderá todo los datos ingresados ';
+                mensajeModal.innerText = `¿Estas seguro de cambiar a la página de ${nombrePagina}? se perderá todo los datos ingresados `;
                 modal.style.display = "block";
             }
             // Si no se ingresó ningún dato
             else {
                 // Redirigir al usuario al índice principal si no hay datos ingresados
-                window.location.href = "{{ url('/user') }}"; 
+                window.location.href = url; 
             }
             // Cerrar el modal cuando se hace clic en el botón de cerrar
             document.getElementById('aceptarBtn').onclick = function() {
                 modal.style.display = "none";
-                 window.location.href = "{{ url('/user') }}";
+                 window.location.href = url;
             }
             document.getElementById('cancelarBtn').onclick = function() {
             var modal = document.getElementById('miModal');
@@ -321,6 +329,7 @@
     // Verifica si el código postal ingresado está en el objeto
     if (codigosPostales[codigoPostal]) {
         document.getElementById("municipio").value = codigosPostales[codigoPostal];
+        document.getElementById("entidad").value ="Yucatan";
     } else {
         document.getElementById("municipio").value = "Municipio no encontrada";
     }

@@ -2,6 +2,15 @@
     background-color: #333;
 }
 
+.carousel-item {
+  height: 65vh;
+  min-height: 350px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
    
 .container-mt-5 {
     max-width: 700px;  /* Ajusta el ancho máximo */
@@ -70,15 +79,51 @@
   border-radius: 5px; 
 }
 
+
+
 .diseñopaquetes {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   padding: 20px 0;
-
   font-family: 'Arial', sans-serif;
+  overflow: hidden;
+  width: 100%;
 }
+
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 100;
+}
+
+.left {
+  left: 10px;
+}
+
+.right {
+  right: 10px;
+}
+
+
 .card {
+  flex-direction: column;
+  justify-content: space-between;
   background: #fff;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -86,8 +131,9 @@
   text-align: center;
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin: 10px;
-  width: 300px; /* Ancho predeterminado para pantallas grandes */
+  width: 300px;
+  box-sizing: border-box;
+  margin-right: 15px;
 }
 
 .card:hover {
@@ -95,7 +141,6 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilo para el texto de promoción "new-tag" */
 .new-tag {
   background-color: #ff6b6b;
   color: white;
@@ -108,7 +153,6 @@
   left: 20px;
 }
 
-/* Estilo de la velocidad de megabytes */
 .megabytes {
   font-size: 36px;
   font-weight: bold;
@@ -121,7 +165,6 @@
   color: #999;
 }
 
-/* Estilo del precio */
 .price {
   font-size: 28px;
   color: #2ecc71;
@@ -133,7 +176,6 @@
   color: #999;
 }
 
-/* Estilos para las características incluidas */
 .includes p {
   font-size: 16px;
   color: #666;
@@ -157,7 +199,7 @@
   font-size: 16px;
   color: #333;
 }
-/* Estilo del botón de contratación */
+
 .button {
   display: inline-block;
   background-color: #3498db;
@@ -169,42 +211,25 @@
   border-radius: 50px;
   text-decoration: none;
   transition: background-color 0.3s ease;
+  margin-top: auto;
 }
 
 .button:hover {
   background-color: #2980b9;
 }
 
-/* Estilos para pantallas grandes (desktop, ≥ 1200px) */
-@media (min-width: 1200px) {
-  .diseñopaquetes {
-    justify-content: space-between;
-  }
-
+@media (max-width: 1024px) {
   .card {
-    width: 32%; /* Aumenta ligeramente el ancho */
+    min-width: 250px;
   }
 }
 
-/* Estilos para pantallas medianas (tablets, entre 768px y 1199px) */
-@media (min-width: 768px) and (max-width: 1199px) {
+@media (max-width: 768px) {
   .card {
-    width: 48%; /* Ancho para tablets */
+    min-width: 200px;
   }
 }
 
-/* Estilos para pantallas pequeñas (móviles, ≤ 767px) */
-@media (max-width: 767px) {
-  .containerpacks {
-    display: flex;
-    flex-direction: column; /* Alinea las cards verticalmente */
-    align-items: center;
-  }
-
-  .card {
-    width: 90%; /* Ancho máximo para pantallas pequeñas */
-  }
-}
 /* Termina el diseño de paquetes */
 
 /* footer ******************************************************/
@@ -312,7 +337,7 @@ footer {
 
 
 section {
-  margin-top: 60px; /* Ajusta este valor según la altura de tu navbar */
+  margin-top: 100px; /* Ajusta este valor según la altura de tu navbar */
 }
 
 /* Inicia diseño del navbar */

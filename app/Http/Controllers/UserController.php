@@ -3,14 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\NombrePaquete;
+use App\Models\FaqPregunta;
 
 class userController extends Controller
 {
     public function showPackages()
     {
-        $paquetes = NombrePaquete::with('promocion')->get(); // Carga la relación con promociones
-        return view('user', compact('paquetes'));
+        $paquetes = NombrePaquete::with('promocion')
+        ->whereHas('promocion', function($query) {
+        $query->where('id_promocion', '!=', 0); // Filtra donde id_promocion no sea 0
+        })
+        ->get();
+        $preguntas = FaqPregunta::where('fk_categoria', 1)->get();
+            
+        return view('user', compact('paquetes', 'preguntas'));
     }
+    
+
      
     public function promociones()
     {
@@ -24,6 +33,12 @@ class userController extends Controller
         return view('paquetePromocion', compact('paquetes'));
 
     }
+    public function index()
+    {
+        $preguntas = FaqPregunta::all();
+        return view('preguntas', compact('preguntas'));
+    }
+
 
 }
 
