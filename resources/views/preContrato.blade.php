@@ -21,9 +21,9 @@
             </thead>
             <tbody> @forelse($precontratos as $precontrato) <tr>
                   <td>{{ $precontrato->id_precontrato }}</td>
-                  <td>{{ $precontrato->cliente->id_cliente ?? 'Sin Cliente' }}-{{ $precontrato->cliente->nombre_completo ?? 'Sin Cliente' }}</td>
+                  <td>{{ $precontrato->cliente->nombre_completo ?? 'Sin Cliente' }}</td>
                   <td>{{ $precontrato->direccion->calle ?? 'Sin Dirección' }}</td>
-                  <td>{{ $precontrato->paquete->id_nombre_paquete ?? '' }}-{{ $precontrato->paquete->nombre_paquete ?? 'Sin Paquete' }}</td>
+                  <td>{{ $precontrato->paquete->nombre_paquete ?? 'Sin Paquete' }}</td>
                   <!--<td>{{ $precontrato->cliente->es_cliente ?? 'No es Cliente'}} </td> -->
                   <td>{{ $precontrato->cliente->es_cliente == 1 ? 'Sí' : 'No' }}</td>
                   <td>

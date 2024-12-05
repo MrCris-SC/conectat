@@ -31,7 +31,7 @@
                         <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>                       
                         <li class="nav-item"><a class="nav-link" href="#paquetes">Paquetes</a></li>
                         <li class="nav-item"><a class="nav-link" href="#dudas">Ayuda</a></li>   
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/acercaNosotros')}}">Acerda de</a></li>                       
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/acercaNosotros')}}">Acerca de</a></li>                       
                         <li class="nav-item"><a class="nav-link" href="{{ url('/contacto')}}">Contactanos</a></li>
                     </ul>
                 </div>

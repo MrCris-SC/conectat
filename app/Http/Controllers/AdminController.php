@@ -65,8 +65,13 @@ class AdminController extends Controller
     public function edit($id_admin)
     {
         $admin = Administrador::findOrFail($id_admin); // Encuentra el administrador por ID
+
+        //dd($admin);
+
+        
         $mensajes = Message::latest()->take(5)->get();
         return view('editarAdmin', compact('admin', 'mensajes')); // Retorna la vista con el administrador
+
     }
 
     // Método para procesar la actualización del administrador

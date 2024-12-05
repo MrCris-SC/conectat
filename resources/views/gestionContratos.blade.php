@@ -64,7 +64,7 @@
                                     </span>
                                     <span class="text">Generar Ticket</span>
                                 </a>
-                            @elseif ($pago->estado_pago === 'pendiente' || $pago->estado_pago === 'atrasado')
+                            @elseif ($pago->estado_pago === 'pendiente' || $pago->estado_pago === 'atrasado' || $pago->estado_pago === 'vencido')
                                 <a href="{{ route('pagos.ticket', $pago->id_pago) }}" class="btn btn-info btn-icon-split" 
                                 target="_blank" onclick="setTimeout(() => { location.reload(); }, 1000);" 
                                 style="width: 175px; display: inline-block;">

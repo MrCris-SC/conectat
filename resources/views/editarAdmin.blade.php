@@ -326,14 +326,15 @@
                                     <form action="{{ route('admin.update', $admin->id_admin) }}" method="POST">
                                         @csrf
                                         @method('PUT')
+
                                         <div class="form-group">
                                             <label for="Nombre">Nombre</label>
-                                            <input type="text" name="Nombre" id="Nombre" class="form-control" value="{{ $admin->Nombre }}" required>
+                                            <input type="text" name="nombre" id="Nombre" class="form-control" value="{{ $admin->nombre }}" required>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="Correo_electronico">Correo Electrónico</label>
-                                            <input type="email" name="Correo_electronico" id="Correo_electronico" class="form-control" value="{{ $admin->Correo_electronico }}" required>
+                                            <input type="email" name="correo_electronico" id="Correo_electronico" class="form-control" value="{{ $admin->correo_electronico }}" required>
                                         </div>
 
                                         <div class="form-group">
@@ -342,15 +343,15 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="Contraseña">Contraseña (Opcional)</label>
-                                            <input type="password" name="Contraseña" id="Contraseña" class="form-control" placeholder="Dejar en blanco si no deseas cambiar la contraseña">
+                                            <label for="password">Contraseña (Opcional)</label>
+                                            <input type="password" name="password" id="password" class="form-control" placeholder="Dejar en blanco si no deseas cambiar la contraseña">
                                         </div>
+
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-primary">Actualizar Admin</button>
                                             <a href="{{ route('admin.list') }}" class="btn btn-secondary">Cancelar</a>
                                         </div>
-                                    </form> 
-
+                                    </form>
                                     </div>
                                 </div>
                             </div>
