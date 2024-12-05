@@ -103,7 +103,7 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url('/user') }}"onclick="verificarDatos(event)" >Inicio</a></li>                        
                         <li class="nav-item"><a class="nav-link" href="{{ url('/user/#servicios') }}">Servicios</a></li>                       
                         <li class="nav-item"><a class="nav-link" href="{{url('/user/#paquetes')}}">Paquetes</a></li>  
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/acercaNosotros')}}">Acerda de</a></li>                       
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/acercaNosotros')}}">Acerca de</a></li>                       
                         <li class="nav-item"><a class="nav-link" href="{{ url('/contacto')}}">Contactanos</a></li>
                     </ul>
                 </div>

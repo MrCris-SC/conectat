@@ -311,7 +311,7 @@ class ContratoController extends Controller
         $pago = Pago::with('contrato')->findOrFail($id_pago);
 
         // Validar que el estado sea "pendiente"
-        if ($pago->estado_pago !== 'pendiente') {
+        if ($pago->estado_pago !== 'pendiente' &&  $pago->estado_pago !== 'atrasado' &&  $pago->estado_pago !== 'vencido') {
             return redirect()->back()->withErrors('El pago ya ha sido procesado.');
         }
         // Cambiar el estado a "pagado"
@@ -324,7 +324,6 @@ class ContratoController extends Controller
             $contrato->estado = 'activo';
             $contrato->save();
         }
-
 
         $pago->save();
 
