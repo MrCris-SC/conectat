@@ -123,6 +123,7 @@
             </div>
          </div>
       </div>
+
       </td>
       </tr> @empty <tr>
          <td colspan="10" class="text-center">No hay precontratos.</td>
@@ -167,6 +168,7 @@
 
         function mostrarModalContrato(idCliente, esCliente, idPrecontrato) {
             // Asignar los valores de los parámetros
+            console.log("mostrarModalContrato llamada con:", idCliente, esCliente, idPrecontrato);
             idClienteContrato = idCliente;
             idprecontratos = idPrecontrato;
 
@@ -270,15 +272,15 @@
         }
 
         // Event Listener para confirmar la creación del contrato
-        document.getElementById('confirmarContratoBtn').addEventListener('click', function () {
-            if (idClienteContrato) {
-                // Llamamos a la función para crear el contrato
-                crearContrato(idClienteContrato);
-                
-            } else {
-                alert('No se ha seleccionado un cliente.');
-            }
-        });
+        document.addEventListener('click', function (e) {
+    if (e.target && e.target.id === 'confirmarContratoBtn') {
+        if (idClienteContrato) {
+            crearContrato(idClienteContrato);
+        } else {
+            alert('No se ha seleccionado un cliente.');
+        }
+    }
+});
     </script>
 
 

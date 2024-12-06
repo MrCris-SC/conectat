@@ -20,12 +20,13 @@
 
     <br>
     <div class="div-new">
+        <p>Actualizar el estado de los pagos y contratos</p>
         <form action="{{ route('verificar.pagos') }}" method="POST">
             @csrf
             <button type="submit" class="btn btn-warning">Verificar Pagos y Contratos</button>
         </form>
     </div>
-
+<br>
 <!-- DataTales Example -->
     <section class="page-section" id="portfolio">
         <div class="container">
