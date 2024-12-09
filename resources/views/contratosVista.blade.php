@@ -50,32 +50,6 @@
 
                 
 
-@section('scripts')
-<script>
-        function crearContratoYDescargarPDF(clienteId) {
-            // Enviar la solicitud para insertar el contrato en la base de datos
-            fetch(`/cliente/${clienteId}/contrato`, {
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ /* cualquier otro dato adicional si es necesario */ })
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Redirigir a la URL de descarga del PDF después de la inserción
-                    window.location.href = `/cliente/${clienteId}/contrato`;
-                } else {
-                    console.error("Error al insertar el contrato:", response);
-                }
-            })
-            .catch(error => console.error("Error en la solicitud:", error));
-        }
-    </script>
-
-@endsection
 
         
 

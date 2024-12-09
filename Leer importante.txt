@@ -1,0 +1,175 @@
+Pasos para lansar el sistema en EL SERVIDOR
+
+Se requiere ubuntu instalado en el serivor
+----------------------------------------------------------------
+Comandos:
+
+sudo apt update && sudo apt upgrade -y
+
+sudo apt install apache2 mysql-server -y
+-----------------------------------------------------------------
+Instalar dependencias 
+
+sudo apt install php8.2-bz2 php8.2-curl php8.2-fileinfo php8.2-gd php8.2-gettext php8.2-mbstring php8.2-exif php8.2-mysqli php8.2-pdo-mysql php8.2-sqlite3 -y
+
+------------------------------------------------------------------
+Instalar composer en el servidor
+sudo apt install composer -y
+
+------------------------------------------------------------------
+
+Configuración del archivo php.ini
+
+Para poder configurar el php.ini en el servidor usamos este comando
+
+sudo nano /etc/php/8.2/apache2/php.ini
+
+Y habilitaremos estas extenciones quitando el ';'
+
+extension=bz2
+extension=curl
+extension=fileinfo
+extension=gd
+extension=gettext
+extension=mbstring
+extension=exif      
+extension=mysqli
+extension=pdo_mysql
+extension=pdo_sqlite
+
+------------------------------------------------------------------
+
+Tranferir los archivos del proyecto al servidor
+En caso de usar github
+git clone <URL_DEL_REPOSITORIO>
+cd <NOMBRE_DEL_PROYECTO>
+
+En caso de usar Fillezilla u otro sistema de tranferencia de archivos copiar la parpeta del proyecto SIN 
+incluir la carpta "vendor"
+
+------------------------------------------------------------------
+Una vez ubicados en la carpeta del proyecto sea ejemplo: home/ubuntu/conctat; ejecutar el comando:
+
+composer install
+
+-----------------------------------------------------------------
+
+Confugurar el archivo de ambiente 
+
+cp .env.example .env
+
+Credenciales de la base de datos: 
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=mi_base_datos
+DB_USERNAME=mi_usuario
+DB_PASSWORD=mi_contraseña
+
+Importante generar la clave de aplicación
+
+php artisan key:generate
+
+
+-----------------------------------------------------------------
+
+Configurar apache en laravel
+
+sudo nano /etc/apache2/sites-available/mi_app.conf
+
+Localizar esta seccion y verificar que luzca de esta manera:
+
+<VirtualHost *:80>
+    ServerName tu-dominio.com
+    DocumentRoot /ruta/a/tu/proyecto/public
+
+    <Directory /ruta/a/tu/proyecto/public>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/mi_app_error.log
+    CustomLog ${APACHE_LOG_DIR}/mi_app_access.log combined
+</VirtualHost>
+
+Escribir los siguientes comandos:
+
+sudo a2ensite mi_app.conf
+sudo a2enmod rewrite
+sudo systemctl restart apache2
+
+---------------------------------------------------------------
+Prueba el sitio
+
+http://tu-dominio.com
+
+---------------------------------------------------------------
+
+Para entorno local en windows es muy similar
+
+Requisitos Previos
+PHP
+Asegúrate de tener instalada una versión de PHP compatible (por ejemplo, PHP 8.2 o superior). Puedes descargarla desde php.net.
+
+Servidor Web
+
+XAMPP (recomendado). Descárgalo desde apachefriends.org. Incluye Apache, MySQL y PHP.
+Composer
+Descarga e instala Composer desde getcomposer.org.
+
+Base de Datos
+
+Utiliza MySQL (incluido en XAMPP).
+Asegúrate de que el servidor MySQL esté en ejecución.
+Git
+Descarga e instala Git desde git-scm.com.
+
+-------------------------------------------------------------
+
+clonar el proyecto, Si obtendras el proyecto mediante una memoria o similar asegurate de no 
+incluir la carpeta vendor
+
+git clone https://github.com/tu-repositorio/proyecto.git
+cd proyecto
+
+composer install
+
+
+-------------------------------------------------------------
+
+Configurar el archivo .env
+
+APP_NAME="TuSistema"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nombre_de_tu_base_de_datos
+DB_USERNAME=root
+DB_PASSWORD=
+
+Ejecutar el comando para obtener una clave de app:
+
+php artisan key:generate
+
+-------------------------------------------------------
+
+Abrir el archivo php.ini y habilitar las extenciones:
+
+extension=bz2
+extension=curl
+extension=fileinfo
+extension=gd
+extension=gettext
+extension=mbstring
+extension=exif
+extension=mysqli
+extension=pdo_mysql
+
+-------------------------------------------------------
+Y listo tu pagina web deberia ejecutarse correctamente

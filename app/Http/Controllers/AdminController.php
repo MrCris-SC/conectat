@@ -31,11 +31,11 @@ class AdminController extends Controller
 
         // Crear un nuevo administrador
         $admin = Administrador::create([
-            'Nombre' => $request->Nombre,
-            'Correo_electronico' => $request->Correo_electronico,
-            'Contraseña' => Hash::make($request->Contraseña),
+            'nombre' => $request->Nombre,
+            'correo_electronico' => $request->Correo_electronico,
+            'password' => Hash::make($request->Contraseña),
             'permisos' => $request->permisos,
-            'fk_usuario'=> '1',
+            
         ]);
 
         // Redirigir a la página que prefieras con un mensaje de éxito

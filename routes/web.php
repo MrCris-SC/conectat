@@ -119,6 +119,7 @@ Route::get('/contratos/verificar/{id_precontrato}', [ContratoController::class, 
 //Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato']);
 Route::post('/contratos/crear/{id_cliente}', [ContratoController::class, 'crearContrato'])->name('contratos.crear');
 
+
 // Ruta para descargar el contrato en PDF (GET)
 Route::get('/contratos/pdf/{id_precontrato}', [ContratoController::class, 'generarContratoPDF'])->name('contratos.pdf');
 

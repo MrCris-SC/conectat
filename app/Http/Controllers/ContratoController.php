@@ -27,6 +27,9 @@ class ContratoController extends Controller
                     'fecha_fin' => 'required|date',
                     'id_precontrato' => 'required|exists:precontratos,id_precontrato',
                 ]);
+                // Convierte las fechas de inicio y fin a formato correcto (YYYY-MM-DD)
+                $fecha_inicio = Carbon::createFromFormat('Y-m-d', $request->input('fecha_inicio'))->toDateString();
+                $fecha_fin = Carbon::createFromFormat('Y-m-d', $request->input('fecha_fin'))->toDateString();
 
                 // Obtén el precontrato específico por el ID del cliente
                 $precontrato = Precontrato::with(['cliente', 'direccion', 'paquete'])
@@ -150,7 +153,7 @@ class ContratoController extends Controller
                 ]);
             }
         }
-    
+       
     
 
     public function generarContratoPDF($id_precontrato)
