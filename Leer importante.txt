@@ -137,6 +137,11 @@ composer install
 
 
 -------------------------------------------------------------
+Crea una base de datos local e importa el archivo conectat_bd.sql para poder usar el proyecto de manera local:
+credenciales para el modulo admin:
+Correo: crissolis115@gmail.com
+Pass:12345678
+
 
 Configurar el archivo .env
 
@@ -172,4 +177,7 @@ extension=mysqli
 extension=pdo_mysql
 
 -------------------------------------------------------
+
+
+
 Y listo tu pagina web deberia ejecutarse correctamente
